@@ -1,0 +1,10 @@
+.loginStyle {
+    -fx-background-color: linear-gradient(to bottom right,#ce3347, #1a0408);
+}
+
+.LoginButton {
+    -fx-background-color: linear-gradient(to bottom right,#4fa448, #0f504c); /* Set your desired background color */
+    -fx-border-radius: 5; /* Set the border radius to control the roundness of corners */
+    -fx-padding: 10; /* Add padding to the button for better appearance */
+    -fx-text-fill: white; /* Set the text color */
+}

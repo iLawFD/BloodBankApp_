@@ -15,7 +15,7 @@ public class EmailSender {
         Courier.init("dk_prod_F0EWAR5M1AMJC8Q73KRCFNFRJBNZ");
     }
 
-    public void SendMessage(String email, String title, String messageContent ){
+    public void SendMessage(String email, String title, String messageContent ) throws IOException {
         SendEnhancedRequestBody request = new SendEnhancedRequestBody();
         SendRequestMessage message = new SendRequestMessage();
         HashMap<String, String> to = new HashMap<String, String>();
@@ -31,14 +31,9 @@ public class EmailSender {
         data.put("name", "BloodBankSystem,");
         message.setData(data);
 
-
         request.setMessage(message);
-        try {
-            SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
-            System.out.println(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
+        System.out.println(response);
 
     }
 
@@ -47,10 +42,14 @@ public class EmailSender {
     }
 
     public static void main(String[] args) {
-        EmailSender.getEmailSender().SendMessage(
-                "ayednfqht@gmail.com",
-                "demo",
-                "hello aha md one person wants to donation you"
-        );
+        try {
+            EmailSender.getEmailSender().SendMessage(
+                    "ayednfqht@gmail.com",
+                    "demo",
+                    "hello aha md one person wants to donation you"
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
