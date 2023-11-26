@@ -25,7 +25,6 @@ public class DataBase {
     }
     // function retrieve user info if available else it will raise an exception
     public Person retrieveUserInfo(String snn) throws SQLException{
-        Person user;
         Statement s1 = connection.createStatement();
         // a query to retrieve the specific info of the current user
         ResultSet r1 = s1.executeQuery("SELECT * " +
