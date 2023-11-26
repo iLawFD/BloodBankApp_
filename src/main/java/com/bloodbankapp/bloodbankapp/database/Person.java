@@ -1,7 +1,7 @@
 package com.bloodbankapp.bloodbankapp.database;
 
 abstract public class Person {
-    private int ssn;
+    private int ID;
     private  String firstName;
     private  String lastName;
     private String address;
@@ -9,8 +9,8 @@ abstract public class Person {
     private String phone_number;
     private  String email;
 
-    public int getSsn() {
-        return ssn;
+    public int getID() {
+        return ID;
     }
 
     private  String personType;
@@ -35,8 +35,8 @@ abstract public class Person {
         return email;
     }
 
-    public void setSsn(int ssn) {
-        this.ssn = ssn;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setFirstName(String firstName) {
