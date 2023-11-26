@@ -1,6 +1,6 @@
 package com.bloodbankapp.bloodbankapp.database;
 
-public class Person {
+abstract public class Person {
     private int ssn;
     private  String firstName;
     private  String lastName;
