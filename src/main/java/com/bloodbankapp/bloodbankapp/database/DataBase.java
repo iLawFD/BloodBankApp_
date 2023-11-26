@@ -53,7 +53,4 @@ select first_name from person where id = 3
             throw new RuntimeException(e);
         }
     }
-
-
-
 }
