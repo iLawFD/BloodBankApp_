@@ -13,7 +13,11 @@ import javafx.stage.Window;
 import java.io.IOException;
 public class UserController {
 
+
+    @FXML
     TextField text;
+
+
 
 
 
