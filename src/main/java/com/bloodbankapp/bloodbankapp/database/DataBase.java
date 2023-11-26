@@ -9,7 +9,8 @@ public class DataBase {
     private Person currentSystemUser;
     private final Connection connection;
     private DataBase() throws SQLException {
-        String url = "jdbc:postgresql://ep-shrill-darkness-20221653.us-east-2.aws.neon.tech/blood%20system?user=ayed87&password=2KdnfuWpEa3e&sslmode=require";
+        String url = "jdbc:postgresql://ep-shrill-darkness-20221653.us-east-2.aws.neon.tech"+
+                "/blood%20system?user=ayed87&password=2KdnfuWpEa3e&sslmode=require";
         String username = "ayed87";
         String password = "2KdnfuWpEa3e";
         connection = DriverManager.getConnection(url, username, password);
@@ -61,14 +62,12 @@ public class DataBase {
     }
     public void insertNewUser(int userID,String firstName, String lastName,
                                      String address, String phoneNumber, String email, String personType) throws SQLException{
-        // The SQL query for inserting a new user into the Person table
 
         String insertQuery = "INSERT INTO Person (id ,First_name, Last_name, address, Phone_number, email, person_type) " +
                 "VALUES (?,?, ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
-            // Set the parameters for the prepared statement
         preparedStatement.setInt(1, userID);
         preparedStatement.setString(2, firstName);
         preparedStatement.setString(3, lastName);
@@ -79,11 +78,19 @@ public class DataBase {
 
         int rowsAffected = preparedStatement.executeUpdate();
 
-        }
+    }
+    void removeSystemUser(int id) throws SQLException {
+        String deleteQuery = "DELETE FROM person WHERE ID = ?";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+        preparedStatement.setInt(1, id);
+
+        int rowsAffected = preparedStatement.executeUpdate();
+    }
 
     public static void main(String[] args) {
         try {
-            getDataBase().retrieveUserInfo(505);
+            getDataBase().removeSystemUser(505);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
