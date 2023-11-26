@@ -10,23 +10,27 @@ public class DataBase {
     private final String url = "jdbc:postgresql://ep-shrill-darkness-20221653.us-east-2.aws.neon.tech/blood%20system?user=ayed87&password=2KdnfuWpEa3e&sslmode=require";
     private final String username = "ayed87";
     private final String password = "2KdnfuWpEa3e";
-    Connection connection;
-
+    private Connection connection;
     private DataBase() throws SQLException {
         connection = DriverManager.getConnection(url, username, password);
+
     }
-    public static DataBase getDataBase() throws  SQLException{
+
+    public static DataBase getDataBase() throws SQLException{
         if(dataBase == null){
             dataBase = new DataBase();
         }
         return  dataBase;
     }
-    public List<String> getUserInfo(String snn)
-    throws Exception{
+    public List<String> getUserInfo(String snn) throws Exception{
+        Statement s1 = connection.createStatement();
+        ResultSet r1 = s1.executeQuery("SELECT * " +
+                "FROM person " +
+                "WHERE ssn = " + snn);
+
         return null;
     }
     public  void method(){
-
         try {
 
             // Execute a query
