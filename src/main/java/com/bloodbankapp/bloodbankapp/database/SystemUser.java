@@ -1,4 +1,5 @@
 package com.bloodbankapp.bloodbankapp.database;
 
-public class SystemUser {
+public class SystemUser extends Person{
+
 }
