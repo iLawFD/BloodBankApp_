@@ -51,7 +51,4 @@ public class DataBase {
             throw new RuntimeException(e);
         }
     }
-
-
-
 }

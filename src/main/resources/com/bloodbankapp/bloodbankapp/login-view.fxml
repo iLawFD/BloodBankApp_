@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.HelloController">
    <children>
       <AnchorPane prefHeight="433.0" prefWidth="371.0" styleClass="loginStyle" stylesheets="@style.css">
          <children>
@@ -34,7 +33,8 @@
                </font>
             </Label>
             <PasswordField layoutX="84.0" layoutY="148.0" prefHeight="25.0" prefWidth="201.0" promptText="SSN number" />
-            <Button layoutX="84.0" layoutY="198.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="201.0" styleClass="LoginButton" stylesheets="@style.css" text="Login" />
+            <Button fx:id="b1" layoutX="84.0" layoutY="198.0" mnemonicParsing="false" onAction="#onHelloButtonClick" prefHeight="37.0" prefWidth="201.0" styleClass="LoginButton" stylesheets="@style.css" text="Login" />
+            <Button fx:id="b2" layoutX="83.0" layoutY="258.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="201.0" styleClass="LoginButton" stylesheets="@style.css" text="Join as guest" />
          </children>
       </AnchorPane>
    </children>
