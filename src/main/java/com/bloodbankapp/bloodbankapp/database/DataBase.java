@@ -3,13 +3,13 @@ package com.bloodbankapp.bloodbankapp.database;
 
 import java.sql.*;
 import java.util.List;
-
+//"jdbc:postgresql://ep-shrill-darkness-20221653.us-east-2.aws.neon.tech/blood%20system?user=ayed87&password=2KdnfuWpEa3e&sslmode=require"
 public class DataBase {
 
     private static DataBase dataBase;
-    private final String url = "jdbc:postgresql://ep-shrill-darkness-20221653.us-east-2.aws.neon.tech/blood%20system?user=ayed87&password=2KdnfuWpEa3e&sslmode=require";
-    private final String username = "ayed87";
-    private final String password = "2KdnfuWpEa3e";
+    private final String url = "jdbc:postgresql://ep-red-snowflake-74407913.us-east-2.aws.neon.tech/Admin?user=ggforever111&password=fnb9EwiL2ztg&sslmode=require";
+    private final String username = "ggforever111";
+    private final String password = "fnb9EwiL2ztg";
     Connection connection;
 
     private DataBase() throws SQLException {
@@ -31,13 +31,11 @@ public class DataBase {
 
             // Execute a query
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("""
-select first_name from person where id = 3
-""");
+            ResultSet resultSet = statement.executeQuery("select * from Admin");
 
             // Process the resultSet
             while (resultSet.next()) {
-                System.out.println(resultSet.getString("first_name"));
+                System.out.println(resultSet.getString("admin_id"));
             }
 
             // Close the connection
