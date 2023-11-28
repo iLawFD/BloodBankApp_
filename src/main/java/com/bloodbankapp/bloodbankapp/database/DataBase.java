@@ -28,8 +28,8 @@ public class DataBase {
         return currentSystemUser;
     }
 
-    // function retrieve user info if available else it will raise an exception
     public void retrieveUserInfo(int ID) throws SQLException{
+
         String query = "SELECT * FROM person WHERE ID = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -45,7 +45,6 @@ public class DataBase {
         } else if ("system_user".equals(personType)) {
             System.out.println(resultSet.getString("first_name"));
             System.out.println(resultSet.getString("ID"));
-
             currentSystemUser = new SystemUser();
         }
 
