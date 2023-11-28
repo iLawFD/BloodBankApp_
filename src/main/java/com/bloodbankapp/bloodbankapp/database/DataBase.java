@@ -89,13 +89,71 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-            getDataBase().removeSystemUser(505);
+            System.out.println(getDataBase().getDonationCountForCurrentWeek());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
+
+
+    public int getDonationCountForCurrentWeek() throws SQLException {
+        String sqlQuery = "SELECT COUNT(*) " +
+                "FROM Blood_product " +
+                "WHERE Date >= CURRENT_DATE - EXTRACT(DOW FROM CURRENT_DATE)::INTEGER " +
+                "AND Date < CURRENT_DATE + (7 - EXTRACT(DOW FROM CURRENT_DATE)::INTEGER)";
+
+
+        Statement s1 = connection.createStatement();
+        ResultSet resultSet = s1.executeQuery(sqlQuery);
+        if (resultSet.next()) {
+
+            return resultSet.getInt(1);
+        } else {
+            return 0;
+        }
+    }
+    
+    private ResultSet executeQuery(String sqlQuery) throws SQLException {
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(sqlQuery);
+
+    }
+
+    public  int getDonationCountForCurrentMonth() throws SQLException {
+        String sqlQuery = "SELECT COUNT(*) " +
+                "FROM Blood_product " +
+                "WHERE EXTRACT(YEAR FROM Date) = EXTRACT(YEAR FROM CURRENT_DATE) " +
+                "AND EXTRACT(MONTH FROM Date) = EXTRACT(MONTH FROM CURRENT_DATE)";
+
+        ResultSet resultSet = executeQuery(sqlQuery);
+        if (resultSet.next()) {
+
+            return resultSet.getInt(1);
+        } else {
+            return 0;
+        }
+    }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    Statement s1 = connection.createStatement();
     // a query to retrieve the specific info of the current user
