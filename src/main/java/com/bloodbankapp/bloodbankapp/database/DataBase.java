@@ -49,7 +49,7 @@ public class DataBase {
         return  currentSystemUser;
 
     }
-    public void updateCurrentUserSystemData() throws SQLException {
+    public void update() throws SQLException {
         Statement s1 = connection.createStatement();
         String updateQuery = "UPDATE Person " +
                 "SET First_name = '" + currentSystemUser.getFirstName() + "', Last_name = '" + currentSystemUser.getLastName() + "', " +
@@ -113,10 +113,11 @@ public class DataBase {
         }
     }
     // this function returns a formatted string of a searched user, used in the search bar
-    public String searchUser(String ID) throws SQLException{
-        String query = "SELECT * FROM System_user WHERE ID = " + ID;
-        Statement s1 = connection.createStatement();
-        ResultSet r1 = s1.executeQuery(query);
+    public String searchUser(int ID) throws SQLException{
+        String query = "SELECT * FROM System_user WHERE ID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, ID);
+        ResultSet r1 = preparedStatement.executeQuery();
         String search_result = "ID: " + r1.getString("ID") + "\n";
         search_result += "First name: " +  r1.getString("First_name") + "\n";
         search_result += "Last name: " +  r1.getString("Last_name") + "\n";
