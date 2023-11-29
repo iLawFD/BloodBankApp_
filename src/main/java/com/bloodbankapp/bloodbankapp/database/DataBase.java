@@ -120,7 +120,8 @@ public class DataBase {
         String query2 = "";
         ResultSet r1 = eQ(query1);
         r1.next();
-        if (r1.getString("user_status").equalsIgnoreCase("donor")){
+        if (r1.getString("user_status").equalsIgnoreCase("doner")){
+
             query2 =
                     "SELECT SUM(amount_blood) as sumAmountBlood," +
                             "COUNT(amount_blood) as countAmountBlood" +
@@ -142,10 +143,9 @@ public class DataBase {
         search_result += "Phone number: " +  r1.getString("Phone_number") + "\n";
         search_result += "Email: " +  r1.getString("email") + "\n";
         search_result += "Blood type: " +  r1.getString("Blood_type") + "\n";
-        search_result += "as " +  r1.getString("countAmountBlood") + "\n";
+        search_result += "as " +  r1.getString("user_status") + "\n";
         search_result += "Number of times" +  r2.getString("countAmountBlood") + "\n";
         search_result += "Total amount: " +  r2.getString("sumAmountBlood") + "\n";
-
         return search_result;
     }
 
