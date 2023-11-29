@@ -11,11 +11,37 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 public class UserController {
 
 
     @FXML
     TextField text;
+
+    @FXML
+    protected void reports(ActionEvent event) throws IOException, SQLException {
+
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/dashboard.fxml"));
+
+        Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+        stage.setScene(scene2);
+    }
+
+    @FXML
+    protected void goback(ActionEvent event) throws IOException, SQLException {
+
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/cop2.fxml"));
+
+        Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+        stage.setScene(scene2);
+    }
+
+
 
 
 

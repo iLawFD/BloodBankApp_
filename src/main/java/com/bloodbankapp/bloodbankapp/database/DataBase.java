@@ -30,6 +30,7 @@ public class DataBase {
 
         String query = "SELECT * FROM person WHERE ID = ?";
 
+
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, ID);
 
