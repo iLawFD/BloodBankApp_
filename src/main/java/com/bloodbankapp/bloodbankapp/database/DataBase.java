@@ -23,12 +23,9 @@ public class DataBase {
         }
         return  dataBase;
     }
+    
 
-    public Person getCurrentSystemUser() {
-        return currentSystemUser;
-    }
-
-    public void retrieveUserInfo(int ID) throws SQLException{
+    public Person retrieveUserInfo(int ID) throws SQLException{
 
         String query = "SELECT * FROM person WHERE ID = ?";
 
@@ -48,6 +45,8 @@ public class DataBase {
             currentSystemUser = new SystemUser();
         }
 
+        return  currentSystemUser;
+
     }
     public void updateCurrentUserSystemData() throws SQLException {
         Statement s1 = connection.createStatement();
@@ -57,6 +56,8 @@ public class DataBase {
                 "email = '" + currentSystemUser.getEmail() + "' " +
                 "WHERE ID = " + currentSystemUser.getID();
         int rowsAffected = s1.executeUpdate(updateQuery);
+
+
 
     }
     public void insertNewUser(int userID,String firstName, String lastName,
