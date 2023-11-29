@@ -47,7 +47,7 @@ public class HelloController {
                 Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
                 String text1 = text.getText();
                 try{
-                Person person = DataBase.getDataBase().retrieveUserInfo(text1);}
+                Person person = (Person)DataBase.getDataBase().retrieveUserInfo(text1);}
                 catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
 
