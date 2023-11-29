@@ -28,7 +28,8 @@ public class UserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            DataBase.getDataBase().showRequests();
+            String info = DataBase.getDataBase().showRequests();
+            System.out.println(info);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
