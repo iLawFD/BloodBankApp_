@@ -31,6 +31,35 @@ public class HelloController {
     @FXML
     private Button b2;
 
+
+
+    @FXML
+    protected void search(ActionEvent event) throws IOException, SQLException {
+
+
+        String id = text.getText();
+
+
+
+
+    }
+
+
+
+    @FXML
+    protected void request(ActionEvent event) throws IOException, SQLException {
+
+
+
+
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setTitle("Request has been made");
+        alert.setHeaderText("The given ID does not exsist  ");
+        alert.setContentText("Please make sure of your ID! ");
+        alert.showAndWait();
+    }
     @FXML
     protected void translate(ActionEvent event) throws IOException, SQLException {
 
@@ -46,9 +75,9 @@ public class HelloController {
 
                 Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
                 String text1 = text.getText();
-                try{
-                Person person = (Person)DataBase.getDataBase().retrieveUserInfo(Integer.parseInt(text1));}
-                catch (Exception e) {
+                try {
+                    Person person = (Person) DataBase.getDataBase().retrieveUserInfo(Integer.parseInt(text1));
+                } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
 
                     alert.setTitle("Input Error");
@@ -60,6 +89,7 @@ public class HelloController {
                 stage.setScene(scene2);
             }
         }
+
     }
 
 }
