@@ -33,33 +33,11 @@ public class HelloController {
 
 
 
-    @FXML
-    protected void search(ActionEvent event) throws IOException, SQLException {
-
-
-        String id = text.getText();
-
-
-
-
-    }
-
-
-
-    @FXML
-    protected void request(ActionEvent event) throws IOException, SQLException {
 
 
 
 
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setTitle("Request has been made");
-        alert.setHeaderText("The given ID does not exsist  ");
-        alert.setContentText("Please make sure of your ID! ");
-        alert.showAndWait();
-    }
     @FXML
     protected void translate(ActionEvent event) throws IOException, SQLException {
 
