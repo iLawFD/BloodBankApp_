@@ -114,10 +114,25 @@ public class DataBase {
     }
     // this function returns a formatted string of a searched user, used in the search bar
     public String searchUser(int ID) throws SQLException{
-        String query = "SELECT * FROM Person P JOIN System_user S ON S.ID = " + ID + " WHERE P.person_type <> 'admin'";
-        Statement s1 = connection.createStatement();
-        ResultSet r1 = s1.executeQuery(query);
+        String query1 = "SELECT * FROM Person P JOIN System_user S ON S.ID = " + ID + " WHERE P.person_type <> 'admin'";
+        String query2 = "";
+        ResultSet r1 = eQ(query1);
         r1.next();
+        if (r1.getString("user_status").equalsIgnoreCase("donor")){
+            query2 =
+                    "SELECT SUM(amount_blood) as sumAmountBlood," +
+                    "COUNT(amount_blood) as countAmountBlood" +
+                    " FROM Blood_product" +
+                    " WHERE donor_ID =" + ID;
+        } else if (r1.getString("user_status").equalsIgnoreCase("recipient")) {
+            query2 =
+                    "SELECT SUM(amount_blood) as sumAmountBlood," +
+                    "COUNT(amount_blood) as countAmountBlood" +
+                    " FROM Blood_product" +
+                    " WHERE Recipient_ID =" + ID;
+        }
+        ResultSet r2 = eQ(query2);
+        r2.next();
         String search_result = "ID: " + r1.getString("ID") + "\n";
         search_result += "First name: " +  r1.getString("First_name") + "\n";
         search_result += "Last name: " +  r1.getString("Last_name") + "\n";
@@ -125,6 +140,10 @@ public class DataBase {
         search_result += "Phone number: " +  r1.getString("Phone_number") + "\n";
         search_result += "Email: " +  r1.getString("email") + "\n";
         search_result += "Blood type: " +  r1.getString("Blood_type") + "\n";
+        search_result += "as " +  r1.getString("countAmountBlood") + "\n";
+        search_result += "Number of times" +  r2.getString("countAmountBlood") + "\n";
+        search_result += "Total amount: " +  r2.getString("sumAmountBlood") + "\n";
+
         return search_result;
     }
 
@@ -132,10 +151,9 @@ public class DataBase {
 
     }
     
-    private ResultSet executeQuery(String sqlQuery) throws SQLException {
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(sqlQuery);
-
+    private ResultSet eQ(String sqlQuery) throws SQLException {
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(sqlQuery);
     }
     public  int getDonationCountForCurrentMonth() throws SQLException {
         String sqlQuery = "SELECT COUNT(*) " +
@@ -143,7 +161,7 @@ public class DataBase {
                 "WHERE EXTRACT(YEAR FROM Date) = EXTRACT(YEAR FROM CURRENT_DATE) " +
                 "AND EXTRACT(MONTH FROM Date) = EXTRACT(MONTH FROM CURRENT_DATE)";
 
-        ResultSet resultSet = executeQuery(sqlQuery);
+        ResultSet resultSet = eQ(sqlQuery);
         if (resultSet.next()) {
 
             return resultSet.getInt(1);
