@@ -51,7 +51,7 @@ public class UserController {
 
         System.out.println(id);
         try {
-            String info = DataBase.getDataBase().searchUser(id);
+            String info = DataBase.getDataBase().searchUser(Integer.parseInt(id));
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
