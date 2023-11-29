@@ -196,7 +196,7 @@ public class DataBase {
                 "FROM Blood_product " +
                 "GROUP BY blood_type";
 
-        ResultSet resultSet = executeQuery(sqlQuery);
+        ResultSet resultSet = eQ(sqlQuery);
         while (resultSet.next()) {
             String bloodType = resultSet.getString("blood_type");
             int donationCount = resultSet.getInt("donation_count");
