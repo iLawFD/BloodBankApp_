@@ -114,9 +114,10 @@ public class DataBase {
     }
     // this function returns a formatted string of a searched user, used in the search bar
     public String searchUser(int ID) throws SQLException{
-        String query = "SELECT * FROM Person P JOIN System_user S ON S.ID = " + ID + "WHERE P.person_type <> 'admin'";
+        String query = "SELECT * FROM Person P JOIN System_user S ON S.ID = " + ID + " WHERE P.person_type <> 'admin'";
         Statement s1 = connection.createStatement();
         ResultSet r1 = s1.executeQuery(query);
+        r1.next();
         String search_result = "ID: " + r1.getString("ID") + "\n";
         search_result += "First name: " +  r1.getString("First_name") + "\n";
         search_result += "Last name: " +  r1.getString("Last_name") + "\n";
