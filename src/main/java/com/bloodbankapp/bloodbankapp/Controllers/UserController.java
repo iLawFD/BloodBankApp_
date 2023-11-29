@@ -1,6 +1,8 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 import com.bloodbankapp.bloodbankapp.database.DataBase;
 import com.bloodbankapp.bloodbankapp.database.Main;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -16,6 +19,7 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UserController implements Initializable {
@@ -24,12 +28,22 @@ public class UserController implements Initializable {
 
 
 
+    @FXML
+    private ListView<String> view; // Make sure to import correct ListView type
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
             String info = DataBase.getDataBase().showRequests();
-            System.out.println(info);
+            String[] lst = info.split("\n\n");
+
+            ObservableList<String> items = FXCollections.observableArrayList(lst);
+            view.setItems(items);
+          //  for (int i = 0 ; i < lst.length ; i ++){
+
+            //}
+
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
