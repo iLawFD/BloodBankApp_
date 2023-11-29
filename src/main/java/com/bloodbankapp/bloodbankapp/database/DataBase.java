@@ -2,6 +2,8 @@ package com.bloodbankapp.bloodbankapp.database;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataBase {
 
@@ -23,7 +25,6 @@ public class DataBase {
         }
         return  dataBase;
     }
-    
 
     public Person retrieveUserInfo(int ID) throws SQLException{
 
@@ -36,15 +37,14 @@ public class DataBase {
         resultSet.next();
         String personType = resultSet.getString("person_type");
         if ("Admin".equals(personType)) {
-            System.out.println(resultSet.getString("first_name"));
-            System.out.println(resultSet.getString("ID"));
+//            System.out.println(resultSet.getString("first_name"));
+//            System.out.println(resultSet.getString("ID"));
             currentSystemUser = new Admin();
         } else if ("system_user".equals(personType)) {
-            System.out.println(resultSet.getString("first_name"));
-            System.out.println(resultSet.getString("ID"));
+//            System.out.println(resultSet.getString("first_name"));
+//            System.out.println(resultSet.getString("ID"));
             currentSystemUser = new SystemUser();
         }
-
         return  currentSystemUser;
 
     }
@@ -56,8 +56,6 @@ public class DataBase {
                 "email = '" + currentSystemUser.getEmail() + "' " +
                 "WHERE ID = " + currentSystemUser.getID();
         int rowsAffected = s1.executeUpdate(updateQuery);
-
-
 
     }
     public void insertNewUser(int userID,String firstName, String lastName,
@@ -79,7 +77,7 @@ public class DataBase {
         int rowsAffected = preparedStatement.executeUpdate();
 
     }
-    void removeSystemUser(int id) throws SQLException {
+    void removeSystemUser(int id) throws SQLException{
         String deleteQuery = "DELETE FROM person WHERE ID = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
@@ -91,10 +89,9 @@ public class DataBase {
     public static void main(String[] args) {
         try {
             System.out.println(getDataBase().getDonationCountForCurrentWeek());
-        } catch (SQLException e) {
+        } catch (SQLException e){
             throw new RuntimeException(e);
         }
-
     }
 
 
@@ -114,13 +111,26 @@ public class DataBase {
             return 0;
         }
     }
+    // this function returns a formatted string of a searched user, used in the search bar
+    public String searchUser(String ID) throws SQLException{
+        String query = "SELECT * FROM System_user WHERE ID = " + ID;
+        Statement s1 = connection.createStatement();
+        ResultSet r1 = s1.executeQuery(query);
+        String search_result = "ID: " + r1.getString("ID") + "\n";
+        search_result += "First name: " +  r1.getString("First_name") + "\n";
+        search_result += "Last name: " +  r1.getString("Last_name") + "\n";
+        search_result += "Address: " +  r1.getString("address") + "\n";
+        search_result += "Phone number: " +  r1.getString("Phone_number") + "\n";
+        search_result += "Email: " +  r1.getString("email") + "\n";
+        search_result += "Blood type: " +  r1.getString("Blood_type") + "\n";
+        return search_result;
+    }
     
     private ResultSet executeQuery(String sqlQuery) throws SQLException {
         Statement statement = connection.createStatement();
         return statement.executeQuery(sqlQuery);
 
     }
-
     public  int getDonationCountForCurrentMonth() throws SQLException {
         String sqlQuery = "SELECT COUNT(*) " +
                 "FROM Blood_product " +
@@ -140,22 +150,6 @@ public class DataBase {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //    Statement s1 = connection.createStatement();
     // a query to retrieve the specific info of the current user
 //    ResultSet r1 = s1.executeQuery("SELECT * " +
