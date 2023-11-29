@@ -4,6 +4,7 @@ import com.bloodbankapp.bloodbankapp.database.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,9 +14,29 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class UserController {
+public class UserController implements Initializable {
+
+
+
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            DataBase.getDataBase().showRequests();
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+
+    }
+
+
 
 
     @FXML
@@ -44,7 +65,7 @@ public class UserController {
     }
 
     @FXML
-    protected void search(ActionEvent event) throws IOException {
+    protected void search() throws IOException {
 
 
         String id = text.getText();
@@ -62,6 +83,9 @@ public class UserController {
 
 
         } catch (SQLException e) {
+
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getMessage());
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Input Error");
             alert.setHeaderText("The given ID does not exsist  ");
