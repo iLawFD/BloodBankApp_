@@ -2,6 +2,7 @@ package com.bloodbankapp.bloodbankapp.Controllers;
 
 import com.bloodbankapp.bloodbankapp.database.DataBase;
 import com.bloodbankapp.bloodbankapp.database.Main;
+import com.bloodbankapp.bloodbankapp.database.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,9 +45,9 @@ public class HelloController {
                 FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/cop2.fxml"));
 
                 Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
-                String id = text.getText();
+                String text1 = text.getText();
                 try{
-                DataBase.getDataBase().getUserInfo("");}
+                Person person = DataBase.getDataBase().retrieveUserInfo(text1);}
                 catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
 
