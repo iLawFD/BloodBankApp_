@@ -4,6 +4,8 @@ package com.bloodbankapp.bloodbankapp.database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataBase {
 
@@ -167,9 +169,21 @@ public class DataBase {
         }
     }
 
+    public Map<String, Integer> getBloodDonationStatisticsBloodType() throws SQLException {
+        Map<String, Integer> donationStatistics = new HashMap<>();
 
+        String sqlQuery = "SELECT blood_type, COUNT(blood_type) AS Donation_Count " +
+                "FROM Blood_product " +
+                "GROUP BY blood_type";
 
-
+        ResultSet resultSet = executeQuery(sqlQuery);
+        while (resultSet.next()) {
+            String bloodType = resultSet.getString("blood_type");
+            int donationCount = resultSet.getInt("donation_count");
+            donationStatistics.put(bloodType, donationCount);
+        }
+        return  donationStatistics;
+    }
 }
 //    Statement s1 = connection.createStatement();
     // a query to retrieve the specific info of the current user

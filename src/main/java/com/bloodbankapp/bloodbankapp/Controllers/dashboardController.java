@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class dashboardController implements Initializable {
@@ -26,6 +28,21 @@ public class dashboardController implements Initializable {
             //getting the number
             donationPerMonthText.setText(String.valueOf(DataBase.getDataBase().getDonationCountForCurrentMonth()));
             donationPerWeekText.setText(String.valueOf(DataBase.getDataBase().getDonationCountForCurrentWeek()));
+            Map<String, Integer>  res = DataBase.getDataBase().getBloodDonationStatisticsBloodType();
+
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+            for (Map.Entry<String, Integer> entry : res.entrySet()) {
+                series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+            }
+
+
+            // Add the series to the chart
+            blood_type_barChart.getData().add(series);
+
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
