@@ -52,18 +52,39 @@ public class DataBase {
         return  currentSystemUser;
 
     }
-    public void update() throws SQLException {
-        Statement s1 = connection.createStatement();
-        String updateQuery = "UPDATE Person " +
-                "SET First_name = '" + currentSystemUser.getFirstName() + "', Last_name = '" + currentSystemUser.getLastName() + "', " +
-                "address = '" + currentSystemUser.getAddress() + "', Phone_number = '" + currentSystemUser.getPhone_number() + "', " +
-                "email = '" + currentSystemUser.getEmail() + "' " +
-                "WHERE ID = " + currentSystemUser.getID();
-        int rowsAffected = s1.executeUpdate(updateQuery);
+    public void updateUser(int id, String firstName, String lastName, String address, String phoneNumber, String email, String bloodType, String newMedicalHistory) throws SQLException {
+        // Update the Person table
+        String updatePersonQuery = "UPDATE Person " +
+                "SET First_name = ?, Last_name = ?, " +
+                "address = ?, Phone_number = ?, " +
+                "email = ? " +
+                "WHERE ID = ?";
+
+        PreparedStatement preparedStatementPerson = connection.prepareStatement(updatePersonQuery);
+        preparedStatementPerson.setString(1, firstName);
+        preparedStatementPerson.setString(2, lastName);
+        preparedStatementPerson.setString(3, address);
+        preparedStatementPerson.setString(4, phoneNumber);
+        preparedStatementPerson.setString(5, email);
+        preparedStatementPerson.setInt(6, id);
+
+        int rowsAffectedPerson = preparedStatementPerson.executeUpdate();
+
+
+        String updateSystemUserQuery = "UPDATE System_user " +
+                "SET Blood_type = ?, medical_history = ? " +
+                "WHERE ID = ?";
+
+        PreparedStatement preparedStatementSystemUser = connection.prepareStatement(updateSystemUserQuery);
+        preparedStatementSystemUser.setString(1, bloodType);
+        preparedStatementSystemUser.setString(2, newMedicalHistory);
+        preparedStatementSystemUser.setInt(3, id);
+
+        int rowsAffectedSystemUser = preparedStatementSystemUser.executeUpdate();
 
     }
     public void insertNewUser(int userID,String firstName, String lastName,
-                                     String address, String phoneNumber, String email) throws SQLException{
+                                     String address, String phoneNumber, String email,String bloodType,String medicalHistory) throws SQLException{
 
         String insertQuery = "INSERT INTO Person (id ,First_name, Last_name, address, Phone_number, email, person_type) " +
                 "VALUES (?,?, ?, ?, ?, ?,'system_user' )";
@@ -77,11 +98,30 @@ public class DataBase {
         preparedStatement.setString(5, phoneNumber);
         preparedStatement.setString(6, email);
 
+
         int rowsAffected = preparedStatement.executeUpdate();
+
+        String insertQuery2 = "INSERT INTO system_user ( ID,blood_type, medical_history, user_status) " +
+                "VALUES (?,?, ?, ? )";
+        preparedStatement = connection.prepareStatement(insertQuery2);
+
+        preparedStatement.setInt(1, userID);
+        preparedStatement.setString(2, bloodType);
+        preparedStatement.setString(3, medicalHistory);
+        preparedStatement.setString(4, "donor");
+
+        rowsAffected = preparedStatement.executeUpdate();
+
 
     }
     void removeSystemUser(int id) throws SQLException{
-        String deleteQuery = "DELETE FROM person WHERE ID = ?";
+        String deleteQuery1 = "DELETE FROM person WHERE ID = ?";
+        String deleteQuery2 = "DELETE FROM system_user WHERE ID = ?";
+        String deleteQuery3 = "DELETE FROM Blood_product WHERE Donor_ID = ? OR Recipient_ID = ?";
+        String deleteQuery4 = "DELETE FROM Donor WHERE ID = ?";
+        String deleteQuery5 = "DELETE FROM Recipient WHERE ID = ?";
+
+
 
         PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
         preparedStatement.setInt(1, id);
@@ -228,7 +268,6 @@ public class DataBase {
             systemUsers.add(new SystemUser(id,firstName,lastName,address,phoneNumber,email,bloodType,medicalHistory));
 
         }
-        System.out.println(systemUsers);
         return systemUsers;
 
     }

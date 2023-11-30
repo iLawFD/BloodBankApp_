@@ -7,17 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class AdminController implements Initializable {
 
@@ -92,7 +89,14 @@ public class AdminController implements Initializable {
     private TextField phoneText;
 
     @FXML
+    private TextField bloodTypeText;
+
+    @FXML
     private TextField searchPersonText;
+
+
+    @FXML
+    private TextField medicalHistoryText;
 
     @FXML
     private ListView<?> view;
@@ -112,9 +116,11 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<Person, String> bloodType;
 
+
+
     @FXML
     private void fillUserInfo(){
-        Person selectedPerson = personTableView.getSelectionModel().getSelectedItem();
+        SystemUser selectedPerson = personTableView.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
             firstNameText.setText(selectedPerson.getFirstName());
             lastNameText.setText(selectedPerson.getLastName());
@@ -122,43 +128,110 @@ public class AdminController implements Initializable {
             emailText.setText(selectedPerson.getEmail());
             addressText.setText(selectedPerson.getAddress());
             IDText.setText(selectedPerson.getID()+"");
+            bloodTypeText.setText(selectedPerson.getBloodType());
+            medicalHistoryText.setText(selectedPerson.getMedicalHistory());
         }
 
     }
     @FXML
     private  void insertNewSystemUser() throws SQLException {
+
+
         try{
             int id = Integer.parseInt(IDText.getText());
             String firstName = firstNameText.getText();
             String lastname = lastNameText.getText();
             String email = emailText.getText();
-            String phone = phoneNumber.getText();
+            String phone = phoneText.getText();
             String address = addressText.getText();
 
-            DataBase.getDataBase().insertNewUser(id,firstName,lastname,address,phone,email);
+            DataBase.getDataBase().insertNewUser(id,firstName,lastname,address,phone,email,bloodTypeText.getText(), medicalHistoryText.getText());
             EmailSender.getEmailSender().SendMessage(
                     email,
                     "you were added our Bank system",
                     "thank you for joining us"
 
             );
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("done successfully");
+            alert.setHeaderText("new user is added");
+            alert.setContentText("a message was send to the new user on email");
+            alert.showAndWait();
+
+            IDText.clear();
+            firstNameText.clear();
+            lastNameText.clear();
+            emailText.clear();
+            phoneText.clear();
+            addressText.clear();
+            bloodTypeText.clear();
+            medicalHistoryText.clear();
 
         }catch (Exception e){
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("error");
+            alert.setHeaderText("");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
 
     }
 
     @FXML
     private void updateUserInfo(){
+
         try{
+
+            int id = Integer.parseInt(IDText.getText());
+            String firstName = firstNameText.getText();
+            String lastname = lastNameText.getText();
+            String email = emailText.getText();
+            String phone = phoneText.getText();
+            String address = addressText.getText();
+            String bloodType = bloodTypeText.getText();
+            String medHistory = medicalHistoryText.getText();
+
+
+            DataBase.getDataBase().updateUser(
+                    id,
+                    firstName,
+                    lastname,
+                    address,
+                    phone,
+                    email,
+                    bloodType,
+                    medHistory
+            );
+
+            EmailSender.getEmailSender().SendMessage(
+                    email,
+                    "you information was added in our Bank system",
+                    "check the new changes"
+
+            );
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("done successfully");
+            alert.setHeaderText("new user information is edited");
+            alert.setContentText("a message was send to user on email about the edits");
+            alert.showAndWait();
+            loadData();
 
 
         }catch (Exception e){
 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("error");
+            alert.setHeaderText("");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+
+
         }
     }
+    @FXML
+    private void removeUser(){
 
+    }
 
 
 }
