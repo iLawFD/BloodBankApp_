@@ -1,6 +1,8 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
 import com.bloodbankapp.bloodbankapp.database.DataBase;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +39,16 @@ public class dashboardController implements Initializable {
             for (Map.Entry<String, Integer> entry : res.entrySet()) {
                 series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
             }
+
+            Timeline timeline = new Timeline();
+            timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.millis(1000), event -> {
+                        for (XYChart.Data<String, Number> data : series.getData()) {
+                            data.setYValue(Math.random() * 50);
+                        }
+                    })
+            );
+
 
 
             // Add the series to the chart

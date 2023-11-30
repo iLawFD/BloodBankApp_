@@ -13,10 +13,10 @@ public class DataBase {
     private Person currentSystemUser;
     private final Connection connection;
     private DataBase() throws SQLException {
-        String url = "jdbc:postgresql://ep-shrill-darkness-20221653.us-east-2.aws.neon.tech"+
-                "/blood%20system?user=ayed87&password=2KdnfuWpEa3e&sslmode=require";
-        String username = "ayed87";
-        String password = "2KdnfuWpEa3e";
+        String url = "jdbc:postgresql://ep-empty-thunder-47709051.us-east-2.aws.neon.tech/blood%20bank%20system?user" +
+                "=icsdatabase2&password=MNtaxLy0oFY6&sslmode=require";
+        String username = "icsdatabase2";
+        String password = "MNtaxLy0oFY6";
         connection = DriverManager.getConnection(url, username, password);
 
     }
@@ -120,7 +120,7 @@ public class DataBase {
         String query2 = "";
         ResultSet r1 = eQ(query1);
         r1.next();
-        if (r1.getString("user_status").equalsIgnoreCase("doner")){
+        if (r1.getString("user_status").equalsIgnoreCase("donor")){
             query2 =
                     "SELECT SUM(amount_blood) as sumAmountBlood," +
                             "COUNT(amount_blood) as countAmountBlood" +

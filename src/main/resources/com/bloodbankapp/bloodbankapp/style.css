@@ -8,3 +8,10 @@
     -fx-padding: 10; /* Add padding to the button for better appearance */
     -fx-text-fill: white; /* Set the text color */
 }
+.searchButton {
+    -fx-background-color: linear-gradient(to bottom right, #bbacaf, #3d3939); /* Set your desired background color */
+    -fx-border-radius: 20; /* Set the border radius to control the roundness of corners */
+    -fx-padding: 5; /* Add padding to the button for better appearance */
+    -fx-text-fill: white; /* Set the text color */
+}
+

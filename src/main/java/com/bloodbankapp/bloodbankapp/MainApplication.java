@@ -12,6 +12,8 @@ public class MainApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Hello!");
+        stage.setWidth(1540); // Set your preferred width
+        stage.setHeight(800); //
         stage.setScene(scene);
         stage.show();
     }
