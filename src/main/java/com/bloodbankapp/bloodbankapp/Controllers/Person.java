@@ -1,4 +1,4 @@
-package com.bloodbankapp.bloodbankapp.database;
+package com.bloodbankapp.bloodbankapp.Controllers;
 
 abstract public class Person {
     private int ID;
@@ -13,7 +13,6 @@ abstract public class Person {
         return ID;
     }
 
-    private  String personType;
 
     public String getFirstName() {
         return firstName;
@@ -51,6 +50,17 @@ abstract public class Person {
         this.address = address;
     }
 
+    public Person(int ID, String firstName, String lastName, String address, String phone_number, String email) {
+        this.ID = ID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
+
+    public  Person(){}
+
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
@@ -59,11 +69,5 @@ abstract public class Person {
         this.email = email;
     }
 
-    public void setPersonType(String personType) {
-        this.personType = personType;
-    }
 
-    public String getPersonType() {
-        return personType;
-    }
 }

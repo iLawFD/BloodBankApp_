@@ -1,8 +1,6 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
 import com.bloodbankapp.bloodbankapp.database.DataBase;
-import com.bloodbankapp.bloodbankapp.database.Main;
-import com.bloodbankapp.bloodbankapp.database.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,11 +1,12 @@
 package com.bloodbankapp.bloodbankapp.database;
 
 
+import com.bloodbankapp.bloodbankapp.Controllers.Admin;
+import com.bloodbankapp.bloodbankapp.Controllers.Person;
+import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
+
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DataBase {
 
@@ -62,10 +63,10 @@ public class DataBase {
 
     }
     public void insertNewUser(int userID,String firstName, String lastName,
-                                     String address, String phoneNumber, String email, String personType) throws SQLException{
+                                     String address, String phoneNumber, String email) throws SQLException{
 
         String insertQuery = "INSERT INTO Person (id ,First_name, Last_name, address, Phone_number, email, person_type) " +
-                "VALUES (?,?, ?, ?, ?, ?, ?)";
+                "VALUES (?,?, ?, ?, ?, ?,'system_user' )";
 
         PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
@@ -75,7 +76,6 @@ public class DataBase {
         preparedStatement.setString(4, address);
         preparedStatement.setString(5, phoneNumber);
         preparedStatement.setString(6, email);
-        preparedStatement.setString(7, personType);
 
         int rowsAffected = preparedStatement.executeUpdate();
 
@@ -208,17 +208,28 @@ public class DataBase {
         }
         return  donationStatistics;
     }
+
+    public List<SystemUser> getSystemUser() throws SQLException {
+
+        List<SystemUser> systemUsers = new ArrayList<>();
+        String q = "select * \n" +
+                "from Person NATURAL join system_user";
+        ResultSet  resultSet = eQ(q);
+
+        while (resultSet.next()){
+            int id = resultSet.getInt("id");
+            String firstName = resultSet.getString("first_name");
+            String lastName = resultSet.getString("last_name");
+            String address = resultSet.getString("address");
+            String phoneNumber = resultSet.getString("phone_number");
+            String email = resultSet.getString("email");
+            String bloodType = resultSet.getString("blood_type");
+            String medicalHistory = resultSet.getString("medical_history");
+            systemUsers.add(new SystemUser(id,firstName,lastName,address,phoneNumber,email,bloodType,medicalHistory));
+
+        }
+        System.out.println(systemUsers);
+        return systemUsers;
+
+    }
 }
-//    Statement s1 = connection.createStatement();
-    // a query to retrieve the specific info of the current user
-//    ResultSet r1 = s1.executeQuery("SELECT * " +
-//            "FROM person " +
-//            "WHERE ID = " + snn);
-//        if (r1.getString("person_type").equals("Admin")){
-//                System.out.println(r1.getString("first_name"));
-//                System.out.println(r1.getString("Id"));
-//                currentSystemUser = new Admin ();
-//                } else if (r1.getString("person_type").equals("system_user")) {
-//                currentSystemUser = new SystemUser();
-//                }
-//                return currentSystemUser;
