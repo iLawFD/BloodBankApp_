@@ -81,10 +81,11 @@
                   <TextField fx:id="emailText" layoutX="45.0" layoutY="149.0" promptText="email" />
                   <Button layoutX="46.0" layoutY="198.0" mnemonicParsing="false" onAction="#insertNewSystemUser" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="add" />
                   <Button layoutX="162.0" layoutY="198.0" mnemonicParsing="false" onAction="#updateUserInfo" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="update" />
-                  <Button layoutX="276.0" layoutY="198.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="remove" />
+                  <Button layoutX="800.0" layoutY="96.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="remove user" />
                   <TextField fx:id="lastNameText" layoutX="227.0" layoutY="102.0" promptText="last name" />
                   <TextField fx:id="bloodTypeText" layoutX="427.0" layoutY="50.0" promptText="blood type (if new user)" />
                   <TextField fx:id="medicalHistoryText" layoutX="427.0" layoutY="102.0" promptText="history" />
+                  <TextField fx:id="removeUserText" layoutX="645.0" layoutY="102.0" promptText="ID" />
                </children>
             </AnchorPane>
          </children>

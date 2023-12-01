@@ -123,10 +123,10 @@ public class DataBase {
 
 
 
-        PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-        preparedStatement.setInt(1, id);
-
-        int rowsAffected = preparedStatement.executeUpdate();
+//        PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+//        preparedStatement.setInt(1, id);
+//
+//        int rowsAffected = preparedStatement.executeUpdate();
     }
 
     public static void main(String[] args) {

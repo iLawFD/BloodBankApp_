@@ -4,6 +4,8 @@ import com.bloodbankapp.bloodbankapp.database.DataBase;
 import com.bloodbankapp.bloodbankapp.database.EmailSender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,9 +16,11 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 
 public class AdminController implements Initializable {
+    ObservableList<SystemUser> systemUsers;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,9 +41,11 @@ public class AdminController implements Initializable {
             bloodType.setCellValueFactory(new  PropertyValueFactory<Person,String>("bloodType") );
             medicalHistory.setCellValueFactory(new  PropertyValueFactory<Person,String>("medicalHistory") );
 
-            ObservableList<SystemUser> observableListPerson = FXCollections.observableArrayList(list);
+            systemUsers = FXCollections.observableArrayList(list);
             personTableView.getSelectionModel().getSelectedItem();
-            personTableView.setItems(observableListPerson);
+            personTableView.setItems(systemUsers);
+
+            searchFilter();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -228,8 +234,44 @@ public class AdminController implements Initializable {
 
         }
     }
+    private void searchFilter(){
+        FilteredList<SystemUser> filterData= new FilteredList<>(systemUsers, e->true);
+        searchPersonText.setOnKeyReleased(e->{
+            searchPersonText.textProperty().addListener((observable,oldValue,newValue)->{
+                filterData.setPredicate((Predicate<? super SystemUser>) user ->{
+                    if(newValue == null){
+                        return true;
+                    }
+                    final String toLowerCaseFilter = newValue.toLowerCase();
+                    if(String.valueOf(user.getID()).contains(newValue)){
+                        return  true;
+                    }else if(user.getFirstName().toLowerCase().contains(toLowerCaseFilter)){
+                        return  true;
+                    }else if(user.getLastName().toLowerCase().contains(toLowerCaseFilter)){
+                        return  true;
+                    }else if(user.getPhone_number().toLowerCase().contains(toLowerCaseFilter)){
+                        return  true;
+                    }else if(user.getEmail().toLowerCase().contains(toLowerCaseFilter)){
+                        return  true;
+                    }else if(user.getBloodType().toLowerCase().contains(toLowerCaseFilter)){
+                        return  true;
+                    }else if(user.getMedicalHistory().toLowerCase().contains(toLowerCaseFilter)){
+                        return  true;
+                    }
+
+                return  false;
+                });
+            });
+        final SortedList<SystemUser> users = new SortedList<>(filterData);
+        users.comparatorProperty().bind(personTableView.comparatorProperty());
+        personTableView.setItems(users);
+        });
+
+    }
+
     @FXML
     private void removeUser(){
+
 
     }
 
