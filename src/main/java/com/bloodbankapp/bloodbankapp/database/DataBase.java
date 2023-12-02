@@ -40,13 +40,11 @@ public class DataBase {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         String personType = resultSet.getString("person_type");
-        if ("Admin".equals(personType)) {
-//            System.out.println(resultSet.getString("first_name"));
-//            System.out.println(resultSet.getString("ID"));
+        if ("admin".equals(personType)) {
+            // create new admin object
             currentSystemUser = new Admin();
         } else if ("system_user".equals(personType)) {
-//            System.out.println(resultSet.getString("first_name"));
-//            System.out.println(resultSet.getString("ID"));
+            // create new system user object
             currentSystemUser = new SystemUser();
         }
         return  currentSystemUser;
@@ -249,7 +247,7 @@ public class DataBase {
         return  donationStatistics;
     }
 
-    public List<SystemUser> getSystemUser() throws SQLException {
+    public List<SystemUser> getSystemUsers() throws SQLException {
 
         List<SystemUser> systemUsers = new ArrayList<>();
         String q = "select * \n" +

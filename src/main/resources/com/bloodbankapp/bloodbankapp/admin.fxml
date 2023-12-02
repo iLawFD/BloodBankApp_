@@ -18,35 +18,27 @@
    <children>
       <AnchorPane prefHeight="800.0" prefWidth="365.0" stylesheets="@style.css">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="763.0" layoutX="20.0" layoutY="14.0" stroke="WHITE" strokeType="INSIDE" width="337.0" />
-            <ListView fx:id="view" layoutX="40.0" layoutY="112.0" prefHeight="183.0" prefWidth="254.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="763.0" layoutX="14.0" layoutY="14.0" stroke="WHITE" strokeType="INSIDE" width="337.0" />
+            <ListView fx:id="view" layoutX="40.0" layoutY="112.0" prefHeight="125.0" prefWidth="254.0" />
             <TextField fx:id="historyText" layoutX="50.0" layoutY="27.0" promptText="Enter User ID" />
             <Button layoutX="226.0" layoutY="26.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="112.0" stylesheets="@style.css" text="search history">
                <styleClass>
                   <String fx:value="loginStyle" />
                   <String fx:value="searchButton" />
                </styleClass></Button>
-            <Text layoutX="50.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All requests" textAlignment="CENTER" wrappingWidth="149.60000000000014">
+            <Text layoutX="40.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All requests" textAlignment="CENTER" wrappingWidth="149.60000000000014">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="15.0" />
                </font></Text>
-            <Text layoutX="31.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="reports" textAlignment="CENTER" wrappingWidth="112.2633056640625">
+            <Button layoutX="247.0" layoutY="679.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Reports" />
+            <Button layoutX="141.0" layoutY="679.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate" />
+            <Button layoutX="40.0" layoutY="679.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Request" />
+            <ListView layoutX="26.0" layoutY="276.0" prefHeight="222.0" prefWidth="307.0" />
+            <Text layoutX="40.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
                <font>
-                  <Font name="Courier New" size="23.0" />
-               </font></Text>
-            <Button layoutX="40.0" layoutY="453.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Show" />
-            <Button layoutX="40.0" layoutY="535.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Fill info" />
-            <Text layoutX="31.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donate" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Text>
-            <Text layoutX="31.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Request" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font>
-            </Text>
-            <Button layoutX="40.0" layoutY="369.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
          </children>
       </AnchorPane>
       <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fillUserInfo" prefHeight="769.0" prefWidth="1217.0" spacing="20.0" stylesheets="@style.css">
@@ -80,12 +72,12 @@
                   <TextField fx:id="phoneText" layoutX="227.0" layoutY="149.0" promptText="phone number" />
                   <TextField fx:id="emailText" layoutX="45.0" layoutY="149.0" promptText="email" />
                   <Button layoutX="46.0" layoutY="198.0" mnemonicParsing="false" onAction="#insertNewSystemUser" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="add" />
-                  <Button layoutX="162.0" layoutY="198.0" mnemonicParsing="false" onAction="#updateUserInfo" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="update" />
-                  <Button layoutX="800.0" layoutY="96.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="remove user" />
+                  <Button layoutX="46.0" layoutY="243.0" mnemonicParsing="false" onAction="#updateUserInfo" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="update" />
+                  <Button layoutX="373.0" layoutY="243.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="remove user" />
                   <TextField fx:id="lastNameText" layoutX="227.0" layoutY="102.0" promptText="last name" />
                   <TextField fx:id="bloodTypeText" layoutX="427.0" layoutY="50.0" promptText="blood type (if new user)" />
                   <TextField fx:id="medicalHistoryText" layoutX="427.0" layoutY="102.0" promptText="history" />
-                  <TextField fx:id="removeUserText" layoutX="645.0" layoutY="102.0" promptText="ID" />
+                  <TextField fx:id="removeUserText" layoutX="194.0" layoutY="249.0" promptText="ID" />
                </children>
             </AnchorPane>
          </children>

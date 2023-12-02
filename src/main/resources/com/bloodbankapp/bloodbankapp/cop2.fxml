@@ -14,7 +14,7 @@
    <children>
       <AnchorPane prefHeight="817.0" prefWidth="829.0" stylesheets="@style.css">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="19.0" layoutY="4.0" stroke="WHITE" strokeType="INSIDE" width="810.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="20.0" stroke="WHITE" strokeType="INSIDE" width="810.0" />
             <ListView fx:id="view" layoutX="72.0" layoutY="123.0" prefHeight="160.0" prefWidth="705.0" />
             <TextField fx:id="text" layoutX="124.0" layoutY="13.0" promptText="Enter User ID" />
             <Button layoutX="285.0" layoutY="12.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="112.0" stylesheets="@style.css" text="search history">
@@ -26,23 +26,16 @@
                <font>
                   <Font name="System Bold" size="24.0" />
                </font></Text>
-            <Text layoutX="26.0" layoutY="588.0" strokeType="OUTSIDE" strokeWidth="0.0" text="reports" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font></Text>
-            <Button layoutX="152.0" layoutY="562.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Show" />
-            <Button layoutX="152.0" layoutY="477.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Fill info" />
-            <Text layoutX="26.0" layoutY="502.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donate" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font>
-            </Text>
-            <Text layoutX="26.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Request" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font>
-            </Text>
-            <Button layoutX="152.0" layoutY="395.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
+            <Button layoutX="72.0" layoutY="496.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="112.0" styleClass="LoginButton" stylesheets="@style.css" text="reports" />
+            <Button layoutX="72.0" layoutY="446.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="112.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
+            <Button layoutX="72.0" layoutY="395.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="112.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
+            <TextField disable="true" layoutX="447.0" layoutY="401.0" prefHeight="26.0" prefWidth="150.0" promptText="ID" />
+            <TextField layoutX="447.0" layoutY="440.0" promptText="first name" />
+            <TextField layoutX="447.0" layoutY="483.0" promptText="last name" />
+            <TextField layoutX="447.0" layoutY="522.0" promptText="phone" />
+            <TextField layoutX="620.0" layoutY="401.0" prefHeight="26.0" prefWidth="183.0" promptText="email" />
+            <TextField layoutX="620.0" layoutY="439.0" prefHeight="26.0" prefWidth="183.0" promptText="address" />
+            <Button layoutX="620.0" layoutY="477.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="request modification" />
          </children>
       </AnchorPane>
    </children>

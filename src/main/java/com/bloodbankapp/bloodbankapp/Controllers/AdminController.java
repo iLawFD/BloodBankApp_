@@ -29,7 +29,7 @@ public class AdminController implements Initializable {
     public void loadData(){
         List<SystemUser> list ;
         try {
-            list = DataBase.getDataBase().getSystemUser();
+            list = DataBase.getDataBase().getSystemUsers();
 
 
             ID.setCellValueFactory(new PropertyValueFactory<Person,Integer>("ID"));
