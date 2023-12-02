@@ -3,15 +3,41 @@
 }
 
 .LoginButton {
-    -fx-background-color: linear-gradient(to bottom right,#4fa448, #0f504c); /* Set your desired background color */
-    -fx-border-radius: 5; /* Set the border radius to control the roundness of corners */
-    -fx-padding: 10; /* Add padding to the button for better appearance */
-    -fx-text-fill: white; /* Set the text color */
-}
-.searchButton {
-    -fx-background-color: linear-gradient(to bottom right, #bbacaf, #3d3939); /* Set your desired background color */
-    -fx-border-radius: 20; /* Set the border radius to control the roundness of corners */
-    -fx-padding: 5; /* Add padding to the button for better appearance */
-    -fx-text-fill: white; /* Set the text color */
+    -fx-background-color: linear-gradient(to bottom right, #4fa448, #0f504c);
+    -fx-padding: 10;
+    -fx-background-radius: 10; /* Set the background radius to control the roundness of corners */
+    -fx-text-fill: white;
 }
 
+.choiceButton {
+    -fx-background-color: linear-gradient(to bottom right, #a46448, #5b2e1f);
+    -fx-padding: 10;
+    -fx-background-radius: 10; /* Set the background radius to control the roundness of corners */
+    -fx-text-fill: white;
+}
+
+
+.deleteButton {
+    -fx-background-color: linear-gradient(to bottom right, #e00d56, #490629);
+    -fx-padding: 10;
+    -fx-background-radius: 10; /* Set the background radius to control the roundness of corners */
+    -fx-text-fill: white;
+}
+
+
+.searchButton {
+    -fx-background-color: linear-gradient(to bottom right, #bbacaf, #3d3939); /* Set your desired background color */
+    -fx-padding: 5; /* Add padding to the button for better appearance */
+    -fx-text-fill: white; /* Set the text color */
+    -fx-background-radius: 10; /* Set the background radius to control the roundness of corners */
+
+}
+
+
+
+
+.stack-pane {
+    -fx-background-color: linear-gradient(to bottom right, #4b1b22, rgba(26, 4, 8, 0.7));
+    -fx-background-radius: 20; /* Set the background radius to control the roundness of corners */
+    -fx-border-radius: 10 ; /* Rounded corners */
+}

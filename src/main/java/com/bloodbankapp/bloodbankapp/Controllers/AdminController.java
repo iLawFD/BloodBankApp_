@@ -24,7 +24,20 @@ public class AdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            Person currentUser = DataBase.getDataBase().getCurrentSystemUser();
+            adminIdText.setText(String.valueOf(currentUser.getID()));
+            adminAddressText.setText(currentUser.getAddress());
+            adminFirsttNameText.setText(currentUser.getFirstName());
+            adminLastNameText.setText(currentUser.getLastName());
+            adminOfficeNumberText.setText(String.valueOf(((Admin)currentUser).getOffice_number()));
+            adminPhoneText.setText(currentUser.getPhone_number());
+            adminEmailText.setText(currentUser.getEmail());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         loadData();
+
     }
     public void loadData(){
         List<SystemUser> list ;
@@ -122,6 +135,28 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<Person, String> bloodType;
 
+    @FXML
+    private TextField adminAddressText;
+
+    @FXML
+    private TextField adminEmailText;
+
+    @FXML
+    private TextField adminFirsttNameText;
+
+    @FXML
+    private TextField adminIdText;
+
+    @FXML
+    private TextField adminLastNameText;
+
+    @FXML
+    private TextField adminOfficeNumberText;
+
+    @FXML
+    private TextField adminPhoneText;
+
+
 
 
     @FXML
@@ -180,6 +215,7 @@ public class AdminController implements Initializable {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+        loadData();
 
     }
 
@@ -220,7 +256,6 @@ public class AdminController implements Initializable {
             alert.setHeaderText("new user information is edited");
             alert.setContentText("a message was send to user on email about the edits");
             alert.showAndWait();
-            loadData();
 
 
         }catch (Exception e){
@@ -233,6 +268,8 @@ public class AdminController implements Initializable {
 
 
         }
+        loadData();
+
     }
     private void searchFilter(){
         FilteredList<SystemUser> filterData= new FilteredList<>(systemUsers, e->true);

@@ -70,4 +70,15 @@ abstract public class Person {
     }
 
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "ID=" + ID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

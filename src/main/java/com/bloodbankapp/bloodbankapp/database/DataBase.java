@@ -22,6 +22,10 @@ public class DataBase {
 
     }
 
+    public Person getCurrentSystemUser() {
+        return currentSystemUser;
+    }
+
     public static DataBase getDataBase() throws SQLException{
         if(dataBase == null){
             dataBase = new DataBase();
@@ -42,10 +46,38 @@ public class DataBase {
         String personType = resultSet.getString("person_type");
         if ("admin".equals(personType)) {
             // create new admin object
-            currentSystemUser = new Admin();
+           ResultSet resultSetUSer = eQ("select * from person natural join admin where id = "+ID);
+           if(resultSetUSer.next()){
+               int id = resultSetUSer.getInt("id");
+               String firstName = resultSetUSer.getString("first_name");
+               String lastName = resultSetUSer.getString("last_name");
+               String address = resultSetUSer.getString("address");
+               String phoneNumber = resultSetUSer.getString("phone_number");
+               String email = resultSetUSer.getString("email");
+               int officeNumber = resultSetUSer.getInt("office_number");
+               currentSystemUser = new Admin(ID,firstName,lastName,address,phoneNumber,email,officeNumber);
+               System.out.println(currentSystemUser);
+
+
+           }
         } else if ("system_user".equals(personType)) {
             // create new system user object
-            currentSystemUser = new SystemUser();
+            ResultSet resultSetUSer = eQ("select * from person natural join system_user where id = "+ID);
+            if(resultSetUSer.next()){
+                int id = resultSetUSer.getInt("id");
+                String firstName = resultSetUSer.getString("first_name");
+                String lastName = resultSetUSer.getString("last_name");
+                String address = resultSetUSer.getString("address");
+                String phoneNumber = resultSetUSer.getString("phone_number");
+                String email = resultSetUSer.getString("email");
+                String bloodType = resultSetUSer.getString("blood_type");
+                String medicalHistory = resultSetUSer.getString("medical_history");
+                currentSystemUser = new SystemUser(ID,firstName,lastName,address,phoneNumber,email,bloodType,medicalHistory);
+                System.out.println(currentSystemUser);
+
+
+            }
+
         }
         return  currentSystemUser;
 
@@ -129,8 +161,8 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-            System.out.println(getDataBase().getDonationCountForCurrentWeek());
-        } catch (SQLException e){
+            DataBase.getDataBase().retrieveUserInfo(111);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -269,4 +301,6 @@ public class DataBase {
         return systemUsers;
 
     }
+
+
 }

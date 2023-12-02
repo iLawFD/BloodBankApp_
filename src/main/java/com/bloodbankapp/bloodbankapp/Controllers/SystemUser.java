@@ -25,4 +25,13 @@ public class SystemUser extends Person {
     public String getMedicalHistory() {
         return medicalHistory;
     }
+
+    @Override
+    public String toString() {
+
+        return super.toString()+"SystemUser{" +
+                "bloodType='" + bloodType + '\'' +
+                ", medicalHistory='" + medicalHistory + '\'' +
+                '}';
+    }
 }
