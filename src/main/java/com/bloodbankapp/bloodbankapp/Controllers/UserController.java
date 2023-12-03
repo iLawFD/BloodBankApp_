@@ -82,7 +82,6 @@ public class UserController implements Initializable {
     @FXML
     protected void search() throws IOException {
 
-
         String id = text.getText();
 
         System.out.println(id);

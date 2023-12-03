@@ -144,24 +144,28 @@ public class DataBase {
 
 
     }
-    void removeSystemUser(int id) throws SQLException{
-        String deleteQuery1 = "DELETE FROM person WHERE ID = ?";
-        String deleteQuery2 = "DELETE FROM system_user WHERE ID = ?";
-        String deleteQuery3 = "DELETE FROM Blood_product WHERE Donor_ID = ? OR Recipient_ID = ?";
-        String deleteQuery4 = "DELETE FROM Donor WHERE ID = ?";
-        String deleteQuery5 = "DELETE FROM Recipient WHERE ID = ?";
+    public void removeSystemUser(int id) throws SQLException{
+        String[] deleteQueries = {
+                "DELETE FROM User_Modification WHERE User_ID = ?",
+                "DELETE FROM Donor WHERE ID = ?",
+                "DELETE FROM Recipient WHERE ID = ?",
+                "DELETE FROM System_user WHERE ID = ?",
+                "DELETE FROM Person WHERE ID = ?",
+                "DELETE FROM Blood_product WHERE Donor_ID = ?"
+        };
+        for(String query : deleteQueries){
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }
 
 
 
-//        PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-//        preparedStatement.setInt(1, id);
-//
-//        int rowsAffected = preparedStatement.executeUpdate();
     }
 
     public static void main(String[] args) {
         try {
-            DataBase.getDataBase().retrieveUserInfo(111);
+            DataBase.getDataBase().removeSystemUser(3);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -186,7 +190,7 @@ public class DataBase {
     }
     // this function returns a formatted string of a searched user, used in the search bar
     public String searchUser(int ID) throws SQLException{
-        String query1 = "SELECT * FROM Person P JOIN System_user S ON S.ID = " + ID + " WHERE P.person_type <> 'admin'";
+        String query1 = "SELECT * FROM system_user natural JOIN person where Id = " + ID;
         String query2 = "";
         ResultSet r1 = eQ(query1);
         r1.next();
@@ -299,6 +303,16 @@ public class DataBase {
 
         }
         return systemUsers;
+
+    }
+
+    public String getEmail(int ID) throws SQLException {
+        ResultSet resultSet = eQ("select id from person where id= "+ID);
+        if(resultSet.next()){
+            return  resultSet.getString("email");
+        }
+
+        return  "";
 
     }
 

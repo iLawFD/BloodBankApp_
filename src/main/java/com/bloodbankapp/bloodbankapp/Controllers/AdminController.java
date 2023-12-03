@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.w3c.dom.events.EventException;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -155,6 +157,8 @@ public class AdminController implements Initializable {
 
     @FXML
     private TextField adminPhoneText;
+    @FXML
+    private TextField removeUserText;
 
 
 
@@ -308,9 +312,73 @@ public class AdminController implements Initializable {
 
     @FXML
     private void removeUser(){
+        try{
+            if(removeUserText.getText().isEmpty() ){
+                throw new RuntimeException("");
+
+            }else{
+                DataBase.getDataBase().removeSystemUser(Integer.parseInt(removeUserText.getText()));
+                String email  = DataBase.getDataBase().getEmail(Integer.parseInt(removeUserText.getText()));
+                EmailSender.getEmailSender().SendMessage(
+                        email,
+                        "Your account is removed",
+                        "your account is removed from our system. sorry"
+                );
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("remove is done");
+                alert.setHeaderText("remove user is removed");
+                alert.setContentText("an email was send to the user to tell him you were removed from the system");
+                alert.showAndWait();
+            }
+
+        }catch (SQLException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("remove is failed");
+            alert.setHeaderText("remove user is not removed");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("remove is failed");
+            alert.setHeaderText("remove user is not removed");
+            alert.setContentText("you did not enter the ID");
+            alert.showAndWait();
+
+        }
+    }
+
+    @FXML
+    protected void showUserHistory() throws IOException {
+
+        String id = IDText.getText();
+
+        try{
+            String info = DataBase.getDataBase().searchUser(Integer.parseInt(id));
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("Info: ");
+
+            alert.setContentText(info);
+            alert.showAndWait();
+
+
+        } catch (SQLException e) {
+
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input Error");
+            alert.setHeaderText("The given ID does not exsist  ");
+            alert.setContentText("Please make sure of your ID! ");
+            alert.showAndWait();
+            return;
+        }
 
 
     }
+
 
 
 }
