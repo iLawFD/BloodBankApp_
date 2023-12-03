@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class MainApplication extends Application {
 
-    private static Person currentUser;
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("login-view.fxml"));
@@ -30,11 +29,5 @@ public class MainApplication extends Application {
 
     }
 
-    public static Person getCurrentUser() {
-        return currentUser;
-    }
 
-    public static void setCurrentUser(Person currentUser) {
-        MainApplication.currentUser = currentUser;
-    }
 }

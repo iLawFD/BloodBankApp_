@@ -30,8 +30,8 @@
                </font></Text>
             <Button layoutX="40.0" layoutY="626.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="213.0" styleClass="LoginButton" stylesheets="@style.css" text="Reports" />
             <Button layoutX="40.0" layoutY="675.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="213.0" styleClass="choiceButton" stylesheets="@style.css" text="Request" />
-            <ListView layoutX="26.0" layoutY="276.0" prefHeight="222.0" prefWidth="307.0" />
-            <Text layoutX="40.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
+            <ListView fx:id="modViewList" layoutX="26.0" layoutY="276.0" prefHeight="222.0" prefWidth="307.0" />
+            <Text fx:id="modificationListView" layoutX="40.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

@@ -307,7 +307,7 @@ public class DataBase {
     }
 
     public String getEmail(int ID) throws SQLException {
-        ResultSet resultSet = eQ("select id from person where id= "+ID);
+        ResultSet resultSet = eQ("select * from person where id= "+ID);
         if(resultSet.next()){
             return  resultSet.getString("email");
         }
@@ -316,5 +316,88 @@ public class DataBase {
 
     }
 
+    public String getNewEmail(int ID) throws SQLException {
+        ResultSet resultSet = eQ("select * from user_modification where user_id= "+ID);
+        if(resultSet.next()){
+            return  resultSet.getString("new_email");
+        }
+
+        return  "";
+
+    }
+
+    public void requestModification(int ID,String firstName,String lastName, String phone, String address, String bloodType, String medicalHistory, String email) throws SQLException {
+
+        String sql = "INSERT INTO User_Modification (User_ID, New_First_Name, New_Last_Name, New_Address, " +
+                "New_Phone_Number, New_Email, New_Blood_Type, New_Medical_History, Status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setInt(1, ID);
+        preparedStatement.setString(2, firstName);
+        preparedStatement.setString(3, lastName);
+        preparedStatement.setString(4, address);
+        preparedStatement.setString(5, phone);
+        preparedStatement.setString(6, email);
+        preparedStatement.setString(7, bloodType);
+        preparedStatement.setString(8, medicalHistory);
+        preparedStatement.setString(9, "pending");
+
+        int rowsAffected = preparedStatement.executeUpdate();
+
+    }
+    public void endCurrentUserSession(){
+        currentSystemUser = null;
+    }
+
+//    public
+
+    public void acceptModification(int ID) throws SQLException {
+        String updatePersonQuery = "UPDATE user_modification " +"SET status = ? where modification_id ="+ID;
+        PreparedStatement preparedStatementPerson = connection.prepareStatement(updatePersonQuery);
+        preparedStatementPerson.setString(1, "approved");
+        int rowsAffectedPerson = preparedStatementPerson.executeUpdate();
+        String getSql = "SELECT * FROM user_modification WHERE modification_id ="+ID;
+        ResultSet resultSet =  eQ(getSql);
+
+        if(resultSet.next()){
+            int userid = resultSet.getInt("user_id");
+            String firstName = resultSet.getString("new_first_name");
+            String lastName = resultSet.getString("new_last_name");
+            String address = resultSet.getString("new_address");
+            String phoneNumber = resultSet.getString("new_phone_number");
+            String email = resultSet.getString("new_email");
+            String bloodType = resultSet.getString("new_blood_type");
+            String newMedicalHistory = resultSet.getString("new_medical_history");
+
+            updateUser(userid,firstName,lastName,address,phoneNumber,email,bloodType,newMedicalHistory);
+
+        }
+
+
+    }
+    public void rejectModification(int id) throws SQLException {
+        String updatePersonQuery = "UPDATE user_modification " +"SET status = ?";
+        PreparedStatement preparedStatementPerson = connection.prepareStatement(updatePersonQuery);
+        preparedStatementPerson.setString(1, "rejected");
+        int rowsAffectedPerson = preparedStatementPerson.executeUpdate();
+
+    }
+
+
+    public List<List<String>>  getRequests() throws SQLException {
+        List<List<String>> requests = new ArrayList<>();
+
+        ResultSet resultSet =  eQ("SELECT * FROM user_modification WHERE status = 'pending'");
+
+        while (resultSet.next()){
+            ArrayList<String> request  = new ArrayList<>();
+            request.add(String.valueOf(resultSet.getInt("modification_id")));
+            request.add(String.valueOf(resultSet.getInt("user_id")));
+            requests.add(request);
+        }
+
+        return requests;
+    }
 
 }

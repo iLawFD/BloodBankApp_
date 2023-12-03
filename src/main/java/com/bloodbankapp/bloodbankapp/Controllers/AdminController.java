@@ -9,20 +9,24 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.w3c.dom.events.EventException;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 
 public class AdminController implements Initializable {
-    ObservableList<SystemUser> systemUsers;
+    private ObservableList<SystemUser> systemUsers;
+
+    private ObservableList<HBox> systemUserRequestBoxes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,6 +39,11 @@ public class AdminController implements Initializable {
             adminOfficeNumberText.setText(String.valueOf(((Admin)currentUser).getOffice_number()));
             adminPhoneText.setText(currentUser.getPhone_number());
             adminEmailText.setText(currentUser.getEmail());
+
+            // loading the reqeust
+            systemUserRequestBoxes = getUserRequest();
+            modViewList.setItems(systemUserRequestBoxes);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +74,8 @@ public class AdminController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-
+    @FXML
+    private ListView<HBox> modViewList;
     @FXML
     private TableColumn<Person, Integer> ID;
 
@@ -121,6 +131,7 @@ public class AdminController implements Initializable {
 
     @FXML
     private ListView<?> view;
+
 
     @FXML
     void reports(ActionEvent event) {
@@ -376,9 +387,54 @@ public class AdminController implements Initializable {
             return;
         }
 
+    }
+    private ObservableList<HBox> getUserRequest(){
+        ArrayList<HBox> userreuestbox = new ArrayList<>();
+        try {
+            List<List<String>> requests = DataBase.getDataBase().getRequests();
+            for(List<String> request : requests){
+                HBox hBox = new HBox(50);
+                hBox.setAlignment(Pos.CENTER);
+                Button button = new Button("Accept");
+                button.setMaxWidth(Double.MAX_VALUE);
+                button.setPrefSize(80, 20);
+                button.getStyleClass().add("deleteButton");
+                button.setOnAction(e -> {
+                    systemUserRequestBoxes.remove(hBox);
+                    modViewList.setItems(systemUserRequestBoxes);
+                    try {
+                        DataBase.getDataBase().acceptModification(Integer.parseInt(request.get(0)));
+                        String email = DataBase.getDataBase().getNewEmail(Integer.parseInt(request.get(1)));
+                        EmailSender.getEmailSender().SendMessage(
+                                email,
+                                "modification is accepted",
+                                "your information is updated you can check now"
+
+                        );
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("process id done");
+                        alert.setHeaderText("The information is updated  ");
+                        alert.setContentText("An email wes sent to the user");
+                        alert.showAndWait();
+
+                    } catch (SQLException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+
+                });
+                Label label1 = new Label("request :"+request.get(0));
+                Label label2 = new Label("user ID: " + request.get(1));
+                hBox.getChildren().addAll(label1, label2, button);
+                userreuestbox.add(hBox);
+            }
+
+            return FXCollections.observableArrayList(userreuestbox);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
-
-
 
 }

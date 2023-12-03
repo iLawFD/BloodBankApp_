@@ -55,9 +55,9 @@ public class HelloController {
 
                 String text1 = text.getText();
                 try {
-                    MainApplication.setCurrentUser((Person) DataBase.getDataBase().retrieveUserInfo(Integer.parseInt(text1)));
+                    Person currentUser =  DataBase.getDataBase().retrieveUserInfo(Integer.parseInt(text1));
 
-                    if(MainApplication.getCurrentUser() instanceof Admin){
+                    if(currentUser instanceof Admin){
                         fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/admin.fxml"));
                     }else{
                         fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/cop2.fxml"));
