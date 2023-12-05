@@ -8,11 +8,15 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -435,6 +439,31 @@ public class AdminController implements Initializable {
             throw new RuntimeException(e);
         }
 
+    }
+    @FXML
+    private void signOut (ActionEvent event){
+        try {
+            DataBase.getDataBase().endCurrentUserSession();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/login-view.fxml"));
+
+            Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+            stage.setScene(scene2);
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    private void goToReports (ActionEvent event){
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/dashboard.fxml"));
+
+            Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+            stage.setScene(scene2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

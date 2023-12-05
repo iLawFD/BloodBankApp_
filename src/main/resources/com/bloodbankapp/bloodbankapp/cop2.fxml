@@ -27,9 +27,9 @@
                   <Font name="System Bold" size="24.0" />
                </font></Text>
             <Button layoutX="72.0" layoutY="496.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="choiceButton" stylesheets="@style.css" text="reports" />
-            <Button layoutX="72.0" layoutY="446.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
-            <Button layoutX="72.0" layoutY="395.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
-            <Button layoutX="72.0" layoutY="544.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
+            <Button layoutX="72.0" layoutY="446.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
+            <Button layoutX="72.0" layoutY="395.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
+            <Button layoutX="72.0" layoutY="544.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="183.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="762.0" prefWidth="700.0" styleClass="stack-pane" stylesheets="@style.css">

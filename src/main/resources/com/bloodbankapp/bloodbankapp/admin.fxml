@@ -28,7 +28,7 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Text>
-            <Button layoutX="40.0" layoutY="626.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="213.0" styleClass="LoginButton" stylesheets="@style.css" text="Reports" />
+            <Button layoutX="40.0" layoutY="626.0" mnemonicParsing="false" onAction="#goToReports" prefHeight="38.0" prefWidth="213.0" styleClass="LoginButton" stylesheets="@style.css" text="Reports" />
             <Button layoutX="40.0" layoutY="675.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="213.0" styleClass="choiceButton" stylesheets="@style.css" text="Request" />
             <ListView fx:id="modViewList" layoutX="26.0" layoutY="276.0" prefHeight="222.0" prefWidth="307.0" />
             <Text fx:id="modificationListView" layoutX="40.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
@@ -36,7 +36,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Text>
-            <Button layoutX="40.0" layoutY="720.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="213.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
+            <Button layoutX="40.0" layoutY="720.0" mnemonicParsing="false" onAction="#signOut" prefHeight="37.0" prefWidth="213.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
          </children>
       </AnchorPane>
       <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fillUserInfo" prefHeight="769.0" prefWidth="1217.0" spacing="20.0" stylesheets="@style.css">

@@ -202,6 +202,23 @@ public class UserController implements Initializable {
     }
 
 
+    @FXML
+    private void signOut (ActionEvent event){
+        try {
+            DataBase.getDataBase().endCurrentUserSession();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/login-view.fxml"));
+
+            Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+            stage.setScene(scene2);
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 
 
 
