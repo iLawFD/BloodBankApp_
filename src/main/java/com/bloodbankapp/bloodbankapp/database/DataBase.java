@@ -1,10 +1,7 @@
 package com.bloodbankapp.bloodbankapp.database;
-
-
 import com.bloodbankapp.bloodbankapp.Controllers.Admin;
 import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
-
 import java.sql.*;
 import java.util.*;
 
@@ -57,7 +54,6 @@ public class DataBase {
                int officeNumber = resultSetUSer.getInt("office_number");
                currentSystemUser = new Admin(ID,firstName,lastName,address,phoneNumber,email,officeNumber);
                System.out.println(currentSystemUser);
-
 
            }
         } else if ("system_user".equals(personType)) {
@@ -398,6 +394,14 @@ public class DataBase {
         }
 
         return requests;
+    }
+    // for the recip
+    public void requestBlood(){
+        String checkingQuery = "SELECT * FROM system_user where Id " + currentSystemUser.getID();
+    }
+    // for the donor
+    public void donateBlood(){
+
     }
 
 }
