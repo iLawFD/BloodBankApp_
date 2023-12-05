@@ -1,8 +1,7 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
+import com.bloodbankapp.bloodbankapp.MainApplication;
 import com.bloodbankapp.bloodbankapp.database.DataBase;
-import com.bloodbankapp.bloodbankapp.database.Main;
-import com.bloodbankapp.bloodbankapp.database.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,12 +51,19 @@ public class HelloController {
             Scene scene = win.getScene();
             if (scene != null) {
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/cop2.fxml"));
+                FXMLLoader  fxmlLoader2;
 
-                Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
                 String text1 = text.getText();
                 try {
-                    Person person = (Person) DataBase.getDataBase().retrieveUserInfo(Integer.parseInt(text1));
+                    Person currentUser =  DataBase.getDataBase().retrieveUserInfo(Integer.parseInt(text1));
+
+                    if(currentUser instanceof Admin){
+                        fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/admin.fxml"));
+                    }else{
+                        fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/cop2.fxml"));
+                    }
+
+
                 } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
 
@@ -67,6 +73,8 @@ public class HelloController {
                     alert.showAndWait();
                     return;
                 }
+                Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+
                 stage.setScene(scene2);
             }
         }

@@ -4,59 +4,47 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.UserController">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1299.0" spacing="30.0" styleClass="loginStyle" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.UserController">
    <children>
-      <AnchorPane prefHeight="434.0" prefWidth="635.0" stylesheets="@style.css">
+      <AnchorPane prefHeight="817.0" prefWidth="829.0" stylesheets="@style.css">
          <children>
-            <ImageView fitHeight="401.0" fitWidth="754.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/maxresdefault.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="64.0" fitWidth="67.0" layoutX="690.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/hospital.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="386.0" layoutX="86.0" layoutY="4.0" stroke="WHITE" strokeType="INSIDE" width="487.0" />
-            <ListView fx:id="view" layoutX="121.0" layoutY="99.0" prefHeight="182.0" prefWidth="409.0" />
-            <TextField fx:id="text" layoutX="258.0" layoutY="13.0" promptText="Enter User ID" />
-            <Button layoutX="421.0" layoutY="13.0" mnemonicParsing="false" onAction="#search" prefHeight="14.0" prefWidth="70.0" stylesheets="@style.css" text="search">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="20.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
+            <ListView fx:id="view" layoutX="45.0" layoutY="122.0" prefHeight="244.0" prefWidth="696.0" />
+            <TextField fx:id="text" layoutX="124.0" layoutY="13.0" promptText="Enter User ID" />
+            <Button layoutX="285.0" layoutY="12.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="112.0" stylesheets="@style.css" text="search history">
                <styleClass>
                   <String fx:value="loginStyle" />
-                  <String fx:value="LoginButton" />
+                  <String fx:value="searchButton" />
                </styleClass></Button>
-            <Text layoutX="271.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All requests" textAlignment="CENTER" wrappingWidth="149.60000000000014">
+            <Text layoutX="124.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All requests" textAlignment="CENTER" wrappingWidth="149.60000000000014">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font></Text>
-            <Text layoutX="471.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="reports" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font></Text>
-            <Button layoutX="478.0" layoutY="327.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Show" />
-            <Button layoutX="315.0" layoutY="327.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Fill info" />
-            <Text layoutX="306.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Donate" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font>
-            </Text>
-            <Text layoutX="115.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Request" textAlignment="CENTER" wrappingWidth="112.2633056640625">
-               <font>
-                  <Font name="Courier New" size="23.0" />
-               </font>
-            </Text>
-            <Button layoutX="124.0" layoutY="327.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="94.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
+            <Button layoutX="72.0" layoutY="496.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="choiceButton" stylesheets="@style.css" text="reports" />
+            <Button layoutX="72.0" layoutY="446.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
+            <Button layoutX="72.0" layoutY="395.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
+            <Button layoutX="72.0" layoutY="544.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
          </children>
       </AnchorPane>
-      <ListView prefHeight="200.0" prefWidth="200.0" />
+      <AnchorPane prefHeight="762.0" prefWidth="700.0" styleClass="stack-pane" stylesheets="@style.css">
+         <children>
+            <TextField fx:id="userIDText" disable="true" layoutX="32.0" layoutY="66.0" prefHeight="26.0" prefWidth="150.0" promptText="ID" />
+            <TextField fx:id="userFirstNameText" disable="true" layoutX="33.0" layoutY="109.0" promptText="first name" />
+            <TextField fx:id="userEmailText" disable="true" layoutX="200.0" layoutY="66.0" prefHeight="26.0" prefWidth="183.0" promptText="email" />
+            <TextField fx:id="userPhoneText" disable="true" layoutX="32.0" layoutY="146.0" promptText="phone" />
+            <TextField fx:id="userLastNameText" disable="true" layoutX="200.0" layoutY="109.0" prefHeight="25.0" prefWidth="183.0" promptText="last name" />
+            <Button layoutX="32.0" layoutY="267.0" mnemonicParsing="false" onAction="#requestModification" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="request modification" />
+            <TextField fx:id="userAddressText" disable="true" layoutX="200.0" layoutY="146.0" prefHeight="26.0" prefWidth="183.0" promptText="address" />
+            <TextField fx:id="userBloodTypeText" disable="true" layoutX="32.0" layoutY="186.0" promptText="blood type" />
+            <TextField fx:id="userHistoryText" disable="true" layoutX="200.0" layoutY="186.0" prefHeight="25.0" prefWidth="183.0" promptText="medical hostory" />
+            <Button fx:id="editButton" layoutX="33.0" layoutY="223.0" mnemonicParsing="false" onAction="#enableEdit" prefHeight="27.0" prefWidth="120.0" styleClass="searchButton" stylesheets="@style.css" text="edit information" />
+         </children>
+      </AnchorPane>
    </children>
 </HBox>

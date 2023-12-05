@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1628.0" spacing="15.0" styleClass="loginStyle" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.AdminController">
+   <children>
+      <AnchorPane prefHeight="800.0" prefWidth="365.0" stylesheets="@style.css">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="763.0" layoutX="14.0" layoutY="14.0" stroke="WHITE" strokeType="INSIDE" width="337.0" />
+            <ListView fx:id="view" layoutX="40.0" layoutY="112.0" prefHeight="125.0" prefWidth="254.0" />
+            <TextField fx:id="historyText" layoutX="50.0" layoutY="27.0" promptText="Enter User ID" />
+            <Text layoutX="40.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All requests" textAlignment="CENTER" wrappingWidth="149.60000000000014">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Text>
+            <Button layoutX="40.0" layoutY="626.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="213.0" styleClass="LoginButton" stylesheets="@style.css" text="Reports" />
+            <Button layoutX="40.0" layoutY="675.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="213.0" styleClass="choiceButton" stylesheets="@style.css" text="Request" />
+            <ListView fx:id="modViewList" layoutX="26.0" layoutY="276.0" prefHeight="222.0" prefWidth="307.0" />
+            <Text fx:id="modificationListView" layoutX="40.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
+            <Button layoutX="40.0" layoutY="720.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="213.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
+         </children>
+      </AnchorPane>
+      <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fillUserInfo" prefHeight="769.0" prefWidth="1217.0" spacing="20.0" stylesheets="@style.css">
+         <children>
+            <HBox prefHeight="38.0" prefWidth="940.0" spacing="20.0">
+               <children>
+                  <TextField fx:id="searchPersonText" prefHeight="31.0" prefWidth="440.0" promptText="search person" />
+                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" styleClass="searchButton" text="search" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <TableView fx:id="personTableView" onMouseClicked="#fillUserInfo" prefHeight="350.0" prefWidth="941.0" stylesheets="@style.css">
+               <columns>
+                  <TableColumn fx:id="ID" prefWidth="49.0" text="ID" />
+                  <TableColumn fx:id="firstName" prefWidth="103.0" text="firstName" />
+                  <TableColumn fx:id="lastName" prefWidth="99.0" text="lastName" />
+                  <TableColumn fx:id="address" prefWidth="132.0" text="address" />
+                  <TableColumn fx:id="phoneNumber" prefWidth="188.0" text="phoneNumber" />
+                  <TableColumn fx:id="email" prefWidth="252.0" text="email" />
+                  <TableColumn fx:id="bloodType" prefWidth="118.0" text="blood type" />
+                  <TableColumn fx:id="medicalHistory" prefWidth="156.0" text="medical history" />
+               </columns>
+            </TableView>
+            <AnchorPane onMouseClicked="#fillUserInfo" prefHeight="322.0" prefWidth="1092.0" styleClass="stack-pane" stylesheets="@style.css">
+               <children>
+                  <TextField fx:id="IDText" layoutX="45.0" layoutY="77.0" promptText="ID" />
+                  <TextField fx:id="addressText" layoutX="45.0" layoutY="114.0" promptText="address" />
+                  <TextField fx:id="firstNameText" layoutX="213.0" layoutY="77.0" promptText="first name" />
+                  <TextField fx:id="phoneText" layoutX="213.0" layoutY="149.0" promptText="phone number" />
+                  <TextField fx:id="emailText" layoutX="45.0" layoutY="149.0" promptText="email" />
+                  <Button layoutX="46.0" layoutY="198.0" mnemonicParsing="false" onAction="#insertNewSystemUser" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="add user" />
+                  <Button layoutX="173.0" layoutY="198.0" mnemonicParsing="false" onAction="#updateUserInfo" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="update data" />
+                  <Button layoutX="46.0" layoutY="262.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="37.0" prefWidth="108.0" styleClass="choiceButton" text="remove user" />
+                  <TextField fx:id="lastNameText" layoutX="213.0" layoutY="114.0" promptText="last name" />
+                  <TextField fx:id="bloodTypeText" layoutX="382.0" layoutY="77.0" promptText="blood type (if new user)" />
+                  <TextField fx:id="medicalHistoryText" layoutX="382.0" layoutY="114.0" promptText="history" />
+                  <TextField fx:id="removeUserText" layoutX="173.0" layoutY="268.0" promptText="ID" />
+                  <TextField fx:id="adminIdText" disable="true" layoutX="798.0" layoutY="50.0" promptText="ssn" />
+                  <ImageView fitHeight="62.0" fitWidth="59.0" layoutX="1026.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Admin-Profile-Vector-PNG-Clipart.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="adminFirsttNameText" layoutX="798.0" layoutY="90.0" promptText="first name" />
+                  <TextField fx:id="adminLastNameText" layoutX="956.0" layoutY="90.0" promptText="last name" />
+                  <TextField fx:id="adminPhoneText" layoutX="798.0" layoutY="127.0" promptText="phone" />
+                  <TextField fx:id="adminEmailText" layoutX="956.0" layoutY="127.0" promptText="email" />
+                  <TextField fx:id="adminAddressText" layoutX="798.0" layoutY="162.0" promptText="address" />
+                  <TextField fx:id="adminOfficeNumberText" layoutX="956.0" layoutY="162.0" promptText="office number" />
+                  <Button layoutX="798.0" layoutY="198.0" mnemonicParsing="false" onAction="#updateUserInfo" prefHeight="37.0" prefWidth="108.0" styleClass="LoginButton" text="update data" />
+                  <Label layoutX="46.0" layoutY="14.0" prefHeight="27.0" prefWidth="283.0" text="System User Information" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="798.0" layoutY="14.0" prefHeight="27.0" prefWidth="166.0" text="Your Information" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="382.0" layoutY="156.0" mnemonicParsing="false" onAction="#showUserHistory" prefHeight="37.0" prefWidth="149.0" stylesheets="@style.css" text="Show History">
+                     <styleClass>
+                        <String fx:value="loginStyle" />
+                        <String fx:value="searchButton" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+         <padding>
+            <Insets right="100.0" />
+         </padding>
+      </VBox>
+   </children>
+</HBox>
