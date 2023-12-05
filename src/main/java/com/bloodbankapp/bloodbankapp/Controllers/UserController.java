@@ -49,7 +49,7 @@ public class UserController implements Initializable {
 
 
         } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
+            System.out.println((e.getMessage()));
         }
 
 
