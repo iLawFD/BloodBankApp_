@@ -13,6 +13,8 @@ public class DataBase {
     private static DataBase dataBase;
     private Person currentSystemUser;
     private final Connection connection;
+
+
     private DataBase() throws SQLException {
         String url = "jdbc:postgresql://ep-empty-thunder-47709051.us-east-2.aws.neon.tech/blood%20bank%20system?user" +
                 "=icsdatabase2&password=MNtaxLy0oFY6&sslmode=require";
@@ -246,6 +248,30 @@ public class DataBase {
 
 
     }
+
+    public String showBloodInfo() throws SQLException {
+
+
+        String query = "SELECT * FROM Blood_product WHERE DONOR_ID IS NULL";
+        Statement s1 = connection.createStatement();
+        ResultSet r1 = s1.executeQuery(query);
+        String str = "";
+
+
+
+            str +="Date: "+  r1.getString("Date") + " ";
+            str+= "Type: "+ r1.getString("Blood_type") + " ";
+            str+= "Rec ID " + r1.getString("recipient_id");
+            str += "\n\n";
+
+
+
+        return str;
+
+
+    }
+
+
 
     private ResultSet eQ(String sqlQuery) throws SQLException {
         Statement statement = connection.createStatement();

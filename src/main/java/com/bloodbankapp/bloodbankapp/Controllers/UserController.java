@@ -1,4 +1,6 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
+import java.time.LocalDate;
+
 import com.bloodbankapp.bloodbankapp.database.DataBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -85,6 +88,13 @@ public class UserController implements Initializable {
     @FXML
     private TextField userBloodTypeText;
 
+    @FXML
+    private TextField  text1;
+    @FXML
+    private Button b1;
+
+    @FXML
+    private TextField  text2;
 
     @FXML
     protected void reports(ActionEvent event) throws IOException, SQLException {
@@ -142,6 +152,37 @@ public class UserController implements Initializable {
 
     @FXML
     protected void request(ActionEvent event) throws IOException, SQLException {
+        text1.setOpacity(1);
+        b1.setOpacity(1);
+
+
+
+
+
+
+
+    }
+
+    @FXML
+    protected void submit() throws IOException, SQLException {
+
+
+
+        SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
+
+
+        LocalDate today = LocalDate.now();
+
+        String str = "";
+
+
+
+
+        str +="Date: "+  (today) + " ";
+        str+= "Type: "+ (currentSystemUser.getBloodType()) + " ";
+        str+= "Rec ID " + (currentSystemUser.getID());
+        str += "\n\n";
+
 
 
 
@@ -151,6 +192,13 @@ public class UserController implements Initializable {
         alert.setHeaderText("The given ID does not exsist  ");
         alert.setContentText("Please make sure of your ID! ");
         alert.showAndWait();
+        view.getItems().add(str);
+
+
+
+
+
+
     }
     @FXML
     protected void enableEdit(){
@@ -215,6 +263,9 @@ public class UserController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+
+
 
 
 

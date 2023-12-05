@@ -34,7 +34,7 @@
             </Label>
             <PasswordField fx:id="text" layoutX="84.0" layoutY="148.0" prefHeight="25.0" prefWidth="201.0" promptText="SSN number" />
             <Button fx:id="b1" layoutX="84.0" layoutY="198.0" mnemonicParsing="false" onAction="#translate" prefHeight="37.0" prefWidth="201.0" styleClass="LoginButton" stylesheets="@style.css" text="Login" />
-            <Button fx:id="b2" layoutX="83.0" layoutY="258.0" mnemonicParsing="false" onAction="#translate" prefHeight="37.0" prefWidth="201.0" styleClass="LoginButton" stylesheets="@style.css" text="Join as guest" />
+            <Button fx:id="b2" layoutX="83.0" layoutY="258.0" mnemonicParsing="false" onAction="#translate2" prefHeight="37.0" prefWidth="201.0" styleClass="LoginButton" stylesheets="@style.css" text="Join as guest" />
          </children>
       </AnchorPane>
    </children>
