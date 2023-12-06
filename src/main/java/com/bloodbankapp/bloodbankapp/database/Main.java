@@ -1,12 +1,12 @@
 package com.bloodbankapp.bloodbankapp.database;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 
 
 public class Main {
     public static void main(String[] args) {
+        LocalDate l = LocalDate.now();
+        System.out.println(l);
         try {
             Class.forName("org.postgresql.Driver");
 

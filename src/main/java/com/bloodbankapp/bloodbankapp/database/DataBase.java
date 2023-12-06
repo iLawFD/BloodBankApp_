@@ -3,6 +3,7 @@ import com.bloodbankapp.bloodbankapp.Controllers.Admin;
 import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DataBase {
@@ -364,9 +365,7 @@ public class DataBase {
         preparedStatement.setString(7, bloodType);
         preparedStatement.setString(8, medicalHistory);
         preparedStatement.setString(9, "pending");
-
-        int rowsAffected = preparedStatement.executeUpdate();
-
+        preparedStatement.executeUpdate();
     }
     public void endCurrentUserSession(){
         currentSystemUser = null;
@@ -422,8 +421,45 @@ public class DataBase {
         return requests;
     }
     // for the recip
-    public void requestBlood(){
-        String checkingQuery = "SELECT * FROM system_user where Id " + currentSystemUser.getID();
+    public void requestBlood(int amount)throws SQLException{
+        String checkingQuery = "INSERT INTO recipient (id) VALUES (?)";
+        String insertingBloodProduct = "INSERT INTO blood_product (recipient_blood_type, recipient_id, blood_statues, data) VALUES (?, ?, ?, ?)";
+        SystemUser recipient = (SystemUser) retrieveUserInfo(currentSystemUser.getID());
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(checkingQuery);
+            preparedStatement.setInt(1, recipient.getID());
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+
+        }finally {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertingBloodProduct);
+            preparedStatement.setString(1, recipient.getBloodType());
+            preparedStatement.setInt(2, recipient.getID());
+            preparedStatement.setString(3, "Requested");
+            preparedStatement.setString(4, LocalDate.now().toString());
+            preparedStatement.executeUpdate();
+        }
+    }
+    // for the donor
+    public void donateBlood2(int amount) throws SQLException{
+        String checkingQuery = "INSERT INTO donor (User_ID) VALUES (?)";
+        String insertingBloodProduct = "INSERT INTO blood_product (donor_blood_type, amount_blood_donated, donor_id, blood_statues, data) VALUES (?, ?, ?, ?, ?)";
+        SystemUser recipient = (SystemUser) retrieveUserInfo(currentSystemUser.getID());
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(checkingQuery);
+            preparedStatement.setInt(1, recipient.getID());
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+
+        }finally {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertingBloodProduct);
+            preparedStatement.setString(1, recipient.getBloodType());
+            preparedStatement.setInt(2, amount);
+            preparedStatement.setInt(3, recipient.getID());
+            preparedStatement.setString(4, "Donated");
+            preparedStatement.setString(5, LocalDate.now().toString());
+            preparedStatement.executeUpdate();
+        }
     }
     // for the donor
     public void donateBlood(){
