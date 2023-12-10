@@ -423,7 +423,47 @@ public class DataBase {
     }
     // for the recip
     public void requestBlood(){
-        String checkingQuery = "SELECT * FROM system_user where Id " + currentSystemUser.getID();
+        String checkingQuery = "";
+    }
+
+    public void createRequest(){
+        String checkingQuery = "";
+    }
+
+
+    public void createPayments() throws SQLException {
+        int amount = 0;
+        int id = getCurrentSystemUser().getID();
+        ResultSet resultSet =  eQ("SELECT Blood_type FROM System_user WHERE ID=" + id);
+        String bloodType =  resultSet.getString("Blood_type");
+
+        if ("A+".equals(bloodType)) {
+            amount = 100;
+        } else if ("A-".equals(bloodType)) {
+            amount = 120;
+        } else if ("B+".equals(bloodType)) {
+            amount = 100;
+        } else if ("B-".equals(bloodType)) {
+            amount = 150;
+        } else if ("AB+".equals(bloodType)) {
+            amount = 180;
+        } else if ("AB-".equals(bloodType)) {
+            amount = 200;
+        } else if ("O+".equals(bloodType)) {
+            amount = 90;
+        } else if ("O-".equals(bloodType)) {
+            amount = 220; // O- is often considered the universal donor and might be in higher demand
+        } else {
+            amount = 50; // Default amount if blood type doesn't match any of the above
+        }
+
+        // create payment with this ammount
+
+
+
+
+
+        String checkingQuery = "";
     }
     // for the donor
     public void donateBlood(){
