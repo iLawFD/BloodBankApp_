@@ -414,10 +414,8 @@ public class DataBase {
         preparedStatement.setString(3, bloodType);
         preparedStatement.setInt(4, currentSystemUser.getID());
         preparedStatement.executeUpdate();
-
         preparedStatement = connection.prepareStatement(queryUpdate);
         preparedStatement.executeUpdate();
-
         requestBlood();
     }
     //it fulfills the requests in the "recipient request table" by changing the status to completed
