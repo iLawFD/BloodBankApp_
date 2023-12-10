@@ -420,7 +420,7 @@ public class DataBase {
     }
     //it fulfills the requests in the "recipient request table" by changing the status to completed
     //and adding a new entry in the donation table
-    public void donate(){
+    public void donate(int ID){
 
     }
 
