@@ -3,6 +3,9 @@ import com.bloodbankapp.bloodbankapp.Controllers.Admin;
 import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
 import java.sql.*;
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DataBase {
@@ -159,12 +162,8 @@ public class DataBase {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            DataBase.getDataBase().removeSystemUser(3);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public static void main(String[] args) throws SQLException{
+        DataBase.getDataBase().createRequest("A+");
     }
 
 
@@ -399,9 +398,105 @@ public class DataBase {
     public void requestBlood(){
         String checkingQuery = "SELECT * FROM system_user where Id " + currentSystemUser.getID();
     }
+<<<<<<< HEAD
     // for the donor
     public void donateBlood(){
 
     }
 
+=======
+    //it creates request for the admin and them in the "admin request" table and "recipient request table"
+    public void createRequest(String bloodType) throws SQLException{
+        String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
+                "VALUES (?, ?, ?, ?)";
+        String queryUpdate = "UPDATE System_user set blood_type = "+ bloodType + " where id = " + currentSystemUser.getID();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,"Completed");
+        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setString(3, bloodType);
+        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.executeUpdate();
+
+        preparedStatement = connection.prepareStatement(queryUpdate);
+        preparedStatement.executeUpdate();
+
+        requestBlood();
+    }
+    //it fulfills the requests in the "recipient request table" by changing the status to completed
+    //and adding a new entry in the donation table
+    public void donate(int ID){
+
+    }
+
+    public void createPayments() throws SQLException {
+        int amount = 0;
+        int id = getCurrentSystemUser().getID();
+        ResultSet resultSet =  eQ("SELECT Blood_type FROM System_user WHERE ID=" + id);
+        String bloodType =  resultSet.getString("Blood_type");
+
+        if ("A+".equals(bloodType)) {
+            amount = 100;
+        } else if ("A-".equals(bloodType)) {
+            amount = 120;
+        } else if ("B+".equals(bloodType)) {
+            amount = 100;
+        } else if ("B-".equals(bloodType)) {
+            amount = 150;
+        } else if ("AB+".equals(bloodType)) {
+            amount = 180;
+        } else if ("AB-".equals(bloodType)) {
+            amount = 200;
+        } else if ("O+".equals(bloodType)) {
+            amount = 90;
+        } else if ("O-".equals(bloodType)) {
+            amount = 220; // O- is often considered the universal donor and might be in higher demand
+        } else {
+            amount = 50; // Default amount if blood type doesn't match any of the above
+        }
+        // create payment with this amount
+        String checkingQuery = "";
+    }
+    public static String[] checkBloodCompatibility(String bloodType) {
+        String[] acceptedBloodTypes;
+
+        // Check A+
+        if (bloodType.equals("A+")) {
+            acceptedBloodTypes = new String[]{"A+", "AB+"};
+        }
+        // Check A-
+        else if (bloodType.equals("A-")) {
+            acceptedBloodTypes = new String[]{"A+", "A-", "AB+", "AB-"};
+        }
+        // Check B+
+        else if (bloodType.equals("B+")) {
+            acceptedBloodTypes = new String[]{"B+", "AB+"};
+        }
+        // Check B-
+        else if (bloodType.equals("B-")) {
+            acceptedBloodTypes = new String[]{"B+", "B-", "AB+", "AB-"};
+        }
+        // Check AB+
+        else if (bloodType.equals("AB+")) {
+            acceptedBloodTypes = new String[]{"AB+"};
+        }
+        // Check AB-
+        else if (bloodType.equals("AB-")) {
+            acceptedBloodTypes = new String[]{"AB+", "AB-"};
+        }
+        // Check O+
+        else if (bloodType.equals("O+")) {
+            acceptedBloodTypes = new String[]{"A+", "B+", "AB+", "O+"};
+        }
+        // Check O-
+        else if (bloodType.equals("O-")) {
+            acceptedBloodTypes = new String[]{"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
+        }
+        // Default case
+        else {
+            acceptedBloodTypes = new String[0]; // Empty array for unknown blood types
+        }
+        return acceptedBloodTypes;
+    }
+
+>>>>>>> e0dcf2fbeb2a8997d344e3bca095b58e75c7e576
 }

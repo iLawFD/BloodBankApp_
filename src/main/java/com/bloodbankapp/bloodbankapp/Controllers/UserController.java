@@ -154,7 +154,7 @@ public class UserController implements Initializable {
     protected void request(ActionEvent event) throws IOException, SQLException {
         //text1.setOpacity(1);
         //b1.setOpacity(1);
-        DataBase.getDataBase().createRequest();
+        //DataBase.getDataBase().createRequest();
         DataBase.getDataBase().createPayments();
     }
 
