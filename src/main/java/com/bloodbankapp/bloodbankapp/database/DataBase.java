@@ -413,7 +413,7 @@ public class DataBase {
     }
     // for the recipient request table it insert a new entry in the table without any more processing
     public void requestBlood(){
-
+        ///fhfhfghfh
         try{
             String insertQuery = "INSERT INTO recipient (ID) " +
                     "VALUES (?)";
