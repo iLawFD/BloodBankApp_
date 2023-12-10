@@ -459,15 +459,57 @@ public class DataBase {
 
         // create payment with this ammount
 
-
-
-
-
         String checkingQuery = "";
     }
     // for the donor
     public void donateBlood(){
 
+    }
+
+
+
+
+    public static String[] checkBloodCompatibility(String bloodType) {
+        String[] acceptedBloodTypes;
+
+        // Check A+
+        if (bloodType.equals("A+")) {
+            acceptedBloodTypes = new String[]{"A+", "AB+"};
+        }
+        // Check A-
+        else if (bloodType.equals("A-")) {
+            acceptedBloodTypes = new String[]{"A+", "A-", "AB+", "AB-"};
+        }
+        // Check B+
+        else if (bloodType.equals("B+")) {
+            acceptedBloodTypes = new String[]{"B+", "AB+"};
+        }
+        // Check B-
+        else if (bloodType.equals("B-")) {
+            acceptedBloodTypes = new String[]{"B+", "B-", "AB+", "AB-"};
+        }
+        // Check AB+
+        else if (bloodType.equals("AB+")) {
+            acceptedBloodTypes = new String[]{"AB+"};
+        }
+        // Check AB-
+        else if (bloodType.equals("AB-")) {
+            acceptedBloodTypes = new String[]{"AB+", "AB-"};
+        }
+        // Check O+
+        else if (bloodType.equals("O+")) {
+            acceptedBloodTypes = new String[]{"A+", "B+", "AB+", "O+"};
+        }
+        // Check O-
+        else if (bloodType.equals("O-")) {
+            acceptedBloodTypes = new String[]{"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
+        }
+        // Default case
+        else {
+            acceptedBloodTypes = new String[0]; // Empty array for unknown blood types
+        }
+
+        return acceptedBloodTypes;
     }
 
 }
