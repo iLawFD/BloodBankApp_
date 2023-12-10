@@ -400,38 +400,8 @@ public class DataBase {
         String checkingQuery = "SELECT * FROM system_user where Id " + currentSystemUser.getID();
     }
     // for the donor
-    public void donateBlood(int weight,int age, int id){
-
-        String checkingQuery = "INSERT INTO donor (weight,age,id) ";
-
-
-        PreparedStatement preparedStatement;
-        try {
-
-
-            String insertQuery = "INSERT INTO donor (weight,age,id) " +
-                    "VALUES (?,?,?)";
-
-            preparedStatement = connection.prepareStatement(insertQuery);
-            preparedStatement.setInt(1, weight);
-            preparedStatement.setInt(1, age);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setda(1, id);
-
-
-
-
-            int rowsAffected = preparedStatement.executeUpdate();
-
-
-        } catch (SQLException e) {
-
-        }
-
-
-
+    public void donateBlood(){
 
     }
-
 
 }

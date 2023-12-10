@@ -1,4 +1,6 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
+
+
 import java.time.LocalDate;
 
 import com.bloodbankapp.bloodbankapp.database.DataBase;
@@ -21,7 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class UserController implements Initializable {
+public class browsercontroler implements Initializable {
 
 
 
@@ -34,15 +36,7 @@ public class UserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
-            userIDText.setText(String.valueOf(currentSystemUser.getID()));
-            userFirstNameText.setText(currentSystemUser.getFirstName());
-            userLastNameText.setText(currentSystemUser.getLastName());
-            userAddressText.setText(currentSystemUser.getAddress());
-            userEmailText.setText(currentSystemUser.getEmail());
-            userBloodTypeText.setText(currentSystemUser.getBloodType());
-            userPhoneText.setText(currentSystemUser.getPhone_number());
-            userHistoryText.setText(currentSystemUser.getMedicalHistory());
+
 
             String info = DataBase.getDataBase().showRequests();
             String[] lst = info.split("\n\n");

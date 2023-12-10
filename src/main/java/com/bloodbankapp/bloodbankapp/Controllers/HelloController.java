@@ -44,6 +44,8 @@ public class HelloController {
     protected void translate(ActionEvent event) throws IOException, SQLException {
 
 
+
+
         Node node = (Node) event.getSource();
         Window win = ((Scene) node.getScene()).getWindow();
 
@@ -78,6 +80,19 @@ public class HelloController {
                 stage.setScene(scene2);
             }
         }
+
+    }
+
+
+    @FXML
+    protected void translate2(ActionEvent event) throws IOException, SQLException {
+
+        System.out.println("ent");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/browseScene.fxml"));
+
+        Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+        stage.setScene(scene2);
 
     }
 
