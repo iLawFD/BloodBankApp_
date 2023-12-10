@@ -156,9 +156,6 @@ public class UserController implements Initializable {
         //b1.setOpacity(1);
         DataBase.getDataBase().createRequest();
         DataBase.getDataBase().createPayments();
-
-
-
     }
 
     @FXML
