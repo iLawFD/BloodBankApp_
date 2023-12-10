@@ -401,8 +401,46 @@ public class DataBase {
     }
     // for the recip
     public void requestBlood(){
+
+        try{
+            String insertQuery = "INSERT INTO recipient (ID) " +
+                    "VALUES (?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setInt(1, currentSystemUser.getID());
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
+                    "VALUES (?,?)";
+            preparedStatement = connection.prepareStatement(insertQuery2);
+
+            preparedStatement.setString(1, "pending");
+            preparedStatement.setInt(2, currentSystemUser.getID());
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+        }catch (SQLException e){
+            try {
+                String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
+                        "VALUES (?,?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery2);
+
+
+                preparedStatement.setString(1, "pending");
+                preparedStatement.setInt(2, currentSystemUser.getID());
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+            }catch (SQLException e2){
+                System.out.println("erroro");
+            }
+
+
+        }
         String query = "";
     }
+
     // for the donor
     public void donateBlood(){
 
