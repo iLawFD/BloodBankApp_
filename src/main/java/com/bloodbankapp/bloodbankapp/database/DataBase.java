@@ -163,11 +163,12 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-            DataBase.getDataBase().removeSystemUser(3);
+            DataBase.getDataBase().requestBlood();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 
 
     public int getDonationCountForCurrentWeek() throws SQLException {
@@ -412,6 +413,43 @@ public class DataBase {
     }
     // for the recipient request table it insert a new entry in the table without any more processing
     public void requestBlood(){
+
+        try{
+            String insertQuery = "INSERT INTO recipient (ID) " +
+                    "VALUES (?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setInt(1, currentSystemUser.getID());
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
+                    "VALUES (?,?)";
+            preparedStatement = connection.prepareStatement(insertQuery2);
+
+            preparedStatement.setString(1, "pending");
+            preparedStatement.setInt(2, currentSystemUser.getID());
+
+            rowsAffected = preparedStatement.executeUpdate();
+
+        }catch (SQLException e){
+            try {
+                String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
+                        "VALUES (?,?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery2);
+
+
+                preparedStatement.setString(1, "pending");
+                preparedStatement.setInt(2, currentSystemUser.getID());
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+            }catch (SQLException e2){
+                System.out.println("erroro");
+            }
+
+
+        }
         String query = "";
     }
     //it creates request for the admin and them in the "admin request" table and "recipient request table"
