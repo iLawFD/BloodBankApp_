@@ -398,13 +398,11 @@ public class DataBase {
     public void requestBlood(){
         String checkingQuery = "SELECT * FROM system_user where Id " + currentSystemUser.getID();
     }
-<<<<<<< HEAD
     // for the donor
     public void donateBlood(){
 
     }
 
-=======
     //it creates request for the admin and them in the "admin request" table and "recipient request table"
     public void createRequest(String bloodType) throws SQLException{
         String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
@@ -497,6 +495,4 @@ public class DataBase {
         }
         return acceptedBloodTypes;
     }
-
->>>>>>> e0dcf2fbeb2a8997d344e3bca095b58e75c7e576
 }
