@@ -420,50 +420,91 @@ public class DataBase {
 
         return requests;
     }
+    public static String[] checkBloodCompatibility(String bloodType) {
+        String[] acceptedBloodTypes;
+        // Check A+
+        if (bloodType.equals("A+")) {
+            acceptedBloodTypes = new String[]{"A+", "AB+"};
+        }
+        // Check A-
+        else if (bloodType.equals("A-")) {
+            acceptedBloodTypes = new String[]{"A+", "A-", "AB+", "AB-"};
+        }
+        // Check B+
+        else if (bloodType.equals("B+")) {
+            acceptedBloodTypes = new String[]{"B+", "AB+"};
+        }
+        // Check B-
+        else if (bloodType.equals("B-")) {
+            acceptedBloodTypes = new String[]{"B+", "B-", "AB+", "AB-"};
+        }
+        // Check AB+
+        else if (bloodType.equals("AB+")) {
+            acceptedBloodTypes = new String[]{"AB+"};
+        }
+        // Check AB-
+        else if (bloodType.equals("AB-")) {
+            acceptedBloodTypes = new String[]{"AB+", "AB-"};
+        }
+        // Check O+
+        else if (bloodType.equals("O+")) {
+            acceptedBloodTypes = new String[]{"A+", "B+", "AB+", "O+"};
+        }
+        // Check O-
+        else if (bloodType.equals("O-")) {
+            acceptedBloodTypes = new String[]{"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
+        }
+        // Default case
+        else {
+            acceptedBloodTypes = new String[0]; // Empty array for unknown blood types
+        }
+
+        return acceptedBloodTypes;
+    }
     // for the recip
-    public void requestBlood(int amount)throws SQLException{
-        String checkingQuery = "INSERT INTO recipient (id) VALUES (?)";
-        String insertingBloodProduct = "INSERT INTO blood_product (recipient_blood_type, recipient_id, blood_statues, data) VALUES (?, ?, ?, ?)";
-        SystemUser recipient = (SystemUser) retrieveUserInfo(currentSystemUser.getID());
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(checkingQuery);
-            preparedStatement.setInt(1, recipient.getID());
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
-        }finally {
-            PreparedStatement preparedStatement = connection.prepareStatement(insertingBloodProduct);
-            preparedStatement.setString(1, recipient.getBloodType());
-            preparedStatement.setInt(2, recipient.getID());
-            preparedStatement.setString(3, "Requested");
-            preparedStatement.setString(4, LocalDate.now().toString());
-            preparedStatement.executeUpdate();
-        }
-    }
-    // for the donor
-    public void donateBlood2(int amount) throws SQLException{
-        String checkingQuery = "INSERT INTO donor (User_ID) VALUES (?)";
-        String insertingBloodProduct = "INSERT INTO blood_product (donor_blood_type, amount_blood_donated, donor_id, blood_statues, data) VALUES (?, ?, ?, ?, ?)";
-        SystemUser recipient = (SystemUser) retrieveUserInfo(currentSystemUser.getID());
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(checkingQuery);
-            preparedStatement.setInt(1, recipient.getID());
-            preparedStatement.executeUpdate();
-        }catch (SQLException e){
-
-        }finally {
-            PreparedStatement preparedStatement = connection.prepareStatement(insertingBloodProduct);
-            preparedStatement.setString(1, recipient.getBloodType());
-            preparedStatement.setInt(2, amount);
-            preparedStatement.setInt(3, recipient.getID());
-            preparedStatement.setString(4, "Donated");
-            preparedStatement.setString(5, LocalDate.now().toString());
-            preparedStatement.executeUpdate();
-        }
-    }
-    // for the donor
-    public void donateBlood(){
-
-    }
+//    public void requestBlood(int amount)throws SQLException{
+//        String checkingQuery = "INSERT INTO recipient (id) VALUES (?)";
+//        String insertingBloodProduct = "INSERT INTO blood_product (recipient_blood_type, recipient_id, blood_statues, data) VALUES (?, ?, ?, ?)";
+//        SystemUser recipient = (SystemUser) retrieveUserInfo(currentSystemUser.getID());
+//        try{
+//            PreparedStatement preparedStatement = connection.prepareStatement(checkingQuery);
+//            preparedStatement.setInt(1, recipient.getID());
+//            preparedStatement.executeUpdate();
+//        }catch (SQLException e){
+//
+//        }finally {
+//            PreparedStatement preparedStatement = connection.prepareStatement(insertingBloodProduct);
+//            preparedStatement.setString(1, recipient.getBloodType());
+//            preparedStatement.setInt(2, recipient.getID());
+//            preparedStatement.setString(3, "Requested");
+//            preparedStatement.setString(4, LocalDate.now().toString());
+//            preparedStatement.executeUpdate();
+//        }
+//    }
+//    // for the donor
+//    public void donateBlood2(int amount) throws SQLException{
+//        String checkingQuery = "INSERT INTO donor (User_ID) VALUES (?)";
+//        String insertingBloodProduct = "INSERT INTO blood_product (donor_blood_type, amount_blood_donated, donor_id, blood_statues, data) VALUES (?, ?, ?, ?, ?)";
+//        SystemUser recipient = (SystemUser) retrieveUserInfo(currentSystemUser.getID());
+//        try{
+//            PreparedStatement preparedStatement = connection.prepareStatement(checkingQuery);
+//            preparedStatement.setInt(1, recipient.getID());
+//            preparedStatement.executeUpdate();
+//        }catch (SQLException e){
+//
+//        }finally {
+//            PreparedStatement preparedStatement = connection.prepareStatement(insertingBloodProduct);
+//            preparedStatement.setString(1, recipient.getBloodType());
+//            preparedStatement.setInt(2, amount);
+//            preparedStatement.setInt(3, recipient.getID());
+//            preparedStatement.setString(4, "Donated");
+//            preparedStatement.setString(5, LocalDate.now().toString());
+//            preparedStatement.executeUpdate();
+//        }
+//    }
+//    // for the donor
+//    public void donateBlood(){
+//
+//    }
 
 }
