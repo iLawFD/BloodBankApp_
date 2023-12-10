@@ -263,8 +263,6 @@ public class DataBase {
 
 
         return str;
-
-
     }
 
 
@@ -372,8 +370,6 @@ public class DataBase {
         currentSystemUser = null;
     }
 
-//    public
-
     public void acceptModification(int ID) throws SQLException {
         String updatePersonQuery = "UPDATE user_modification " +"SET status = ? where modification_id ="+ID;
         PreparedStatement preparedStatementPerson = connection.prepareStatement(updatePersonQuery);
@@ -393,10 +389,7 @@ public class DataBase {
             String newMedicalHistory = resultSet.getString("new_medical_history");
 
             updateUser(userid,firstName,lastName,address,phoneNumber,email,bloodType,newMedicalHistory);
-
         }
-
-
     }
     public void rejectModification(int id) throws SQLException {
         String updatePersonQuery = "UPDATE user_modification " +"SET status = ?";
@@ -405,11 +398,8 @@ public class DataBase {
         int rowsAffectedPerson = preparedStatementPerson.executeUpdate();
 
     }
-
-
     public List<List<String>>  getRequests() throws SQLException {
         List<List<String>> requests = new ArrayList<>();
-
         ResultSet resultSet =  eQ("SELECT * FROM user_modification WHERE status = 'pending'");
 
         while (resultSet.next()){
@@ -418,16 +408,20 @@ public class DataBase {
             request.add(String.valueOf(resultSet.getInt("user_id")));
             requests.add(request);
         }
-
         return requests;
     }
-    // for the recip
+    // for the recipient request table it insert a new entry in the table without any more processing
     public void requestBlood(){
-        String checkingQuery = "";
+        String query = "";
     }
-
+    //it creates request for the admin and them in the "admin request" table and "recipient request table"
     public void createRequest(){
-        String checkingQuery = "";
+        String query = "";
+    }
+    //it fulfills the requests in the "recipient request table" by changing the status to completed
+    //and adding a new entry in the donation table
+    public void donate(){
+
     }
 
 
@@ -456,19 +450,9 @@ public class DataBase {
         } else {
             amount = 50; // Default amount if blood type doesn't match any of the above
         }
-
-        // create payment with this ammount
-
+        // create payment with this amount
         String checkingQuery = "";
     }
-    // for the donor
-    public void donateBlood(){
-
-    }
-
-
-
-
     public static String[] checkBloodCompatibility(String bloodType) {
         String[] acceptedBloodTypes;
 
@@ -508,7 +492,6 @@ public class DataBase {
         else {
             acceptedBloodTypes = new String[0]; // Empty array for unknown blood types
         }
-
         return acceptedBloodTypes;
     }
 
