@@ -152,15 +152,10 @@ public class UserController implements Initializable {
 
     @FXML
     protected void request(ActionEvent event) throws IOException, SQLException {
-        text1.setOpacity(1);
-        b1.setOpacity(1);
-
-
-
-
-
-
-
+        //text1.setOpacity(1);
+        //b1.setOpacity(1);
+        //DataBase.getDataBase().createRequest();
+        DataBase.getDataBase().createPayments();
     }
 
     @FXML

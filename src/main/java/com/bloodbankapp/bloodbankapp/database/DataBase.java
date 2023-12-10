@@ -3,6 +3,9 @@ import com.bloodbankapp.bloodbankapp.Controllers.Admin;
 import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
 import java.sql.*;
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DataBase {
@@ -10,8 +13,6 @@ public class DataBase {
     private static DataBase dataBase;
     private Person currentSystemUser;
     private final Connection connection;
-
-
     private DataBase() throws SQLException {
         String url = "jdbc:postgresql://ep-empty-thunder-47709051.us-east-2.aws.neon.tech/blood%20bank%20system?user" +
                 "=icsdatabase2&password=MNtaxLy0oFY6&sslmode=require";
@@ -163,7 +164,7 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-            DataBase.getDataBase().requestBlood();
+            DataBase.getDataBase().removeSystemUser(3);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -245,28 +246,6 @@ public class DataBase {
 
 
     }
-
-    public String showBloodInfo() throws SQLException {
-
-
-        String query = "SELECT * FROM Blood_product WHERE DONOR_ID IS NULL";
-        Statement s1 = connection.createStatement();
-        ResultSet r1 = s1.executeQuery(query);
-        String str = "";
-
-
-
-            str +="Date: "+  r1.getString("Date") + " ";
-            str+= "Type: "+ r1.getString("Blood_type") + " ";
-            str+= "Rec ID " + r1.getString("recipient_id");
-            str += "\n\n";
-
-
-
-        return str;
-    }
-
-
 
     private ResultSet eQ(String sqlQuery) throws SQLException {
         Statement statement = connection.createStatement();
@@ -371,6 +350,8 @@ public class DataBase {
         currentSystemUser = null;
     }
 
+//    public
+
     public void acceptModification(int ID) throws SQLException {
         String updatePersonQuery = "UPDATE user_modification " +"SET status = ? where modification_id ="+ID;
         PreparedStatement preparedStatementPerson = connection.prepareStatement(updatePersonQuery);
@@ -390,7 +371,10 @@ public class DataBase {
             String newMedicalHistory = resultSet.getString("new_medical_history");
 
             updateUser(userid,firstName,lastName,address,phoneNumber,email,bloodType,newMedicalHistory);
+
         }
+
+
     }
     public void rejectModification(int id) throws SQLException {
         String updatePersonQuery = "UPDATE user_modification " +"SET status = ?";
@@ -399,8 +383,11 @@ public class DataBase {
         int rowsAffectedPerson = preparedStatementPerson.executeUpdate();
 
     }
+
+
     public List<List<String>>  getRequests() throws SQLException {
         List<List<String>> requests = new ArrayList<>();
+
         ResultSet resultSet =  eQ("SELECT * FROM user_modification WHERE status = 'pending'");
 
         while (resultSet.next()){
@@ -409,59 +396,38 @@ public class DataBase {
             request.add(String.valueOf(resultSet.getInt("user_id")));
             requests.add(request);
         }
+
         return requests;
     }
-    // for the recipient request table it insert a new entry in the table without any more processing
+    // for the recip
     public void requestBlood(){
-        ///fhfhfghfh
-        try{
-            String insertQuery = "INSERT INTO recipient (ID) " +
-                    "VALUES (?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-
-            preparedStatement.setInt(1, currentSystemUser.getID());
-            int rowsAffected = preparedStatement.executeUpdate();
-
-            String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
-                    "VALUES (?,?)";
-            preparedStatement = connection.prepareStatement(insertQuery2);
-
-            preparedStatement.setString(1, "pending");
-            preparedStatement.setInt(2, currentSystemUser.getID());
-
-            rowsAffected = preparedStatement.executeUpdate();
-
-        }catch (SQLException e){
-            try {
-                String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
-                        "VALUES (?,?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery2);
-
-
-                preparedStatement.setString(1, "pending");
-                preparedStatement.setInt(2, currentSystemUser.getID());
-
-                int rowsAffected = preparedStatement.executeUpdate();
-
-            }catch (SQLException e2){
-                System.out.println("erroro");
-            }
-
-
-        }
         String query = "";
     }
+    // for the donor
+    public void donateBlood(){
+
+    }
+
     //it creates request for the admin and them in the "admin request" table and "recipient request table"
-    public void createRequest(){
-        String query = "";
+    public void createRequest(String bloodType) throws SQLException{
+        String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
+                "VALUES (?, ?, ?, ?)";
+        String queryUpdate = "UPDATE System_user set blood_type = "+ bloodType + " where id = " + currentSystemUser.getID();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,"Completed");
+        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setString(3, bloodType);
+        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.executeUpdate();
+        preparedStatement = connection.prepareStatement(queryUpdate);
+        preparedStatement.executeUpdate();
+        requestBlood();
     }
     //it fulfills the requests in the "recipient request table" by changing the status to completed
     //and adding a new entry in the donation table
-    public void donate(){
+    public void donate(int ID){
 
     }
-
 
     public void createPayments() throws SQLException {
         int amount = 0;
@@ -532,5 +498,4 @@ public class DataBase {
         }
         return acceptedBloodTypes;
     }
-
 }
