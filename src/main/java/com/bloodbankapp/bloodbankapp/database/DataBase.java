@@ -3,6 +3,9 @@ import com.bloodbankapp.bloodbankapp.Controllers.Admin;
 import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
 import java.sql.*;
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DataBase {
@@ -161,12 +164,8 @@ public class DataBase {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            DataBase.getDataBase().removeSystemUser(3);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public static void main(String[] args) throws SQLException{
+        DataBase.getDataBase().createRequest("A+");
     }
 
 
@@ -415,15 +414,27 @@ public class DataBase {
         String query = "";
     }
     //it creates request for the admin and them in the "admin request" table and "recipient request table"
-    public void createRequest(){
-        String query = "";
+    public void createRequest(String bloodType) throws SQLException{
+        String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
+                "VALUES (?, ?, ?, ?)";
+        String queryUpdate = "UPDATE System_user set blood_type = "+ bloodType + " where id = " + currentSystemUser.getID();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,"Completed");
+        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setString(3, bloodType);
+        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.executeUpdate();
+
+        preparedStatement = connection.prepareStatement(queryUpdate);
+        preparedStatement.executeUpdate();
+
+        requestBlood();
     }
     //it fulfills the requests in the "recipient request table" by changing the status to completed
     //and adding a new entry in the donation table
     public void donate(int ID){
 
     }
-
 
     public void createPayments() throws SQLException {
         int amount = 0;
