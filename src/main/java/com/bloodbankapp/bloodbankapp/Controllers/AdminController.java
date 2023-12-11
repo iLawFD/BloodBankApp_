@@ -1,5 +1,6 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
+import com.bloodbankapp.bloodbankapp.MainApplication;
 import com.bloodbankapp.bloodbankapp.database.DataBase;
 import com.bloodbankapp.bloodbankapp.database.EmailSender;
 import javafx.collections.FXCollections;
@@ -16,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -464,6 +467,19 @@ public class AdminController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    void request(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("blood_request.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        stage.setTitle("Hello!");
+        stage.setWidth(800);
+        stage.setHeight(800);
+        stage.setScene(scene);
+        stage.show();
+
     }
 
 }

@@ -3,14 +3,22 @@ package com.bloodbankapp.bloodbankapp.Controllers;
 import com.bloodbankapp.bloodbankapp.database.DataBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -41,6 +49,16 @@ public class AdminDashboardController implements Initializable {
 
     @FXML
     void goback(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/admin.fxml"));
+
+        Scene scene2 = null;
+        try {
+            scene2 = new Scene(fxmlLoader2.load(), 900, 600);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setScene(scene2);
 
     }
 
@@ -58,5 +76,8 @@ public class AdminDashboardController implements Initializable {
 
 
     }
+
+
+
 
 }

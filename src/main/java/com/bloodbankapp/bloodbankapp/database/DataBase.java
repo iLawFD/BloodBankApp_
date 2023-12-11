@@ -469,13 +469,15 @@ public class DataBase {
     public void createRequest(String bloodType) throws SQLException{
         String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
                 "VALUES (?, ?, ?, ?)";
-        String queryUpdate = "UPDATE System_user set blood_type = "+ bloodType + " where id = " + currentSystemUser.getID();
+        String queryUpdate = "UPDATE System_user SET blood_type = '" + bloodType + "' WHERE id = " + currentSystemUser.getID();
+
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1,"Completed");
         preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
         preparedStatement.setString(3, bloodType);
         preparedStatement.setInt(4, currentSystemUser.getID());
         preparedStatement.executeUpdate();
+
         preparedStatement = connection.prepareStatement(queryUpdate);
         preparedStatement.executeUpdate();
         requestBlood();
