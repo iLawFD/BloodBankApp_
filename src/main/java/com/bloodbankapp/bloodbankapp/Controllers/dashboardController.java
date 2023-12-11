@@ -40,14 +40,14 @@ public class dashboardController implements Initializable {
                 series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
             }
 
-            Timeline timeline = new Timeline();
-            timeline.getKeyFrames().add(
-                    new KeyFrame(Duration.millis(1000), event -> {
-                        for (XYChart.Data<String, Number> data : series.getData()) {
-                            data.setYValue(Math.random() * 50);
-                        }
-                    })
-            );
+//            Timeline timeline = new Timeline();
+//            timeline.getKeyFrames().add(
+//                    new KeyFrame(Duration.millis(1000), event -> {
+//                        for (XYChart.Data<String, Number> data : series.getData()) {
+//                            data.setYValue(Math.random() * 50);
+//                        }
+//                    })
+//            );
 
 
 

@@ -457,7 +457,7 @@ public class AdminController implements Initializable {
     private void goToReports (ActionEvent event){
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/dashboard.fxml"));
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/adminDashboard.fxml"));
 
             Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
             stage.setScene(scene2);

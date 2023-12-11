@@ -283,6 +283,25 @@ public class DataBase {
         return  donationStatistics;
     }
 
+    public Map<String, Integer> getNumberOfUser() throws SQLException {
+        Map<String, Integer> donationStatistics = new HashMap<>();
+
+        String sqlQuery = "SELECT COUNT(ID) AS donors_number " +
+                "FROM donor";
+        ResultSet resultSet = eQ(sqlQuery);
+        resultSet.next();
+        donationStatistics.put("number of donors", resultSet.getInt("donors_number"));
+
+        sqlQuery = "SELECT COUNT(ID) AS recipients_number  " +
+                "FROM recipient";
+
+        resultSet = eQ(sqlQuery);
+        resultSet.next();
+        donationStatistics.put("number of recipients", resultSet.getInt("recipients_number"));
+        return  donationStatistics;
+    }
+
+
     public List<SystemUser> getSystemUsers() throws SQLException {
 
         List<SystemUser> systemUsers = new ArrayList<>();
