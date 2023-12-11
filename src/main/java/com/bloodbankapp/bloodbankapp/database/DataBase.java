@@ -46,19 +46,19 @@ public class DataBase {
         String personType = resultSet.getString("person_type");
         if ("admin".equals(personType)) {
             // create new admin object
-           ResultSet resultSetUSer = eQ("select * from person natural join admin where id = "+ID);
-           if(resultSetUSer.next()){
-               int id = resultSetUSer.getInt("id");
-               String firstName = resultSetUSer.getString("first_name");
-               String lastName = resultSetUSer.getString("last_name");
-               String address = resultSetUSer.getString("address");
-               String phoneNumber = resultSetUSer.getString("phone_number");
-               String email = resultSetUSer.getString("email");
-               int officeNumber = resultSetUSer.getInt("office_number");
-               currentSystemUser = new Admin(ID,firstName,lastName,address,phoneNumber,email,officeNumber);
-               System.out.println(currentSystemUser);
+            ResultSet resultSetUSer = eQ("select * from person natural join admin where id = "+ID);
+            if(resultSetUSer.next()){
+                int id = resultSetUSer.getInt("id");
+                String firstName = resultSetUSer.getString("first_name");
+                String lastName = resultSetUSer.getString("last_name");
+                String address = resultSetUSer.getString("address");
+                String phoneNumber = resultSetUSer.getString("phone_number");
+                String email = resultSetUSer.getString("email");
+                int officeNumber = resultSetUSer.getInt("office_number");
+                currentSystemUser = new Admin(ID,firstName,lastName,address,phoneNumber,email,officeNumber);
+                System.out.println(currentSystemUser);
 
-           }
+            }
         } else if ("system_user".equals(personType)) {
             // create new system user object
             ResultSet resultSetUSer = eQ("select * from person natural join system_user where id = "+ID);
@@ -113,7 +113,7 @@ public class DataBase {
 
     }
     public void insertNewUser(int userID,String firstName, String lastName,
-                                     String address, String phoneNumber, String email,String bloodType,String medicalHistory) throws SQLException{
+                              String address, String phoneNumber, String email,String bloodType,String medicalHistory) throws SQLException{
 
         String insertQuery = "INSERT INTO Person (id ,First_name, Last_name, address, Phone_number, email, person_type) " +
                 "VALUES (?,?, ?, ?, ?, ?,'system_user' )";
@@ -282,6 +282,25 @@ public class DataBase {
         }
         return  donationStatistics;
     }
+
+    public Map<String, Integer> getNumberOfUser() throws SQLException {
+        Map<String, Integer> donationStatistics = new HashMap<>();
+
+        String sqlQuery = "SELECT COUNT(ID) AS donors_number " +
+                "FROM donor";
+        ResultSet resultSet = eQ(sqlQuery);
+        resultSet.next();
+        donationStatistics.put("number of donors", resultSet.getInt("donors_number"));
+
+        sqlQuery = "SELECT COUNT(ID) AS recipients_number  " +
+                "FROM recipient";
+
+        resultSet = eQ(sqlQuery);
+        resultSet.next();
+        donationStatistics.put("number of recipients", resultSet.getInt("recipients_number"));
+        return  donationStatistics;
+    }
+
 
     public List<SystemUser> getSystemUsers() throws SQLException {
 

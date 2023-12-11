@@ -1,3 +1,4 @@
+
 package com.bloodbankapp.bloodbankapp.Controllers;
 import java.time.LocalDate;
 
@@ -91,6 +92,8 @@ public class UserController implements Initializable {
     @FXML
     private TextField  text1;
     @FXML
+    private TextField  text11;
+    @FXML
     private Button b1;
 
     @FXML
@@ -152,42 +155,110 @@ public class UserController implements Initializable {
 
     @FXML
     protected void request(ActionEvent event) throws IOException, SQLException {
-        //text1.setOpacity(1);
+        // text1.setOpacity(1);
+
         //b1.setOpacity(1);
-        //DataBase.getDataBase().createRequest();
+       // DataBase.getDataBase().createRequest();
         DataBase.getDataBase().createPayments();
+        String info = DataBase.getDataBase().showRequests();
+        String[] lst = info.split("\n\n");
+
+        ObservableList<String> items = FXCollections.observableArrayList(lst);
+        view.setItems(items);
+
+    }
+
+    @FXML
+    protected void donate(ActionEvent event) throws IOException, SQLException {
+
+        text1.setOpacity(1);
+        text11.setOpacity(1);
+        b1.setOpacity(1);
+
+
+
+
+
+
     }
 
     @FXML
     protected void submit() throws IOException, SQLException {
 
+        String[] info = text1.getText().split(",");
+        System.out.println(info[0]);
+        int age = Integer.parseInt(info[0]);
+        int weight = Integer.parseInt(info[1]);
+        String disease = info[2];
 
-
-        SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
-
-
-        LocalDate today = LocalDate.now();
-
-        String str = "";
-
-
-
-
-        str +="Date: "+  (today) + " ";
-        str+= "Type: "+ (currentSystemUser.getBloodType()) + " ";
-        str+= "Rec ID " + (currentSystemUser.getID());
-        str += "\n\n";
+        int id = Integer.parseInt(text11.getText());
+        if(age >= 17  & disease.equals("y") & weight >= 114 ){
 
 
 
+            String bloodTypeDonor = ((SystemUser)DataBase.getDataBase().getCurrentSystemUser()).getBloodType();
+            String bloodTypeRec = DataBase.getDataBase().getRecpBlood(id);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            if(DataBase.isComp(bloodTypeDonor,bloodTypeRec)){
 
-        alert.setTitle("Request has been made");
-        alert.setHeaderText("The given ID does not exsist  ");
-        alert.setContentText("Please make sure of your ID! ");
-        alert.showAndWait();
-        view.getItems().add(str);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                alert.setTitle("Successfully request to donationg has been made");
+                alert.setHeaderText("You did not meet our donation rules ");
+                alert.setContentText("wait for the recipient to accept your offer");
+                alert.showAndWait();
+
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+
+                alert.setTitle("Error");
+                alert.setHeaderText("Your blood is not compatable wiht the rec");
+
+                alert.showAndWait();
+
+            }
+
+
+        }
+        else{
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("Error");
+            alert.setHeaderText("You did not meet our donation rules ");
+            alert.setContentText("try again when you meet them ");
+            alert.showAndWait();
+
+        }
+
+
+
+//        SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
+//
+//
+//        LocalDate today = LocalDate.now();
+//
+//        String str = "";
+//
+//
+//
+//
+//        str +="Date: "+  (today) + " ";
+//        str+= "Type: "+ (currentSystemUser.getBloodType()) + " ";
+//        str+= "Rec ID " + (currentSystemUser.getID());
+//        str += "\n\n";
+//
+//
+//
+//
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//
+//        alert.setTitle("Request has been made");
+//        alert.setHeaderText("The given ID does not exsist  ");
+//        alert.setContentText("Please make sure of your ID! ");
+//        alert.showAndWait();
+//        view.getItems().add(str);
 
 
 
