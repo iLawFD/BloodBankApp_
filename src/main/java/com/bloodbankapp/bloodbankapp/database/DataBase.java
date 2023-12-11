@@ -555,4 +555,40 @@ public class DataBase {
         }
         return acceptedBloodTypes;
     }
+
+
+
+    public static boolean isComp(String bloodTypeDon, String bloodTypeRec) {
+
+        String[] acceptedBloodTypes = checkBloodCompatibility(bloodTypeRec);
+        for (int i = 0; i < acceptedBloodTypes.length; i++) {
+            if (acceptedBloodTypes[i].equals(bloodTypeDon)) {
+                return true;
+            }
+        }
+        return false;
+
+
+    }
+
+    public  String getRecpBlood(int id) throws SQLException {
+
+
+        ResultSet resultSet = eQ("SELECT Blood_type FROM System_user WHERE ID=" + id);
+        String bloodType = "";
+
+        if (resultSet.next()) {
+            resultSet.getString("Blood_type");
+        }
+
+        return bloodType;
+    }
+
+
+
+
+
+
+
+
 }
