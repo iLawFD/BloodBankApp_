@@ -6,15 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="stack-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.adminRequestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="901.0" styleClass="stack-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.adminRequestController">
    <children>
-      <Label layoutX="27.0" layoutY="23.0" prefHeight="43.0" prefWidth="252.0" text="blood request" textFill="WHITE">
+      <Label layoutX="27.0" layoutY="23.0" prefHeight="43.0" prefWidth="359.0" text="Initiate new blood drive" textFill="WHITE">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <TextField fx:id="bloodTypeText" layoutX="27.0" layoutY="106.0" promptText="blood type" />
-      <Button layoutX="27.0" layoutY="162.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="149.0" styleClass="LoginButton" text="confirm" />
+      <TextField fx:id="bloodTypeText" alignment="TOP_LEFT" layoutX="27.0" layoutY="106.0" prefHeight="103.0" prefWidth="422.0" promptText="message of the drive" />
+      <Button layoutX="27.0" layoutY="230.0" mnemonicParsing="false" onAction="#confirm" prefHeight="25.0" prefWidth="149.0" styleClass="LoginButton" text="confirm" />
    </children>
 </AnchorPane>

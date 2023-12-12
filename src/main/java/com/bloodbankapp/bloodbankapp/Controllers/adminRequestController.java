@@ -18,7 +18,7 @@ public class adminRequestController {
         // do the logic here
 
         try {
-            DataBase.getDataBase().createRequest(bloodTypeText.getText());
+            DataBase.getDataBase().initiateNewBloodDrive(bloodTypeText.getText());
             ((Node)(event.getSource())).getScene().getWindow().hide();
 
         } catch (SQLException e) {

@@ -461,9 +461,39 @@ public class DataBase {
     }
 
     // for the donor
-    public void donateBlood(){
+
+    // if you want to donate without request
+    public void donateBlood() throws SQLException {
+
+        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,request_date,ID) " +
+                "VALUES (?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,"stored");
+        preparedStatement.setString(2, ((SystemUser) currentSystemUser).getBloodType());
+        preparedStatement.setInt(3, getCurrentDriveNumber());
+        preparedStatement.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.executeUpdate();
 
     }
+
+    public void donateBloodFillRequest (int requestNumber) throws SQLException {
+
+        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,request_date,request_id,ID) " +
+                "VALUES (?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,"donated");
+        preparedStatement.setString(2, ((SystemUser) currentSystemUser).getBloodType());
+        preparedStatement.setInt(3, getCurrentDriveNumber());
+        preparedStatement.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.executeUpdate();
+        // also update the request
+
+
+
+    }
+
 
     //it creates request for the admin and them in the "admin request" table and "recipient request table"
     public void createRequest(String bloodType) throws SQLException{
@@ -485,6 +515,7 @@ public class DataBase {
     //it fulfills the requests in the "recipient request table" by changing the status to completed
     //and adding a new entry in the donation table
     public void donate(int ID){
+
 
     }
 
@@ -585,6 +616,31 @@ public class DataBase {
 
         return bloodType;
     }
+
+    public void initiateNewBloodDrive(String message) throws SQLException {
+
+        String query = "INSERT INTO blood_drive(status, start_date,message,ID) " +
+                "VALUES (?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1,"open");
+        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setString(3, message);
+        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.executeUpdate();
+
+    }
+    int getCurrentDriveNumber() throws SQLException {
+
+        String qeury = "SELECT blood_drive_number FROM blood_drive where status = 'open'";
+
+        ResultSet resultSet = eQ(qeury);
+
+        resultSet.next();
+        return  resultSet.getInt("blood_drive_number");
+    }
+
+
+
 
 
 
