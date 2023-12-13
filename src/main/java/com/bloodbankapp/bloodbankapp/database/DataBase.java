@@ -1,7 +1,10 @@
 package com.bloodbankapp.bloodbankapp.database;
 import com.bloodbankapp.bloodbankapp.Controllers.Admin;
+import com.bloodbankapp.bloodbankapp.Controllers.BloodRequest;
 import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
+
+import javax.xml.xpath.XPathEvaluationResult;
 import java.sql.*;
 import java.sql.Date;
 import java.time.DayOfWeek;
@@ -164,7 +167,7 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-            DataBase.getDataBase().removeSystemUser(3);
+            System.out.println(DataBase.getDataBase().bloodRequests());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -420,36 +423,41 @@ public class DataBase {
     }
     // for the recip
     public void requestBlood(){
-
+        PreparedStatement preparedStatement;
         try{
             String insertQuery = "INSERT INTO recipient (ID) " +
                     "VALUES (?)";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement = connection.prepareStatement(insertQuery);
 
             preparedStatement.setInt(1, currentSystemUser.getID());
             int rowsAffected = preparedStatement.executeUpdate();
 
-            String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
-                    "VALUES (?,?)";
+            String insertQuery2 = "INSERT INTO recipient_request (request_status,ID,blood_type,request_date) " +
+                    "VALUES (?,?,?,current_date)";
             preparedStatement = connection.prepareStatement(insertQuery2);
 
             preparedStatement.setString(1, "pending");
             preparedStatement.setInt(2, currentSystemUser.getID());
+            preparedStatement.setString(3, ((SystemUser) currentSystemUser).getBloodType());
+
 
             rowsAffected = preparedStatement.executeUpdate();
 
         }catch (SQLException e){
             try {
-                String insertQuery2 = "INSERT INTO recipient_request (request_status,ID) " +
-                        "VALUES (?,?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery2);
 
+                String insertQuery2 = "INSERT INTO recipient_request (request_status,ID,blood_type,request_date) " +
+                        "VALUES (?,?,?,current_date)";
+                preparedStatement = connection.prepareStatement(insertQuery2);
 
                 preparedStatement.setString(1, "pending");
                 preparedStatement.setInt(2, currentSystemUser.getID());
+                preparedStatement.setString(3, ((SystemUser) currentSystemUser).getBloodType());
 
-                int rowsAffected = preparedStatement.executeUpdate();
+
+                preparedStatement.executeUpdate();
+
 
             }catch (SQLException e2){
                 System.out.println("erroro");
@@ -465,53 +473,53 @@ public class DataBase {
     // if you want to donate without request
     public void donateBlood() throws SQLException {
 
-        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,request_date,ID) " +
-                "VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,donation_date,ID) " +
+                "VALUES (?, ?, ?, ?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1,"stored");
         preparedStatement.setString(2, ((SystemUser) currentSystemUser).getBloodType());
         preparedStatement.setInt(3, getCurrentDriveNumber());
-        preparedStatement.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
-        preparedStatement.setInt(4, currentSystemUser.getID());
+        preparedStatement.setDate(4, new Date(Calendar.getInstance().getTime().getTime()));
+        preparedStatement.setInt(5, currentSystemUser.getID());
         preparedStatement.executeUpdate();
 
     }
 
-    public void donateBloodFillRequest (int requestNumber) throws SQLException {
-
-        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,request_date,request_id,ID) " +
-                "VALUES (?, ?, ?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1,"donated");
-        preparedStatement.setString(2, ((SystemUser) currentSystemUser).getBloodType());
-        preparedStatement.setInt(3, getCurrentDriveNumber());
-        preparedStatement.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
-        preparedStatement.setInt(4, currentSystemUser.getID());
-        preparedStatement.executeUpdate();
-        // also update the request
-
-
-
-    }
+//    public void donateBloodFillRequest (int requestNumber) throws SQLException {
+//
+//        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,request_date,request_id,ID) " +
+//                "VALUES (?, ?, ?, ?)";
+//        PreparedStatement preparedStatement = connection.prepareStatement(query);
+//        preparedStatement.setString(1,"donated");
+//        preparedStatement.setString(2, ((SystemUser) currentSystemUser).getBloodType());
+//        preparedStatement.setInt(3, getCurrentDriveNumber());
+//        preparedStatement.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
+//        preparedStatement.setInt(4, currentSystemUser.getID());
+//        preparedStatement.executeUpdate();
+//        // also update the request
+//
+//
+//
+//    }
 
 
     //it creates request for the admin and them in the "admin request" table and "recipient request table"
-    public void createRequest(String bloodType) throws SQLException{
-        String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
-                "VALUES (?, ?, ?, ?)";
-        String queryUpdate = "UPDATE System_user SET blood_type = '" + bloodType + "' WHERE id = " + currentSystemUser.getID();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1,"Completed");
-        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
-        preparedStatement.setString(3, bloodType);
-        preparedStatement.setInt(4, currentSystemUser.getID());
-        preparedStatement.executeUpdate();
-
-        preparedStatement = connection.prepareStatement(queryUpdate);
-        preparedStatement.executeUpdate();
-        requestBlood();
-    }
+//    public void createRequest(String bloodType) throws SQLException{
+//        String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
+//                "VALUES (?, ?, ?, ?)";
+//        String queryUpdate = "UPDATE System_user SET blood_type = '" + bloodType + "' WHERE id = " + currentSystemUser.getID();
+//
+//        PreparedStatement preparedStatement = connection.prepareStatement(query);
+//        preparedStatement.setString(1,"Completed");
+//        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+//        preparedStatement.setString(3, bloodType);
+//        preparedStatement.setInt(4, currentSystemUser.getID());
+//        preparedStatement.executeUpdate();
+//
+//        preparedStatement = connection.prepareStatement(queryUpdate);
+//        preparedStatement.executeUpdate();
+//        requestBlood();
+//    }
     //it fulfills the requests in the "recipient request table" by changing the status to completed
     //and adding a new entry in the donation table
     public void donate(int ID){
@@ -638,6 +646,31 @@ public class DataBase {
         resultSet.next();
         return  resultSet.getInt("blood_drive_number");
     }
+
+    public ArrayList<BloodRequest> bloodRequests() throws SQLException {
+        ArrayList<BloodRequest> bloodRequests = new ArrayList<>();
+        String res = "select * from recipient_request where request_status = 'pending'";
+        ResultSet resultSet = eQ(res);
+
+        while (resultSet.next()){
+            BloodRequest bloodRequest = new BloodRequest(
+                    resultSet.getInt("request_id"),
+                    resultSet.getDate("request_date"),
+                    resultSet.getString("blood_type"),
+                    resultSet.getInt("id")
+
+            );
+
+            bloodRequests.add(bloodRequest);
+        }
+
+        return  bloodRequests;
+
+
+    }
+
+
+
 
 
 
