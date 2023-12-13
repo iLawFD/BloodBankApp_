@@ -5,6 +5,7 @@ import com.bloodbankapp.bloodbankapp.Controllers.Person;
 import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
 
 import javax.xml.xpath.XPathEvaluationResult;
+import java.io.IOException;
 import java.sql.*;
 import java.sql.Date;
 import java.time.DayOfWeek;
@@ -167,10 +168,19 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-            System.out.println(DataBase.getDataBase().bloodRequests());
+//            DataBase.getDataBase().retrieveUserInfo(111);
+//            int ID, int requestID, String bloodType
+            DataBase.getDataBase().fulfillBloodRequests(111,3,"A+");
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+//        try {
+//            System.out.println(DataBase.getDataBase().bloodRequests());
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 
@@ -660,26 +670,62 @@ public class DataBase {
                     resultSet.getInt("id")
 
             );
-
             bloodRequests.add(bloodRequest);
         }
-
         return  bloodRequests;
-
-
+    }
+    public int bloodTypeToPrice(String bloodType){
+        int amount = 0;
+        if ("A+".equals(bloodType)) {
+            amount = 100;
+        } else if ("A-".equals(bloodType)) {
+            amount = 120;
+        } else if ("B+".equals(bloodType)) {
+            amount = 100;
+        } else if ("B-".equals(bloodType)) {
+            amount = 150;
+        } else if ("AB+".equals(bloodType)) {
+            amount = 180;
+        } else if ("AB-".equals(bloodType)) {
+            amount = 200;
+        } else if ("O+".equals(bloodType)) {
+            amount = 90;
+        } else if ("O-".equals(bloodType)) {
+            amount = 220; // O- is often considered the universal donor and might be in higher demand
+        } else {
+            amount = 50; // Default amount if blood type doesn't match any of the above
+        }
+        return amount;
+    }
+    public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
+        String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
+        String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = " + requestID;
+        String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated', request_id = ";
+        String donQUpdateFrag2 = " WHERE donation_id = ";
+        String[] acceptedBloodTypes = checkBloodCompatibility(bloodType);
+        ResultSet r1 = eQ(donQ);
+        while(r1.next()){
+            if (Arrays.stream(acceptedBloodTypes).anyMatch(r1.getString("blood_type")::equals)){
+                donQUpdateFrag1 += r1.getString("request_id")+ donQUpdateFrag2 +r1.getInt("donation_id");
+                connection.prepareStatement(donQUpdateFrag1).executeUpdate();
+                connection.prepareStatement(reqQUpdate).executeUpdate();
+                fulfillPayment(requestID,bloodType);
+                EmailSender.getEmailSender().SendMessage(
+                        getEmail(ID),
+                        "A blood was send to you",
+                        "Payment has been created"
+                );
+                return;
+            }
+        }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void fulfillPayment(int requestID, String bloodType) throws SQLException{
+        String insertQuery = "INSERT INTO payment(amount,status, request_ID) VALUES(?, ?, ?)";
+        PreparedStatement p = connection.prepareStatement(insertQuery);
+        p.setInt(1,bloodTypeToPrice(bloodType));
+        p.setString(2,"uncompleted");
+        p.setInt(3,requestID);
+        p.executeUpdate();
+    }
 }

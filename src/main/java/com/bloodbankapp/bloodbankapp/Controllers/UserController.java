@@ -159,7 +159,7 @@ public class UserController implements Initializable {
 
         //b1.setOpacity(1);
        // DataBase.getDataBase().createRequest();
-        DataBase.getDataBase().createPayments();
+//        DataBase.getDataBase().createPayments();
         String info = DataBase.getDataBase().showRequests();
         String[] lst = info.split("\n\n");
 
