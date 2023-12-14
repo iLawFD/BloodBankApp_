@@ -165,12 +165,11 @@ public class DataBase {
 
     public static void main(String[] args) {
         try {
-//            DataBase.getDataBase().retrieveUserInfo(111);
+            DataBase.getDataBase().retrieveUserInfo(233);
 //            int ID, int requestID, String bloodType
-            DataBase.getDataBase().fulfillBloodRequests(111,3,"A+");
+            DataBase.getDataBase().insertNewDonor(23,75);
+//            DataBase.getDataBase().fulfillBloodRequests(111,5,"A+");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 //        try {
@@ -184,9 +183,9 @@ public class DataBase {
 
     public int getDonationCountForCurrentWeek() throws SQLException {
         String sqlQuery = "SELECT COUNT(*) " +
-                "FROM Blood_product " +
-                "WHERE Date >= CURRENT_DATE - EXTRACT(DOW FROM CURRENT_DATE)::INTEGER " +
-                "AND Date < CURRENT_DATE + (7 - EXTRACT(DOW FROM CURRENT_DATE)::INTEGER)";
+                "FROM donation " +
+                "WHERE donation_date >= CURRENT_DATE - EXTRACT(DOW FROM CURRENT_DATE)::INTEGER " +
+                "AND donation_date < CURRENT_DATE + (7 - EXTRACT(DOW FROM CURRENT_DATE)::INTEGER)";
 
 
         Statement s1 = connection.createStatement();
@@ -264,9 +263,9 @@ public class DataBase {
     }
     public  int getDonationCountForCurrentMonth() throws SQLException {
         String sqlQuery = "SELECT COUNT(*) " +
-                "FROM Blood_product " +
-                "WHERE EXTRACT(YEAR FROM Date) = EXTRACT(YEAR FROM CURRENT_DATE) " +
-                "AND EXTRACT(MONTH FROM Date) = EXTRACT(MONTH FROM CURRENT_DATE)";
+                "FROM donation " +
+                "WHERE EXTRACT(YEAR FROM donation_date) = EXTRACT(YEAR FROM CURRENT_DATE) " +
+                "AND EXTRACT(MONTH FROM donation_date) = EXTRACT(MONTH FROM CURRENT_DATE)";
 
         ResultSet resultSet = eQ(sqlQuery);
         if (resultSet.next()) {
@@ -281,7 +280,8 @@ public class DataBase {
         Map<String, Integer> donationStatistics = new HashMap<>();
 
         String sqlQuery = "SELECT blood_type, COUNT(blood_type) AS Donation_Count " +
-                "FROM Blood_product " +
+                "FROM donation " +
+                "WHERE donation_status = 'stored' "+
                 "GROUP BY blood_type";
 
         ResultSet resultSet = eQ(sqlQuery);
@@ -398,7 +398,6 @@ public class DataBase {
             String email = resultSet.getString("new_email");
             String bloodType = resultSet.getString("new_blood_type");
             String newMedicalHistory = resultSet.getString("new_medical_history");
-
             updateUser(userid,firstName,lastName,address,phoneNumber,email,bloodType,newMedicalHistory);
 
         }
@@ -480,6 +479,8 @@ public class DataBase {
     // if you want to donate without request
     public void donateBlood() throws SQLException {
 
+
+        //
         String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,donation_date,ID) " +
                 "VALUES (?, ?, ?, ?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -529,8 +530,15 @@ public class DataBase {
 //    }
     //it fulfills the requests in the "recipient request table" by changing the status to completed
     //and adding a new entry in the donation table
-    public void donate(int ID){
+    public void insertNewDonor(int age, int weight) throws SQLException {
+        String st= "INSERT INTO donor(weight,age,id) "+
+                "VALUES (?, ?, ?)";
 
+        PreparedStatement preparedStatement = connection.prepareStatement(st);
+        preparedStatement.setInt(1,weight);
+        preparedStatement.setInt(2,age);
+        preparedStatement.setInt(3,getCurrentSystemUser().getID());
+        preparedStatement.executeUpdate();
 
     }
 
@@ -644,7 +652,7 @@ public class DataBase {
         preparedStatement.executeUpdate();
 
     }
-    int getCurrentDriveNumber() throws SQLException {
+    public int getCurrentDriveNumber() throws SQLException {
 
         String qeury = "SELECT blood_drive_number FROM blood_drive where status = 'open'";
 
@@ -652,6 +660,24 @@ public class DataBase {
 
         resultSet.next();
         return  resultSet.getInt("blood_drive_number");
+    }
+    public String getCurrentDriveMessage() throws SQLException {
+
+        String qeury = "SELECT * FROM blood_drive where status = 'open'";
+
+        ResultSet resultSet = eQ(qeury);
+
+        resultSet.next();
+        return  resultSet.getString("message");
+    }
+    public int getCurrentDriveNumberOfDonations() throws SQLException {
+
+        String qeury = "SELECT count(donation_id) FROM donation where blood_drive_number ="+getCurrentDriveNumber();
+
+        ResultSet resultSet = eQ(qeury);
+
+        resultSet.next();
+        return  resultSet.getInt("count");
     }
 
     public ArrayList<BloodRequest> bloodRequests() throws SQLException {
@@ -694,28 +720,64 @@ public class DataBase {
         }
         return amount;
     }
-    public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
-        String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
-        String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = " + requestID;
-        String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated', request_id = ";
-        String donQUpdateFrag2 = " WHERE donation_id = ";
-        String[] acceptedBloodTypes = checkBloodCompatibility(bloodType);
-        ResultSet r1 = eQ(donQ);
-        while(r1.next()){
-            if (Arrays.stream(acceptedBloodTypes).anyMatch(r1.getString("blood_type")::equals)){
-                donQUpdateFrag1 += r1.getString("request_id")+ donQUpdateFrag2 +r1.getInt("donation_id");
-                connection.prepareStatement(donQUpdateFrag1).executeUpdate();
-                connection.prepareStatement(reqQUpdate).executeUpdate();
-                fulfillPayment(requestID,bloodType);
-                EmailSender.getEmailSender().SendMessage(
-                        getEmail(ID),
-                        "A blood was send to you",
-                        "Payment has been created"
-                );
-                return;
-            }
+//    public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
+//
+//        String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
+//        String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = " + requestID;
+//        String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated', request_id = ";
+//        String donQUpdateFrag2 = " WHERE donation_id = ";
+//
+//        String[] acceptedBloodTypes = checkBloodCompatibility(bloodType);
+//        ResultSet r1 = eQ(donQ);
+//        while(r1.next()){
+//            if (Arrays.stream(acceptedBloodTypes).anyMatch(r1.getString("blood_type")::equals)){
+//                donQUpdateFrag1 += r1.getString("request_id")+ donQUpdateFrag2 +r1.getInt("donation_id");
+//                connection.prepareStatement(donQUpdateFrag1).executeUpdate();
+//                connection.prepareStatement(reqQUpdate).executeUpdate();
+//                fulfillPayment(requestID,bloodType);
+//                EmailSender.getEmailSender().SendMessage(
+//                        getEmail(ID),
+//                        "A blood was send to you",
+//                        "Payment has been created"
+//                );
+//                return;
+//            }
+//        }
+//    }
+public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
+    String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
+    String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = ?";
+    String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated', request_id = ? WHERE donation_id = ?";
+
+    String[] acceptedBloodTypes = checkBloodCompatibility(bloodType);
+    ResultSet r1 = eQ(donQ);
+    while (r1.next()) {
+        if (Arrays.stream(acceptedBloodTypes).anyMatch(r1.getString("blood_type")::equals)) {
+            int donationId = r1.getInt("donation_id");
+            connection.setAutoCommit(false);
+
+            PreparedStatement updateDonationStmt = connection.prepareStatement(donQUpdateFrag1);
+            updateDonationStmt.setInt(1, requestID);
+            updateDonationStmt.setInt(2, donationId);
+            updateDonationStmt.executeUpdate();
+
+            PreparedStatement updateRequestStmt = connection.prepareStatement(reqQUpdate);
+            updateRequestStmt.setInt(1, requestID);
+            updateRequestStmt.executeUpdate();
+
+            connection.commit();
+            fulfillPayment(requestID, bloodType);
+            EmailSender.getEmailSender().SendMessage(
+                    getEmail(ID),
+                    "A blood was sent to you",
+                    "Payment has been created"
+            );
+            connection.setAutoCommit(true);
+            return;
         }
     }
+}
+
 
     public void fulfillPayment(int requestID, String bloodType) throws SQLException{
         String insertQuery = "INSERT INTO payment(amount,status, request_ID) VALUES(?, ?, ?)";
@@ -749,4 +811,41 @@ public class DataBase {
         }
         return  donationArrayList;
     }
+
+    public ArrayList<userBloodRequest> getUserBloodRequest() throws SQLException {
+        ArrayList<userBloodRequest> userBloodRequests = new ArrayList<>();
+
+        String res = "select * from recipient_request natural join payment where id= "+currentSystemUser.getID();
+        ResultSet resultSet = eQ(res);
+
+        while (resultSet.next()){
+            userBloodRequest userBloodRequest = new userBloodRequest(
+                    resultSet.getInt("request_id"),
+                    resultSet.getString("request_status"),
+                    resultSet.getDate("request_date"),
+                    resultSet.getString("blood_type"),
+                    resultSet.getInt("amount"),
+                    resultSet.getString("status"),
+                    resultSet.getInt("payment_id")
+
+
+            );
+            userBloodRequests.add(userBloodRequest);
+        }
+        return  userBloodRequests;
+    }
+
+    public void confirmPayments(int ID) throws SQLException {
+
+        String statement = "UPDATE payment " +
+                "SET status = 'completed' " +
+                "WHERE payment_id = " + ID;
+
+        PreparedStatement preparedStatement = connection.prepareStatement(statement);
+        preparedStatement.executeUpdate();
+
+    }
+
+
+
 }

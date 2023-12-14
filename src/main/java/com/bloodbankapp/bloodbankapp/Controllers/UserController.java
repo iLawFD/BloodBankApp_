@@ -2,6 +2,7 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
 import com.bloodbankapp.bloodbankapp.database.DataBase;
+import com.bloodbankapp.bloodbankapp.database.EmailSender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -37,6 +39,8 @@ public class UserController implements Initializable {
             SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
 
             loadDonation();
+            loadRequests();
+            getCurrentDriveInfo();
             userIDText.setText(String.valueOf(currentSystemUser.getID()));
             userFirstNameText.setText(currentSystemUser.getFirstName());
             userLastNameText.setText(currentSystemUser.getLastName());
@@ -80,7 +84,28 @@ public class UserController implements Initializable {
     @FXML
     private TableView<Donation> donationTable;
 
+    @FXML
+    private TableColumn<userBloodRequest, Integer> requestID2;
+    @FXML
+    private TableColumn<userBloodRequest, String> requestStatus;
+    @FXML
+    private TableColumn<userBloodRequest, Date> requestDate;
+    @FXML
+    private TableColumn<userBloodRequest, String> bloodType2;
 
+    @FXML
+    private TableColumn<userBloodRequest, Integer> cost;
+
+    @FXML
+    private TableColumn<userBloodRequest, String> paymentStatus;
+    @FXML
+    private TableColumn<userBloodRequest, Integer> paymentID;
+
+    @FXML
+    private TableView<userBloodRequest> userRequestsTable;
+
+    @FXML
+    private Button paymentButton;
 
     @FXML
     TextField text;
@@ -115,6 +140,16 @@ public class UserController implements Initializable {
     private TextField  text11;
     @FXML
     private Button b1;
+
+    @FXML
+    private TextArea driveMessage;
+
+    @FXML
+    private Label driveNumberText;
+
+    @FXML
+    private Label numberOfDonation;
+
 
     @FXML
     private TextField  text2;
@@ -375,6 +410,87 @@ public class UserController implements Initializable {
         donationTable.setItems(bloodRequestObservableList);
 
     }
+
+
+    private void loadRequests(){
+        ArrayList<userBloodRequest> userBloodRequests;
+
+
+        try {
+            userBloodRequests = DataBase.getDataBase().getUserBloodRequest();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        requestID2.setCellValueFactory(new PropertyValueFactory<userBloodRequest,Integer>("requestID"));
+        requestStatus.setCellValueFactory(new PropertyValueFactory<userBloodRequest,String>("requestStatus"));
+        requestDate.setCellValueFactory(new PropertyValueFactory<userBloodRequest,Date>("requestDate"));
+        bloodType2.setCellValueFactory(new PropertyValueFactory<userBloodRequest, String>("bloodType"));
+        cost.setCellValueFactory(new PropertyValueFactory<userBloodRequest,Integer>("cost"));
+        paymentStatus.setCellValueFactory(new PropertyValueFactory<userBloodRequest,String>("paymentStatus"));
+        paymentID.setCellValueFactory(new PropertyValueFactory<userBloodRequest,Integer>("paymentID"));
+
+
+        ObservableList<userBloodRequest> bloodRequestObservableList = FXCollections.observableArrayList(userBloodRequests);
+        userRequestsTable.getSelectionModel().getSelectedItem();
+        userRequestsTable.setItems(bloodRequestObservableList);
+
+    }
+
+
+    @FXML
+    void checkConfirmPayment(MouseEvent event) {
+        paymentButton.setDisable(!userRequestsTable.getSelectionModel().getSelectedItem().getPaymentStatus().equals("uncompleted"));
+    }
+
+    @FXML
+    void pay(ActionEvent event) {
+
+        try {
+            DataBase.getDataBase().confirmPayments(userRequestsTable.getSelectionModel().getSelectedItem().getPaymentID());
+
+            String email = DataBase.getDataBase().getCurrentSystemUser().getEmail();
+
+            EmailSender.getEmailSender().SendMessage(
+                    email,
+                    "payment is done",
+                    "thank you"
+            );
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("process id done");
+            alert.setHeaderText("The information of payment is updated  ");
+            alert.setContentText("An email wes sent to the user");
+            alert.showAndWait();
+            loadRequests();
+
+
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("process id failed");
+            alert.setHeaderText("The information of payment is not updated  ");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void getCurrentDriveInfo(){
+
+        try {
+            driveNumberText.setText(String.valueOf(DataBase.getDataBase().getCurrentDriveNumber()));
+            driveMessage.setText(DataBase.getDataBase().getCurrentDriveMessage());
+            numberOfDonation.setText(String.valueOf(DataBase.getDataBase().getCurrentDriveNumberOfDonations()));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
 
