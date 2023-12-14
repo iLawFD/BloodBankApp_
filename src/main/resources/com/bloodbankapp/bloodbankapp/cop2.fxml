@@ -15,92 +15,92 @@
 <?import javafx.scene.text.Text?>
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1475.0" spacing="30.0" styleClass="loginStyle" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.UserController">
-   <children>
-      <AnchorPane prefHeight="817.0" prefWidth="829.0" stylesheets="@style.css">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="20.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
-            <TextField fx:id="text" layoutX="437.0" layoutY="15.0" prefHeight="26.0" prefWidth="149.0" promptText="Enter User ID" />
+    <children>
+        <AnchorPane prefHeight="817.0" prefWidth="829.0" stylesheets="@style.css">
+            <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="20.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
+                <TextField fx:id="text" layoutX="437.0" layoutY="15.0" prefHeight="26.0" prefWidth="149.0" promptText="Enter User ID" />
 
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="23.0" layoutY="-9.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
-            <TextField fx:id="text" layoutX="431.0" layoutY="15.0" promptText="Enter User ID" />
-            <Button layoutX="609.0" layoutY="8.0" mnemonicParsing="false" onAction="#search" prefHeight="38.0" prefWidth="183.0" stylesheets="@style.css" text="search history">
-               <styleClass>
-                  <String fx:value="loginStyle" />
-                  <String fx:value="searchButton" />
-               </styleClass></Button>
-            <Text layoutX="60.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your request" textAlignment="CENTER" wrappingWidth="194.60000000000014">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font></Text>
-            <Button layoutX="267.0" layoutY="667.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="choiceButton" stylesheets="@style.css" text="reports" />
-            <Button layoutX="72.0" layoutY="617.0" mnemonicParsing="false" onAction="#donate" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
-            <Button layoutX="267.0" layoutY="617.0" mnemonicParsing="false" onAction="#request" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
-            <Button layoutX="72.0" layoutY="667.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="183.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
-            <TextField fx:id="text1" layoutX="266.0" layoutY="401.0" opacity="0.0" promptText="Enter amount of blood" />
-            <TableView fx:id="userRequestsTable" layoutX="67.0" layoutY="69.0" onMouseClicked="#checkConfirmPayment" prefHeight="222.0" prefWidth="708.0">
-              <columns>
-                <TableColumn fx:id="requestID2" prefWidth="84.0" text="request_id" />
-                <TableColumn fx:id="requestStatus" prefWidth="110.0" text="request status" />
-                  <TableColumn fx:id="requestDate" prefWidth="110.0" text="request_date" />
-                  <TableColumn fx:id="bloodType2" prefWidth="116.0" text="blood_type" />
-                  <TableColumn fx:id="cost" text="cost" />
-                  <TableColumn fx:id="paymentStatus" prefWidth="95.0" text="payment status" />
-                  <TableColumn fx:id="paymentID" minWidth="0.0" prefWidth="112.0" text="payment ID" />
-              </columns>
-            </TableView>
-            <TableView fx:id="donationTable" layoutX="67.0" layoutY="371.0" prefHeight="222.0" prefWidth="669.0">
-              <columns>
-                <TableColumn fx:id="donationID" prefWidth="106.0" text="donation_id" />
-                <TableColumn fx:id="donationStatus" prefWidth="119.0" text="donation_status" />
-                  <TableColumn fx:id="requestID" text="request_id" />
-                  <TableColumn fx:id="donationDate" prefWidth="98.0" text="donation_date" />
-                  <TableColumn fx:id="bloodType" prefWidth="130.0" text="blood_type" />
-                  <TableColumn fx:id="bloodDriveNumber" prefWidth="135.0" text="blood_drive_number" />
-              </columns>
-            </TableView>
-            <Text layoutX="66.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your donation" textAlignment="CENTER" wrappingWidth="194.60000000000014">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Text>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="23.0" layoutY="-9.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
+                <TextField fx:id="text" layoutX="431.0" layoutY="15.0" promptText="Enter User ID" />
+                <Button layoutX="609.0" layoutY="8.0" mnemonicParsing="false" onAction="#search" prefHeight="38.0" prefWidth="183.0" stylesheets="@style.css" text="search history">
+                    <styleClass>
+                        <String fx:value="loginStyle" />
+                        <String fx:value="searchButton" />
+                    </styleClass></Button>
+                <Text layoutX="60.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your request" textAlignment="CENTER" wrappingWidth="194.60000000000014">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font></Text>
+                <Button layoutX="267.0" layoutY="667.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="choiceButton" stylesheets="@style.css" text="reports" />
+                <Button layoutX="72.0" layoutY="617.0" mnemonicParsing="false" onAction="#donate" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
+                <Button layoutX="267.0" layoutY="617.0" mnemonicParsing="false" onAction="#request" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
+                <Button layoutX="72.0" layoutY="667.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="183.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
+                <TextField fx:id="text1" layoutX="266.0" layoutY="401.0" opacity="0.0" promptText="Enter amount of blood" />
+                <TableView fx:id="userRequestsTable" layoutX="67.0" layoutY="69.0" onMouseClicked="#checkConfirmPayment" prefHeight="222.0" prefWidth="708.0">
+                    <columns>
+                        <TableColumn fx:id="requestID2" prefWidth="84.0" text="request_id" />
+                        <TableColumn fx:id="requestStatus" prefWidth="110.0" text="request status" />
+                        <TableColumn fx:id="requestDate" prefWidth="110.0" text="request_date" />
+                        <TableColumn fx:id="bloodType2" prefWidth="116.0" text="blood_type" />
+                        <TableColumn fx:id="cost" text="cost" />
+                        <TableColumn fx:id="paymentStatus" prefWidth="95.0" text="payment status" />
+                        <TableColumn fx:id="paymentID" minWidth="0.0" prefWidth="112.0" text="payment ID" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="donationTable" layoutX="67.0" layoutY="371.0" prefHeight="222.0" prefWidth="669.0">
+                    <columns>
+                        <TableColumn fx:id="donationID" prefWidth="106.0" text="donation_id" />
+                        <TableColumn fx:id="donationStatus" prefWidth="119.0" text="donation_status" />
+                        <TableColumn fx:id="requestID" text="request_id" />
+                        <TableColumn fx:id="donationDate" prefWidth="98.0" text="donation_date" />
+                        <TableColumn fx:id="bloodType" prefWidth="130.0" text="blood_type" />
+                        <TableColumn fx:id="bloodDriveNumber" prefWidth="135.0" text="blood_drive_number" />
+                    </columns>
+                </TableView>
+                <Text layoutX="66.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="your donation" textAlignment="CENTER" wrappingWidth="194.60000000000014">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Text>
 
-            <Button fx:id="paymentButton" disable="true" layoutX="645.0" layoutY="303.0" mnemonicParsing="false" onAction="#pay" prefHeight="25.0" prefWidth="111.0" styleClass="LoginButton" stylesheets="@style.css" text="confirm payment" />
-            <Button fx:id="bl" layoutX="715.0" layoutY="676.0" mnemonicParsing="false" opacity="0.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
-            <TextField fx:id="text1L" layoutX="481.0" layoutY="617.0" opacity="0.0" prefHeight="10.0" prefWidth="99.0" promptText="age,weight" />
-            <TextField fx:id="text2L" layoutX="596.0" layoutY="604.0" opacity="0.0" prefHeight="26.0" prefWidth="195.0" promptText="free of diseas?, first time donating?" />
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="710.0" prefWidth="590.0" styleClass="stack-pane" stylesheets="@style.css">
-         <children>
-            <TextField fx:id="userIDText" disable="true" layoutX="104.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="ID" />
-            <TextField fx:id="userFirstNameText" disable="true" layoutX="105.0" layoutY="104.0" promptText="first name" />
-            <TextField fx:id="userEmailText" disable="true" layoutX="272.0" layoutY="61.0" prefHeight="26.0" prefWidth="183.0" promptText="email" />
-            <TextField fx:id="userPhoneText" disable="true" layoutX="104.0" layoutY="141.0" promptText="phone" />
-            <TextField fx:id="userLastNameText" disable="true" layoutX="272.0" layoutY="104.0" prefHeight="25.0" prefWidth="183.0" promptText="last name" />
-            <Button layoutX="104.0" layoutY="262.0" mnemonicParsing="false" onAction="#requestModification" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="request modification" />
-            <TextField fx:id="userAddressText" disable="true" layoutX="272.0" layoutY="141.0" prefHeight="26.0" prefWidth="183.0" promptText="address" />
-            <TextField fx:id="userBloodTypeText" disable="true" layoutX="104.0" layoutY="181.0" promptText="blood type" />
-            <TextField fx:id="userHistoryText" disable="true" layoutX="272.0" layoutY="181.0" prefHeight="25.0" prefWidth="183.0" promptText="medical hostory" />
-            <Button fx:id="editButton" layoutX="105.0" layoutY="218.0" mnemonicParsing="false" onAction="#enableEdit" prefHeight="27.0" prefWidth="120.0" styleClass="searchButton" stylesheets="@style.css" text="edit information" />
-            <ListView layoutX="108.0" layoutY="420.0" prefHeight="281.0" prefWidth="391.0" styleClass="searchButton" stylesheets="@style.css" />
-            <Label fx:id="driveNumberText" layoutX="141.0" layoutY="452.0" prefHeight="27.0" prefWidth="169.0" text="drive number" textFill="WHITE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextArea fx:id="driveMessage" disable="true" layoutX="139.0" layoutY="488.0" prefHeight="72.0" prefWidth="297.0" text="message" />
-            <Label text="Label" />
-            <Label layoutX="142.0" layoutY="572.0" prefHeight="58.0" prefWidth="326.0" text="number of donation collectd so far" textFill="WHITE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="numberOfDonation" contentDisplay="CENTER" layoutX="142.0" layoutY="623.0" prefHeight="58.0" prefWidth="169.0" text="20" textFill="WHITE">
-               <font>
-                  <Font name="Microsoft JhengHei Bold" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </children>
+                <Button fx:id="paymentButton" disable="true" layoutX="645.0" layoutY="303.0" mnemonicParsing="false" onAction="#pay" prefHeight="25.0" prefWidth="111.0" styleClass="LoginButton" stylesheets="@style.css" text="confirm payment" />
+                <Button fx:id="bl" layoutX="715.0" layoutY="676.0" mnemonicParsing="false" onAction="#submit" opacity="0.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
+                <TextField fx:id="text1L" layoutX="481.0" layoutY="617.0" opacity="0.0" prefHeight="10.0" prefWidth="99.0" promptText="age,weight" />
+                <TextField fx:id="text2L" layoutX="596.0" layoutY="604.0" opacity="0.0" prefHeight="26.0" prefWidth="195.0" promptText="free of diseas?, first time donating?" />
+            </children>
+        </AnchorPane>
+        <AnchorPane prefHeight="710.0" prefWidth="590.0" styleClass="stack-pane" stylesheets="@style.css">
+            <children>
+                <TextField fx:id="userIDText" disable="true" layoutX="104.0" layoutY="61.0" prefHeight="26.0" prefWidth="150.0" promptText="ID" />
+                <TextField fx:id="userFirstNameText" disable="true" layoutX="105.0" layoutY="104.0" promptText="first name" />
+                <TextField fx:id="userEmailText" disable="true" layoutX="272.0" layoutY="61.0" prefHeight="26.0" prefWidth="183.0" promptText="email" />
+                <TextField fx:id="userPhoneText" disable="true" layoutX="104.0" layoutY="141.0" promptText="phone" />
+                <TextField fx:id="userLastNameText" disable="true" layoutX="272.0" layoutY="104.0" prefHeight="25.0" prefWidth="183.0" promptText="last name" />
+                <Button layoutX="104.0" layoutY="262.0" mnemonicParsing="false" onAction="#requestModification" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="request modification" />
+                <TextField fx:id="userAddressText" disable="true" layoutX="272.0" layoutY="141.0" prefHeight="26.0" prefWidth="183.0" promptText="address" />
+                <TextField fx:id="userBloodTypeText" disable="true" layoutX="104.0" layoutY="181.0" promptText="blood type" />
+                <TextField fx:id="userHistoryText" disable="true" layoutX="272.0" layoutY="181.0" prefHeight="25.0" prefWidth="183.0" promptText="medical hostory" />
+                <Button fx:id="editButton" layoutX="105.0" layoutY="218.0" mnemonicParsing="false" onAction="#enableEdit" prefHeight="27.0" prefWidth="120.0" styleClass="searchButton" stylesheets="@style.css" text="edit information" />
+                <ListView layoutX="108.0" layoutY="420.0" prefHeight="281.0" prefWidth="391.0" styleClass="searchButton" stylesheets="@style.css" />
+                <Label fx:id="driveNumberText" layoutX="141.0" layoutY="452.0" prefHeight="27.0" prefWidth="169.0" text="drive number" textFill="WHITE">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <TextArea fx:id="driveMessage" disable="true" layoutX="139.0" layoutY="488.0" prefHeight="72.0" prefWidth="297.0" text="message" />
+                <Label text="Label" />
+                <Label layoutX="142.0" layoutY="572.0" prefHeight="58.0" prefWidth="326.0" text="number of donation collectd so far" textFill="WHITE">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="numberOfDonation" contentDisplay="CENTER" layoutX="142.0" layoutY="623.0" prefHeight="58.0" prefWidth="169.0" text="20" textFill="WHITE">
+                    <font>
+                        <Font name="Microsoft JhengHei Bold" size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </children>
 </HBox>

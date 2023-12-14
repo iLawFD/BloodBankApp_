@@ -256,17 +256,31 @@ public class UserController implements Initializable {
 
 
 
-            String bloodTypeDonor = ((SystemUser)DataBase.getDataBase().getCurrentSystemUser()).getBloodType();
+            //check date
+            if(firstTime.equals("y")){
+                DataBase.getDataBase().insertNewDonor(age, weight);
+
+
+            }
+            else{
+
+            }
+            DataBase.getDataBase().donateBlood();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alert.setTitle("Successfuly donation made");
+
+            alert.setContentText("Thank you for donating ");
+            alert.showAndWait();
+
+
+            //String bloodTypeDonor = ((SystemUser)DataBase.getDataBase().getCurrentSystemUser()).getBloodType();
             //String bloodTypeRec = DataBase.getDataBase().getRecpBlood(id);
 
            // if(DataBase.isComp(bloodTypeDonor,bloodTypeRec)){
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-                alert.setTitle("Successfully request to donationg has been made");
-                alert.setHeaderText("You did not meet our donation rules ");
-                alert.setContentText("wait for the recipient to accept your offer");
-                alert.showAndWait();
 
            // }
             //else{
