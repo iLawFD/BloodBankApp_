@@ -482,4 +482,21 @@ public class AdminController implements Initializable {
 
     }
 
+
+
+    @FXML
+    void goToBloodRequestPage(ActionEvent event) {
+
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/blood_processing.fxml"));
+
+            Scene scene2 = new Scene(fxmlLoader2.load(), 800, 600);
+
+            stage.setScene(scene2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

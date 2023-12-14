@@ -37,7 +37,7 @@
                </font>
             </Text>
             <Button layoutX="40.0" layoutY="720.0" mnemonicParsing="false" onAction="#signOut" prefHeight="37.0" prefWidth="213.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
-            <Button layoutX="39.0" layoutY="576.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="214.0" styleClass="LoginButton" stylesheets="@style.css" text="manage blood reqeusts" />
+            <Button layoutX="39.0" layoutY="576.0" mnemonicParsing="false" onAction="#goToBloodRequestPage" prefHeight="38.0" prefWidth="214.0" styleClass="LoginButton" stylesheets="@style.css" text="manage blood reqeusts" />
          </children>
       </AnchorPane>
       <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fillUserInfo" prefHeight="769.0" prefWidth="1217.0" spacing="20.0" stylesheets="@style.css">

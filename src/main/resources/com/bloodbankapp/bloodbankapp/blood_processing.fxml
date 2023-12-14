@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="812.0" spacing="15.0" styleClass="stack-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.bloodRequestController">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="1205.0" spacing="15.0" styleClass="stack-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.bloodRequestController">
    <children>
       <Button mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="97.0" styleClass="deleteButton" text="go back" />
       <Label alignment="CENTER" prefHeight="27.0" prefWidth="167.0" text="Blood Requests" textFill="WHITE">
