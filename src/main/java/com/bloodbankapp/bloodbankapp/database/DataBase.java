@@ -178,10 +178,26 @@ public class DataBase {
 //            throw new RuntimeException(e);
 //        }
     }
+    public boolean hasDonated() throws SQLException {
+
+        String sqlQuery = "SELECT donation_date FROM donation ORDER BY donation_date LIMIT 1";
+
+
+        Statement s1 = connection.createStatement();
+        ResultSet resultSet = s1.executeQuery(sqlQuery);
+
+
+        String value = "";
+        LocalDate localDate  = LocalDate.now();
+        java.sql.Date sqldate= java.sql.Date.valueOf(localDate);
+
+        //return value;
+
+    }
 
     public String driveCollection() throws SQLException {
 
-        String sqlQuery = "SELECT blood_drive_number, COUNT(blood_drive_number) FROM blood_drive GROUP BY blood_drive_number";
+        String sqlQuery = "SELECT blood_drive_number, COUNT(blood_drive_number) FROM donation GROUP BY blood_drive_number";
 
 
         Statement s1 = connection.createStatement();
