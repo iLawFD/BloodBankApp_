@@ -1,8 +1,5 @@
 package com.bloodbankapp.bloodbankapp.database;
-import com.bloodbankapp.bloodbankapp.Controllers.Admin;
-import com.bloodbankapp.bloodbankapp.Controllers.BloodRequest;
-import com.bloodbankapp.bloodbankapp.Controllers.Person;
-import com.bloodbankapp.bloodbankapp.Controllers.SystemUser;
+import com.bloodbankapp.bloodbankapp.Controllers.*;
 
 import javax.xml.xpath.XPathEvaluationResult;
 import java.io.IOException;
@@ -727,5 +724,29 @@ public class DataBase {
         p.setString(2,"uncompleted");
         p.setInt(3,requestID);
         p.executeUpdate();
+    }
+
+
+
+    public ArrayList<Donation> getDonations() throws SQLException {
+        ArrayList<Donation> donationArrayList = new ArrayList<>();
+
+        String res = "select * from donation where id = "+currentSystemUser.getID();
+        ResultSet resultSet = eQ(res);
+
+        while (resultSet.next()){
+            Donation bloodRequest = new Donation(
+                    resultSet.getInt("donation_id"),
+                    resultSet.getString("donation_status"),
+                    resultSet.getInt("request_id"),
+                    resultSet.getDate("donation_date"),
+                    resultSet.getString("blood_type"),
+                    resultSet.getInt("blood_drive_number")
+
+
+            );
+            donationArrayList.add(bloodRequest);
+        }
+        return  donationArrayList;
     }
 }

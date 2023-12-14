@@ -1,6 +1,5 @@
 
 package com.bloodbankapp.bloodbankapp.Controllers;
-import java.time.LocalDate;
 
 import com.bloodbankapp.bloodbankapp.database.DataBase;
 import javafx.collections.FXCollections;
@@ -11,15 +10,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class UserController implements Initializable {
@@ -36,6 +35,8 @@ public class UserController implements Initializable {
 
         try {
             SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
+
+            loadDonation();
             userIDText.setText(String.valueOf(currentSystemUser.getID()));
             userFirstNameText.setText(currentSystemUser.getFirstName());
             userLastNameText.setText(currentSystemUser.getLastName());
@@ -59,6 +60,25 @@ public class UserController implements Initializable {
 
     }
 
+    @FXML
+    private TableColumn<Donation, Integer> bloodDriveNumber;
+
+    @FXML
+    private TableColumn<Donation, String> bloodType;
+
+    @FXML
+    private TableColumn<Donation, Date> donationDate;
+
+    @FXML
+    private TableColumn<Donation, Integer> donationID;
+
+    @FXML
+    private TableColumn<Donation, String> donationStatus;
+    @FXML
+    private TableColumn<Donation, Integer> requestID;
+
+    @FXML
+    private TableView<Donation> donationTable;
 
 
 
@@ -328,6 +348,32 @@ public class UserController implements Initializable {
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    private void loadDonation(){
+        ArrayList<Donation> bloodDonation;
+
+
+        try {
+            bloodDonation = DataBase.getDataBase().getDonations();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        donationID.setCellValueFactory(new PropertyValueFactory<Donation,Integer>("donationID"));
+        donationStatus.setCellValueFactory(new PropertyValueFactory<Donation,String>("donationStatus"));
+        requestID.setCellValueFactory(new PropertyValueFactory<Donation,Integer>("requestID"));
+        donationDate.setCellValueFactory(new PropertyValueFactory<Donation, Date>("donationDate"));
+        bloodType.setCellValueFactory(new PropertyValueFactory<Donation,String>("bloodType"));
+        bloodDriveNumber.setCellValueFactory(new PropertyValueFactory<Donation,Integer>("bloodDriveNumber"));
+
+
+        ObservableList<Donation> bloodRequestObservableList = FXCollections.observableArrayList(bloodDonation);
+        donationTable.getSelectionModel().getSelectedItem();
+        donationTable.setItems(bloodRequestObservableList);
+
     }
 
 
