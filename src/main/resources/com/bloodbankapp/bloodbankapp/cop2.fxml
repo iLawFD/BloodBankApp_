@@ -14,11 +14,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1475.0" spacing="30.0" styleClass="loginStyle" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.UserController">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1475.0" spacing="30.0" styleClass="loginStyle" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.UserController">
    <children>
       <AnchorPane prefHeight="817.0" prefWidth="829.0" stylesheets="@style.css">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="20.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="23.0" layoutY="-9.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
             <TextField fx:id="text" layoutX="431.0" layoutY="15.0" promptText="Enter User ID" />
             <Button layoutX="609.0" layoutY="8.0" mnemonicParsing="false" onAction="#search" prefHeight="38.0" prefWidth="183.0" stylesheets="@style.css" text="search history">
                <styleClass>
@@ -30,7 +30,7 @@
                   <Font name="System Bold" size="24.0" />
                </font></Text>
             <Button layoutX="267.0" layoutY="667.0" mnemonicParsing="false" onAction="#reports" prefHeight="38.0" prefWidth="183.0" styleClass="choiceButton" stylesheets="@style.css" text="reports" />
-            <Button layoutX="72.0" layoutY="617.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
+            <Button layoutX="72.0" layoutY="617.0" mnemonicParsing="false" onAction="#donate" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Donate blood" />
             <Button layoutX="267.0" layoutY="617.0" mnemonicParsing="false" onAction="#request" prefHeight="38.0" prefWidth="183.0" styleClass="LoginButton" stylesheets="@style.css" text="Request blood" />
             <Button layoutX="72.0" layoutY="667.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="183.0" styleClass="deleteButton" stylesheets="@style.css" text="sign out" />
             <TextField fx:id="text1" layoutX="266.0" layoutY="401.0" opacity="0.0" promptText="Enter amount of blood" />
@@ -58,6 +58,9 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
+            <Button fx:id="bl" layoutX="715.0" layoutY="676.0" mnemonicParsing="false" opacity="0.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
+            <TextField fx:id="text1L" layoutX="481.0" layoutY="617.0" opacity="0.0" prefHeight="10.0" prefWidth="99.0" promptText="age,weight" />
+            <TextField fx:id="text2L" layoutX="596.0" layoutY="604.0" opacity="0.0" prefHeight="26.0" prefWidth="195.0" promptText="free of diseas?, first time donating?" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="710.0" prefWidth="590.0" styleClass="stack-pane" stylesheets="@style.css">

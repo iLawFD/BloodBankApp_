@@ -110,11 +110,12 @@ public class UserController implements Initializable {
     private TextField userBloodTypeText;
 
     @FXML
-    private TextField  text1;
+    private TextField  text1L;
     @FXML
-    private TextField  text11;
+    private TextField  text2L;
+
     @FXML
-    private Button b1;
+    private Button bl;
 
     @FXML
     private TextField  text2;
@@ -191,9 +192,9 @@ public class UserController implements Initializable {
     @FXML
     protected void donate(ActionEvent event) throws IOException, SQLException {
 
-        text1.setOpacity(1);
-        text11.setOpacity(1);
-        b1.setOpacity(1);
+        text1L.setOpacity(1);
+        text2L.setOpacity(1);
+      bl.setOpacity(1);
 
 
 
@@ -205,21 +206,25 @@ public class UserController implements Initializable {
     @FXML
     protected void submit() throws IOException, SQLException {
 
-        String[] info = text1.getText().split(",");
+        String[] info = text1L.getText().split(",");
+        String[] info2 = text2L.getText().split(",");
         System.out.println(info[0]);
         int age = Integer.parseInt(info[0]);
         int weight = Integer.parseInt(info[1]);
-        String disease = info[2];
 
-        int id = Integer.parseInt(text11.getText());
+        String disease = info2[0];
+        String firstTime = info2[1];
+
+
+
         if(age >= 17  & disease.equals("y") & weight >= 114 ){
 
 
 
             String bloodTypeDonor = ((SystemUser)DataBase.getDataBase().getCurrentSystemUser()).getBloodType();
-            String bloodTypeRec = DataBase.getDataBase().getRecpBlood(id);
+            //String bloodTypeRec = DataBase.getDataBase().getRecpBlood(id);
 
-            if(DataBase.isComp(bloodTypeDonor,bloodTypeRec)){
+           // if(DataBase.isComp(bloodTypeDonor,bloodTypeRec)){
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
@@ -228,16 +233,16 @@ public class UserController implements Initializable {
                 alert.setContentText("wait for the recipient to accept your offer");
                 alert.showAndWait();
 
-            }
-            else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+           // }
+            //else{
+              //  Alert alert = new Alert(Alert.AlertType.ERROR);
 
-                alert.setTitle("Error");
-                alert.setHeaderText("Your blood is not compatable wiht the rec");
-
-                alert.showAndWait();
-
-            }
+//                alert.setTitle("Error");
+//                alert.setHeaderText("Your blood is not compatable wiht the rec");
+//
+//                alert.showAndWait();
+//
+//            }
 
 
         }
