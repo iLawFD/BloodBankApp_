@@ -18,13 +18,11 @@
    <children>
       <AnchorPane prefHeight="817.0" prefWidth="829.0" stylesheets="@style.css">
          <children>
-<<<<<<< HEAD
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="20.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
             <TextField fx:id="text" layoutX="437.0" layoutY="15.0" prefHeight="26.0" prefWidth="149.0" promptText="Enter User ID" />
-=======
+
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="742.0" layoutX="23.0" layoutY="-9.0" stroke="WHITE" strokeType="INSIDE" width="786.0" />
             <TextField fx:id="text" layoutX="431.0" layoutY="15.0" promptText="Enter User ID" />
->>>>>>> 0f27cbd7e01fb584c4c3174344a8ce5acb37e789
             <Button layoutX="609.0" layoutY="8.0" mnemonicParsing="false" onAction="#search" prefHeight="38.0" prefWidth="183.0" stylesheets="@style.css" text="search history">
                <styleClass>
                   <String fx:value="loginStyle" />
@@ -65,13 +63,11 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-<<<<<<< HEAD
+
             <Button fx:id="paymentButton" disable="true" layoutX="645.0" layoutY="303.0" mnemonicParsing="false" onAction="#pay" prefHeight="25.0" prefWidth="111.0" styleClass="LoginButton" stylesheets="@style.css" text="confirm payment" />
-=======
             <Button fx:id="bl" layoutX="715.0" layoutY="676.0" mnemonicParsing="false" opacity="0.0" styleClass="LoginButton" stylesheets="@style.css" text="Submit" />
             <TextField fx:id="text1L" layoutX="481.0" layoutY="617.0" opacity="0.0" prefHeight="10.0" prefWidth="99.0" promptText="age,weight" />
             <TextField fx:id="text2L" layoutX="596.0" layoutY="604.0" opacity="0.0" prefHeight="26.0" prefWidth="195.0" promptText="free of diseas?, first time donating?" />
->>>>>>> 0f27cbd7e01fb584c4c3174344a8ce5acb37e789
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="710.0" prefWidth="590.0" styleClass="stack-pane" stylesheets="@style.css">
