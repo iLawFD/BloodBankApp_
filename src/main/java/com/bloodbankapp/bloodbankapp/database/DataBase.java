@@ -179,7 +179,27 @@ public class DataBase {
 //        }
     }
 
+    public String driveCollection() throws SQLException {
 
+        String sqlQuery = "SELECT blood_drive_number, COUNT(blood_drive_number) FROM blood_drive GROUP BY blood_drive_number";
+
+
+        Statement s1 = connection.createStatement();
+        ResultSet resultSet = s1.executeQuery(sqlQuery);
+
+
+        String value = "";
+        int i =0 ;
+        if (resultSet.next()) {
+
+
+            value = value +  String.valueOf(resultSet.getInt(i));
+            i ++;
+        }
+        return value;
+
+
+    }
 
     public int getDonationCountForCurrentWeek() throws SQLException {
         String sqlQuery = "SELECT COUNT(*) " +
