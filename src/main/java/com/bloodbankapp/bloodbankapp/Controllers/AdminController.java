@@ -13,10 +13,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -327,7 +329,7 @@ public class AdminController implements Initializable {
         });
 
     }
-
+// 111, 233
     @FXML
     private void removeUser(){
         try{
@@ -363,35 +365,37 @@ public class AdminController implements Initializable {
             alert.setContentText("you did not enter the ID");
             alert.showAndWait();
 
+        }finally {
+            loadData();
         }
     }
 
     @FXML
-    protected void showUserHistory() throws IOException {
+    protected void showUserHistory(ActionEvent event) throws IOException {
 
-        String id = IDText.getText();
+        int id = Integer.parseInt(IDText.getText());
 
         try{
-            String info = DataBase.getDataBase().searchUser(Integer.parseInt(id));
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            alert.setTitle("Info: ");
+            FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/history.fxml"));
+            Parent parent = fxmlLoader2.load();
 
-            alert.setContentText(info);
-            alert.showAndWait();
+            HistoryController historyController = fxmlLoader2.getController();
+
+            historyController.loadDonation(id);
+            historyController.loadRequests(id);
+            Scene scene2 = new Scene(parent, 1540, 800);
+            stage.setScene(scene2);
 
 
-        } catch (SQLException e) {
 
-            System.out.println(e.getErrorCode());
+
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Input Error");
-            alert.setHeaderText("The given ID does not exsist  ");
-            alert.setContentText("Please make sure of your ID! ");
-            alert.showAndWait();
-            return;
+
         }
 
     }

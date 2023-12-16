@@ -22,16 +22,10 @@
       <AnchorPane prefHeight="800.0" prefWidth="365.0" stylesheets="@style.css">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="763.0" layoutX="14.0" layoutY="14.0" stroke="WHITE" strokeType="INSIDE" width="337.0" />
-            <ListView fx:id="view" layoutX="26.0" layoutY="73.0" prefHeight="126.0" prefWidth="307.0" />
-            <TextField fx:id="historyText" layoutX="183.0" layoutY="27.0" promptText="Enter User ID" />
-            <Text layoutX="-3.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All requests" textAlignment="CENTER" wrappingWidth="149.60000000000014">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font></Text>
             <Button layoutX="40.0" layoutY="626.0" mnemonicParsing="false" onAction="#goToReports" prefHeight="38.0" prefWidth="213.0" styleClass="LoginButton" stylesheets="@style.css" text="Reports" />
             <Button layoutX="40.0" layoutY="675.0" mnemonicParsing="false" onAction="#request" prefHeight="38.0" prefWidth="213.0" styleClass="choiceButton" stylesheets="@style.css" text="intiate drive" />
-            <ListView fx:id="modViewList" layoutX="26.0" layoutY="234.0" prefHeight="142.0" prefWidth="307.0" />
-            <Text fx:id="modificationListView" layoutX="14.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
+            <ListView fx:id="modViewList" layoutX="35.0" layoutY="56.0" prefHeight="142.0" prefWidth="307.0" />
+            <Text fx:id="modificationListView" layoutX="23.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user modification request" textAlignment="CENTER" wrappingWidth="212.8000122070314">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -40,12 +34,11 @@
             <Button layoutX="39.0" layoutY="576.0" mnemonicParsing="false" onAction="#goToBloodRequestPage" prefHeight="38.0" prefWidth="214.0" styleClass="LoginButton" stylesheets="@style.css" text="manage blood reqeusts" />
          </children>
       </AnchorPane>
-      <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#fillUserInfo" prefHeight="769.0" prefWidth="1217.0" spacing="20.0" stylesheets="@style.css">
+      <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" prefWidth="1217.0" spacing="20.0" stylesheets="@style.css">
          <children>
             <HBox prefHeight="38.0" prefWidth="940.0" spacing="20.0">
                <children>
                   <TextField fx:id="searchPersonText" prefHeight="31.0" prefWidth="440.0" promptText="search person" />
-                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="94.0" styleClass="searchButton" text="search" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
@@ -63,7 +56,7 @@
                   <TableColumn fx:id="medicalHistory" prefWidth="156.0" text="medical history" />
                </columns>
             </TableView>
-            <AnchorPane onMouseClicked="#fillUserInfo" prefHeight="322.0" prefWidth="1092.0" styleClass="stack-pane" stylesheets="@style.css">
+            <AnchorPane prefHeight="322.0" prefWidth="1092.0" styleClass="stack-pane" stylesheets="@style.css">
                <children>
                   <TextField fx:id="IDText" layoutX="45.0" layoutY="77.0" promptText="ID" />
                   <TextField fx:id="addressText" layoutX="45.0" layoutY="114.0" promptText="address" />

@@ -34,6 +34,7 @@ public class UserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        addItemToComboBox();
 
         try {
             SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
@@ -50,11 +51,8 @@ public class UserController implements Initializable {
             userPhoneText.setText(currentSystemUser.getPhone_number());
             userHistoryText.setText(currentSystemUser.getMedicalHistory());
 
-            String info = DataBase.getDataBase().showRequests();
-            String[] lst = info.split("\n\n");
 
-            ObservableList<String> items = FXCollections.observableArrayList(lst);
-            view.setItems(items);
+
 
 
         } catch (SQLException e) {
@@ -135,12 +133,16 @@ public class UserController implements Initializable {
     private TextField userBloodTypeText;
 
     @FXML
-    private TextField  text1L;
+    private TextField  ageText;
     @FXML
-    private TextField  text2L;
+    private TextField  weightText;
 
     @FXML
-    private Button bl;
+    private Button submitDonateButton;
+    @FXML
+    private ComboBox<String> diseaseComboBox;
+    @FXML
+    private ComboBox<String> donateComboBox;
 
     @FXML
     private TextArea driveMessage;
@@ -211,130 +213,103 @@ public class UserController implements Initializable {
 
     @FXML
     protected void request(ActionEvent event) throws IOException, SQLException {
-        // text1.setOpacity(1);
+        try{
+            DataBase.getDataBase().requestBlood();
 
-        //b1.setOpacity(1);
-       // DataBase.getDataBase().createRequest();
-//        DataBase.getDataBase().createPayments();
-        String info = DataBase.getDataBase().showRequests();
-        String[] lst = info.split("\n\n");
+        }catch (Exception e){
+            System.out.println("ex");
 
-        ObservableList<String> items = FXCollections.observableArrayList(lst);
-        view.setItems(items);
-
+        }finally {
+            loadRequests();
+        }
     }
 
     @FXML
     protected void donate(ActionEvent event) throws IOException, SQLException {
 
-        text1L.setOpacity(1);
-        text2L.setOpacity(1);
-      bl.setOpacity(1);
-
-
-
-
-
+        donateComboBox.setDisable(false);
+        submitDonateButton.setDisable(false);
 
     }
 
     @FXML
-    protected void submit() throws IOException, SQLException {
+    protected void submit()  {
 
-        String[] info = text1L.getText().split(",");
-        String[] info2 = text2L.getText().split(",");
-        System.out.println(info[0]);
-        int age = Integer.parseInt(info[0]);
-        int weight = Integer.parseInt(info[1]);
+        try{
+            String disease = diseaseComboBox.getSelectionModel().getSelectedItem();
+            String firstTime = donateComboBox.getSelectionModel().getSelectedItem();
 
-        String disease = info2[0];
-        String firstTime = info2[1];
+            if(firstTime.equals("yes")){
+                int age = Integer.parseInt(ageText.getText());
+                int weight = Integer.parseInt(weightText.getText());
+                if(age >= 17  & disease.equals("yes") & weight >= 114 ){
+                    DataBase.getDataBase().insertNewDonor(age, weight);
+                    DataBase.getDataBase().donateBlood();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                    alert.setTitle("Donation is Successfully made");
+
+                    alert.setContentText("Thank you for donating ");
+                    alert.showAndWait();
+                    loadDonation();
 
 
+                }
+                else{
 
-        if(age >= 17  & disease.equals("y") & weight >= 114 ){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("You did not meet our donation rules ");
+                    alert.setContentText("try again when you meet them ");
+                    alert.showAndWait();
 
-
-
-            //check date
-            if(firstTime.equals("y")){
-                DataBase.getDataBase().insertNewDonor(age, weight);
+                }
 
 
             }
             else{
+                boolean hasDonated  = DataBase.getDataBase().hasDonated(DataBase.getDataBase().getCurrentSystemUser().getID());
+                if(hasDonated){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+
+                    alert.setTitle("donation is failed");
+
+                    alert.setContentText("you donated recently you should complete 2 months");
+                    alert.showAndWait();
+                }else{
+                    DataBase.getDataBase().donateBlood();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                    alert.setTitle("Donation is Successfully made");
+
+                    alert.setContentText("Thank you for donating ");
+                    alert.showAndWait();
+                    loadDonation();
+
+
+
+                }
 
             }
-            DataBase.getDataBase().donateBlood();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        } catch (RuntimeException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
 
-            alert.setTitle("Successfuly donation made");
+            alert.setTitle("donation is failed");
 
-            alert.setContentText("Thank you for donating ");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
+        } catch (SQLException e){
 
+            Alert alert = new Alert(Alert.AlertType.WARNING);
 
-            //String bloodTypeDonor = ((SystemUser)DataBase.getDataBase().getCurrentSystemUser()).getBloodType();
-            //String bloodTypeRec = DataBase.getDataBase().getRecpBlood(id);
-
-           // if(DataBase.isComp(bloodTypeDonor,bloodTypeRec)){
-
-
-
-           // }
-            //else{
-              //  Alert alert = new Alert(Alert.AlertType.ERROR);
-
-//                alert.setTitle("Error");
-//                alert.setHeaderText("Your blood is not compatable wiht the rec");
-//
-//                alert.showAndWait();
-//
-//            }
-
-
-        }
-        else{
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-
-            alert.setTitle("Error");
-            alert.setHeaderText("You did not meet our donation rules ");
-            alert.setContentText("try again when you meet them ");
+            alert.setTitle("donation is failed");
+            alert.setContentText("you entered wrong information: this is not the first time you donate");
             alert.showAndWait();
-
+        } finally {
+            disableAll();
         }
-
-
-
-//        SystemUser currentSystemUser = (SystemUser) DataBase.getDataBase().getCurrentSystemUser();
-//
-//
-//        LocalDate today = LocalDate.now();
-//
-//        String str = "";
-//
-//
-//
-//
-//        str +="Date: "+  (today) + " ";
-//        str+= "Type: "+ (currentSystemUser.getBloodType()) + " ";
-//        str+= "Rec ID " + (currentSystemUser.getID());
-//        str += "\n\n";
-//
-//
-//
-//
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//
-//        alert.setTitle("Request has been made");
-//        alert.setHeaderText("The given ID does not exsist  ");
-//        alert.setContentText("Please make sure of your ID! ");
-//        alert.showAndWait();
-//        view.getItems().add(str);
-
-
 
 
 
@@ -410,7 +385,7 @@ public class UserController implements Initializable {
 
 
         try {
-            bloodDonation = DataBase.getDataBase().getDonations();
+            bloodDonation = DataBase.getDataBase().getCurrentUserDonations(DataBase.getDataBase().getCurrentSystemUser().getID());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -436,7 +411,7 @@ public class UserController implements Initializable {
 
 
         try {
-            userBloodRequests = DataBase.getDataBase().getUserBloodRequest();
+            userBloodRequests = DataBase.getDataBase().getUserBloodRequest(DataBase.getDataBase().getCurrentSystemUser().getID());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -460,7 +435,13 @@ public class UserController implements Initializable {
 
     @FXML
     void checkConfirmPayment(MouseEvent event) {
-        paymentButton.setDisable(!userRequestsTable.getSelectionModel().getSelectedItem().getPaymentStatus().equals("uncompleted"));
+
+        try{
+            paymentButton.setDisable(!userRequestsTable.getSelectionModel().getSelectedItem().getPaymentStatus().equals("uncompleted"));
+
+        }catch (Exception e){
+
+        }
     }
 
     @FXML
@@ -500,13 +481,57 @@ public class UserController implements Initializable {
     private void getCurrentDriveInfo(){
 
         try {
-            driveNumberText.setText(String.valueOf(DataBase.getDataBase().getCurrentDriveNumber()));
+            driveNumberText.setText("drive number : "+String.valueOf(DataBase.getDataBase().getCurrentDriveNumber()));
             driveMessage.setText(DataBase.getDataBase().getCurrentDriveMessage());
             numberOfDonation.setText(String.valueOf(DataBase.getDataBase().getCurrentDriveNumberOfDonations()));
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    @FXML
+    void showOtherInfo(ActionEvent event) {
+        try {
+            if(donateComboBox.getSelectionModel().getSelectedItem().equals("yes")){
+                ageText.setDisable(false);
+                weightText.setDisable(false);
+                diseaseComboBox.setDisable(false);
+            }else{
+                ageText.setDisable(true);
+                weightText.setDisable(true);
+                diseaseComboBox.setDisable(true);
+            }
+        } catch (Exception e){
+
+        }
+
+
+    }
+
+    private void addItemToComboBox(){
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("yes");
+        strings.add("no");
+
+        ObservableList<String> items = FXCollections.observableArrayList(strings);
+
+
+        diseaseComboBox.setItems(items);
+        donateComboBox.setItems(items);
+    }
+
+    private  void disableAll(){
+        ageText.clear();
+        weightText.clear();
+        diseaseComboBox.setValue("free from desise");
+        donateComboBox.setValue("first time donating?");
+        submitDonateButton.setDisable(true);
+        ageText.setDisable(true);
+        weightText.setDisable(true);
+        diseaseComboBox.setDisable(true);
+        donateComboBox.setDisable(true);
     }
 
 

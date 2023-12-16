@@ -35,20 +35,6 @@ public class browsercontroler implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        try {
-
-
-            String info = DataBase.getDataBase().showRequests();
-            String[] lst = info.split("\n\n");
-
-            ObservableList<String> items = FXCollections.observableArrayList(lst);
-            view.setItems(items);
-
-
-        } catch (SQLException e) {
-            System.out.println((e.getMessage()));
-        }
-
 
     }
 
@@ -106,7 +92,7 @@ public class browsercontroler implements Initializable {
 
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/cop2.fxml"));
+        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/com/bloodbankapp/bloodbankapp/login-view.fxml"));
 
         Scene scene2 = new Scene(fxmlLoader2.load(), 900, 600);
         stage.setScene(scene2);

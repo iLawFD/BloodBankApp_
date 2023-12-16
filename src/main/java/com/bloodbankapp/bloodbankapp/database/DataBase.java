@@ -1,12 +1,11 @@
 package com.bloodbankapp.bloodbankapp.database;
 import com.bloodbankapp.bloodbankapp.Controllers.*;
 
-import javax.xml.xpath.XPathEvaluationResult;
 import java.io.IOException;
 import java.sql.*;
 import java.sql.Date;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class DataBase {
@@ -112,6 +111,7 @@ public class DataBase {
 
         int rowsAffectedSystemUser = preparedStatementSystemUser.executeUpdate();
 
+
     }
     public void insertNewUser(int userID,String firstName, String lastName,
                               String address, String phoneNumber, String email,String bloodType,String medicalHistory) throws SQLException{
@@ -151,7 +151,8 @@ public class DataBase {
                 "DELETE FROM Recipient WHERE ID = ?",
                 "DELETE FROM System_user WHERE ID = ?",
                 "DELETE FROM Person WHERE ID = ?",
-                "DELETE FROM Blood_product WHERE Donor_ID = ?"
+                "DELETE FROM donation WHERE ID = ?",
+                "DELETE FROM recipient_request WHERE ID = ?"
         };
         for(String query : deleteQueries){
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -164,36 +165,42 @@ public class DataBase {
     }
 
     public static void main(String[] args) {
-        try {
-            DataBase.getDataBase().retrieveUserInfo(233);
-//            int ID, int requestID, String bloodType
-            DataBase.getDataBase().insertNewDonor(23,75);
-//            DataBase.getDataBase().fulfillBloodRequests(111,5,"A+");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+////            DataBase.getDataBase().retrieveUserInfo(233);
+//////            int ID, int requestID, String bloodType
+////            DataBase.getDataBase().insertNewDonor(23,75);
+////            DataBase.getDataBase().fulfillBloodRequests(111,5,"A+");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 //        try {
 //            System.out.println(DataBase.getDataBase().bloodRequests());
 //        } catch (SQLException e) {
 //            throw new RuntimeException(e);
 //        }
     }
-    public boolean hasDonated() throws SQLException {
 
-        String sqlQuery = "SELECT donation_date FROM donation ORDER BY donation_date LIMIT 1";
+    public boolean hasDonated(int ID) throws SQLException {
+        String sqlQuery = "SELECT donation_date FROM donation WHERE id = ? ORDER BY donation_date LIMIT 1 ";
 
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            preparedStatement.setInt(1, ID);
 
-        Statement s1 = connection.createStatement();
-        ResultSet resultSet = s1.executeQuery(sqlQuery);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                LocalDate localDate = LocalDate.now();
 
-
-        String value = "";
-        LocalDate localDate  = LocalDate.now();
-        java.sql.Date sqldate= java.sql.Date.valueOf(localDate);
-
-        //return value;
-
+                if (resultSet.next()) {
+                    LocalDate donationDate = resultSet.getDate("donation_date").toLocalDate();
+                    long difference = ChronoUnit.MONTHS.between(donationDate, localDate);
+                    return difference <= 2;
+                } else {
+                    // Handle the case where no donation record is found for the given ID
+                    return false;
+                }
+            }
+        }
     }
+
 
     public String driveCollection() throws SQLException {
 
@@ -272,25 +279,25 @@ public class DataBase {
 
     }
 
-    public String showRequests() throws SQLException {
-        String query = "SELECT * FROM Blood_product WHERE DONOR_ID IS NULL";
-        Statement s1 = connection.createStatement();
-        ResultSet r1 = s1.executeQuery(query);
-        String str = "";
-
-        while (r1.next()){
-
-            str +="Date: "+  r1.getString("Date") + " ";
-            str+= "Type: "+ r1.getString("Blood_type") + " ";
-            str+= "Rec ID " + r1.getString("recipient_id");
-            str += "\n\n";
-        }
-
-
-        return str;
-
-
-    }
+//    public String showRequests() throws SQLException {
+//        String query = "SELECT * FROM Blood_product WHERE DONOR_ID IS NULL";
+//        Statement s1 = connection.createStatement();
+//        ResultSet r1 = s1.executeQuery(query);
+//        String str = "";
+//
+//        while (r1.next()){
+//
+//            str +="Date: "+  r1.getString("Date") + " ";
+//            str+= "Type: "+ r1.getString("Blood_type") + " ";
+//            str+= "Rec ID " + r1.getString("recipient_id");
+//            str += "\n\n";
+//        }
+//
+//
+//        return str;
+//
+//
+//    }
 
     private ResultSet eQ(String sqlQuery) throws SQLException {
         Statement statement = connection.createStatement();
@@ -780,7 +787,7 @@ public class DataBase {
 //            }
 //        }
 //    }
-public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
+public Boolean fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
     String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
     String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = ?";
     String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated', request_id = ? WHERE donation_id = ?";
@@ -809,9 +816,11 @@ public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws
                     "Payment has been created"
             );
             connection.setAutoCommit(true);
-            return;
+            return true;
         }
     }
+
+    return false;
 }
 
 
@@ -826,10 +835,10 @@ public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws
 
 
 
-    public ArrayList<Donation> getDonations() throws SQLException {
+    public ArrayList<Donation> getCurrentUserDonations(int ID) throws SQLException {
         ArrayList<Donation> donationArrayList = new ArrayList<>();
 
-        String res = "select * from donation where id = "+currentSystemUser.getID();
+        String res = "select * from donation where id = "+ID;
         ResultSet resultSet = eQ(res);
 
         while (resultSet.next()){
@@ -848,10 +857,35 @@ public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws
         return  donationArrayList;
     }
 
-    public ArrayList<userBloodRequest> getUserBloodRequest() throws SQLException {
-        ArrayList<userBloodRequest> userBloodRequests = new ArrayList<>();
+    public ArrayList<Donation> getDonations() throws SQLException {
+        ArrayList<Donation> donationArrayList = new ArrayList<>();
 
-        String res = "select * from recipient_request natural join payment where id= "+currentSystemUser.getID();
+        String res = "select * from donation where donation_status = 'stored'";
+        ResultSet resultSet = eQ(res);
+
+        while (resultSet.next()){
+            Donation bloodRequest = new Donation(
+                    resultSet.getInt("donation_id"),
+                    resultSet.getString("donation_status"),
+                    resultSet.getInt("request_id"),
+                    resultSet.getDate("donation_date"),
+                    resultSet.getString("blood_type"),
+                    resultSet.getInt("blood_drive_number")
+
+
+            );
+            donationArrayList.add(bloodRequest);
+        }
+        return  donationArrayList;
+    }
+
+
+    public ArrayList<userBloodRequest> getUserBloodRequest(int ID) throws SQLException {
+        ArrayList<userBloodRequest> userBloodRequests = new ArrayList<>();
+        String res = "SELECT * FROM recipient_request r " +
+                "LEFT JOIN payment p ON r.request_id = p.request_id " +
+                "WHERE r.id = "+ID;
+
         ResultSet resultSet = eQ(res);
 
         while (resultSet.next()){
@@ -881,6 +915,115 @@ public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws
         preparedStatement.executeUpdate();
 
     }
+
+
+    public ArrayList<Payment> getPayment() throws SQLException {
+        ArrayList<Payment> payments = new ArrayList<>();
+        String s = "SELECT  * FROM payment where status = 'completed' ";
+
+        ResultSet resultSet = eQ(s);
+        while (resultSet.next()){
+            int amount  = resultSet.getInt("amount");
+            String status = resultSet.getString("status");
+            int id = resultSet.getInt("payment_id");
+
+            payments.add(new Payment(amount,status,id));
+        }
+
+        return  payments;
+    }
+
+
+    public int getNumberOfAvailableDonation() throws SQLException {
+
+       String s = "SELECT count(donation_status) from donation where donation_status = 'stored'";
+
+       ResultSet resultSet = eQ(s);
+       if(resultSet.next()){
+           return resultSet.getInt("count");
+       }
+       return  0;
+
+    }
+    public int getNumberOfDoneDonation() throws SQLException {
+
+        String s = "SELECT count(donation_status) from donation where donation_status = 'donated'";
+
+        ResultSet resultSet = eQ(s);
+        if(resultSet.next()){
+            return resultSet.getInt("count");
+        }
+        return  0;
+
+    }
+
+    public Map<String,Integer> getAgesCount() throws SQLException {
+        Map<String,Integer> agesCount = new HashMap<>();
+
+        String s = "SELECT age ,count(age) from donor group by age";
+
+        ResultSet resultSet = eQ(s);
+
+        while (resultSet.next()){
+
+            agesCount.put(resultSet.getInt("age")+"",resultSet.getInt("count"));
+        }
+
+        return  agesCount;
+    }
+
+    public ArrayList<DonationDrive> getDonationDrives() throws SQLException {
+        ArrayList<DonationDrive> donationDrives = new ArrayList<>();
+
+        ResultSet resultSet = eQ("SELECT blood_drive_number, count(blood_drive_number) from donation group by blood_drive_number");
+
+        while (resultSet.next()){
+            donationDrives.add(new DonationDrive(resultSet.getInt("blood_drive_number"), resultSet.getInt("count")));
+        }
+
+        return donationDrives;
+    }
+
+    public ArrayList<String> getOrganization() throws SQLException {
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        String s = "select organization_name from organization ";
+
+        ResultSet resultSet = eQ(s);
+
+        while (resultSet.next()){
+            stringArrayList.add(resultSet.getString("organization_name"));
+        }
+
+        return stringArrayList;
+    }
+
+    public void sendBloodToOrg(int donationID,String orgName) throws SQLException {
+
+        try{
+            String insertQuery = "INSERT INTO Distribute (Date, admin_ID, org_ID) VALUES (CURRENT_DATE, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            ResultSet resultSet = eQ("select org_id from organization where organization_name = '"+orgName+"'");
+            preparedStatement.setInt(1,currentSystemUser.getID());
+            preparedStatement.setInt(2,resultSet.getInt("org_id"));
+
+            String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated' WHERE donation_id = "+donationID;
+            preparedStatement = connection.prepareStatement(donQUpdateFrag1);
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException e){
+            String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated' WHERE donation_id = "+donationID;
+            PreparedStatement preparedStatement = connection.prepareStatement(donQUpdateFrag1);
+            preparedStatement.executeUpdate();
+
+        }
+
+
+
+
+    }
+
+
+
 
 
 

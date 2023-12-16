@@ -2,31 +2,64 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="1205.0" spacing="15.0" styleClass="stack-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.bloodRequestController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="1568.0" spacing="15.0" styleClass="stack-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.bloodRequestController">
    <children>
       <Button mnemonicParsing="false" onAction="#goBack" prefHeight="26.0" prefWidth="97.0" styleClass="deleteButton" text="go back" />
-      <Label alignment="CENTER" prefHeight="27.0" prefWidth="167.0" text="Blood Requests" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TableView fx:id="bloodRequestTable" prefHeight="286.0" prefWidth="451.0">
-        <columns>
-          <TableColumn fx:id="requestID" prefWidth="75.0" text="id" />
-          <TableColumn fx:id="date" prefWidth="99.1999740600586" text="request date" />
-            <TableColumn fx:id="ID" prefWidth="99.1999740600586" text="recipient ID" />
-            <TableColumn fx:id="bloodType" prefWidth="99.1999740600586" text="Blood type" />
-        </columns>
-      </TableView>
-      <Button mnemonicParsing="false" onAction="#processRequest" prefHeight="38.0" prefWidth="166.0" styleClass="choiceButton" text="procces request" />
+      <AnchorPane prefHeight="98.0" prefWidth="1097.0" styleClass="stack-pane">
+         <children>
+            <Label alignment="CENTER" layoutX="382.0" layoutY="23.0" prefHeight="51.0" prefWidth="167.0" text="blood dontions" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="41.0" layoutY="23.0" prefHeight="51.0" prefWidth="167.0" text="blood requests" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <HBox prefHeight="347.0" prefWidth="1191.0" spacing="15.0">
+         <children>
+            <TableView fx:id="bloodRequestTable" prefHeight="276.0" prefWidth="375.0">
+              <columns>
+                <TableColumn fx:id="requestID" prefWidth="75.0" text="id" />
+                <TableColumn fx:id="date" prefWidth="99.1999740600586" text="request date" />
+                  <TableColumn fx:id="ID" prefWidth="99.1999740600586" text="recipient ID" />
+                  <TableColumn fx:id="bloodType" prefWidth="99.1999740600586" text="Blood type" />
+              </columns>
+            </TableView>
+            <TableView fx:id="donationTable" prefHeight="347.0" prefWidth="870.0">
+              <columns>
+                <TableColumn fx:id="donationID" prefWidth="81.60006558895111" text="donation id" />
+                <TableColumn fx:id="requestID2" prefWidth="100.79999542236328" text="request id" />
+                  <TableColumn fx:id="donationDate" prefWidth="157.5999755859375" text="donation date" />
+                  <TableColumn fx:id="ExpirationDate" prefWidth="157.0" text="exp date" />
+                  <TableColumn fx:id="bloodType2" prefWidth="198.0" text="blood type" />
+                  <TableColumn fx:id="bloodDriveNumber" prefWidth="173.0" text="blood drive" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="83.0" prefWidth="530.0" styleClass="stack-pane">
+         <children>
+            <Button layoutX="22.0" layoutY="23.0" mnemonicParsing="false" onAction="#processRequest" prefHeight="38.0" prefWidth="166.0" styleClass="choiceButton" text="procces request" />
+            <Button layoutX="405.0" layoutY="14.0" mnemonicParsing="false" onAction="#openOrganizationRequest" prefHeight="37.0" prefWidth="191.0" styleClass="deleteButton" text="send donation to organization" />
+            <ComboBox fx:id="selectComboBox" disable="true" layoutX="614.0" layoutY="20.0" prefWidth="150.0" promptText="select orgnizaiton" />
+            <Button fx:id="sendButton" disable="true" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" onAction="#sendDonationToOrganization" prefHeight="37.0" prefWidth="104.0" styleClass="LoginButton" text="send" />
+         </children>
+      </AnchorPane>
    </children>
    <padding>
-      <Insets bottom="20.0" left="100.0" right="100.0" top="20.0" />
+      <Insets bottom="20.0" left="100.0" right="200.0" top="20.0" />
    </padding>
 </VBox>

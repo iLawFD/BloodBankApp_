@@ -5,18 +5,26 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1476.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bloodbankapp.bloodbankapp.Controllers.dashboardController">
-   <VBox alignment="BASELINE_CENTER" layoutX="7.0" layoutY="7.0" prefHeight="530.0" prefWidth="212.0" spacing="650.0" styleClass="loginStyle" stylesheets="@style.css" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="7.0">
+   <VBox alignment="TOP_CENTER" layoutX="7.0" layoutY="7.0" prefHeight="530.0" prefWidth="212.0" spacing="50.0" styleClass="loginStyle" stylesheets="@style.css" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="7.0">
       <Label text="reports" textFill="WHITE">
          <font>
             <Font size="27.0" />
          </font>
       </Label>
+      <TableView fx:id="donationDriveTable" prefHeight="200.0" prefWidth="200.0">
+         <columns>
+            <TableColumn fx:id="driveID" prefWidth="81.0" text="drive number" />
+            <TableColumn fx:id="count" prefWidth="141.0" text="donaitons" />
+         </columns>
+      </TableView>
       <Button mnemonicParsing="false" onAction="#goback" prefHeight="37.0" prefWidth="154.0" styleClass="LoginButton" text="go back" />
    </VBox>
    <AnchorPane layoutX="247.0" layoutY="18.0" prefHeight="770.0" prefWidth="1089.0" styleClass="dashboard" stylesheets="@style.css" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="247.0" AnchorPane.topAnchor="18.0">
@@ -52,5 +60,17 @@
             </font>
          </Label>
       </Pane>
+      <TableView fx:id="paymentTable" layoutX="87.0" layoutY="556.0" prefHeight="200.0" prefWidth="484.0">
+        <columns>
+          <TableColumn fx:id="ID" prefWidth="106.0" text="payment number" />
+          <TableColumn fx:id="status" prefWidth="123.0" text="status" />
+            <TableColumn fx:id="amount" prefWidth="252.0" text="amount" />
+        </columns>
+      </TableView>
+      <Label layoutX="87.0" layoutY="522.0" prefHeight="17.0" prefWidth="99.0" text="payments">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </AnchorPane>
 </AnchorPane>

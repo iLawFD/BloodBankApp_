@@ -1,6 +1,9 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 
 public class Donation {
     private int donationID;
@@ -10,6 +13,15 @@ public class Donation {
 
     private String bloodType;
     private  int bloodDriveNumber;
+    private LocalDate ExpirationDate ;
+
+    public LocalDate getExpirationDate() {
+        return ExpirationDate;
+    }
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        ExpirationDate = expirationDate;
+    }
 
     public void setDonationID(int donationID) {
         this.donationID = donationID;
@@ -42,6 +54,9 @@ public class Donation {
         this.donationDate = donationDate;
         this.bloodType = bloodType;
         this.bloodDriveNumber = bloodDriveNumber;
+        LocalDate localDonationDate = donationDate.toLocalDate();
+        this.ExpirationDate = localDonationDate.plus(Period.ofDays(getDaysToAddForBloodType(bloodType)));
+
     }
 
     public int getDonationID() {
@@ -67,4 +82,23 @@ public class Donation {
     public int getBloodDriveNumber() {
         return bloodDriveNumber;
     }
+
+
+    public int getDaysToAddForBloodType(String bloodType) {
+        switch (bloodType.toUpperCase()) {
+            case "A+":
+            case "B+":
+            case "AB+":
+            case "O+":
+                return 35;
+            case "A-":
+            case "B-":
+            case "AB-":
+            case "O-":
+                return 49;
+            default:
+                return 0;
+        }
+    }
+
 }
