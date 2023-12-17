@@ -1,6 +1,7 @@
 package com.bloodbankapp.bloodbankapp.Controllers;
 
-import java.util.Date;
+
+import java.sql.Date;
 
 public class userBloodRequest {
 

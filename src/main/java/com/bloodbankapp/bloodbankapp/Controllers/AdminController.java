@@ -383,9 +383,9 @@ public class AdminController implements Initializable {
             Parent parent = fxmlLoader2.load();
 
             HistoryController historyController = fxmlLoader2.getController();
-
-            historyController.loadDonation(id);
-            historyController.loadRequests(id);
+            historyController.authenticateUser(id);
+            historyController.loadDonation();
+            historyController.loadRequests();
             Scene scene2 = new Scene(parent, 1540, 800);
             stage.setScene(scene2);
 

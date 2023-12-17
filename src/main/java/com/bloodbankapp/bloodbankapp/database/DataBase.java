@@ -181,7 +181,7 @@ public class DataBase {
     }
 
     public boolean hasDonated(int ID) throws SQLException {
-        String sqlQuery = "SELECT donation_date FROM donation WHERE id = ? ORDER BY donation_date LIMIT 1 ";
+        String sqlQuery = "SELECT donation_date FROM donation WHERE id = ? ORDER BY donation_date DESC LIMIT 1 ";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
             preparedStatement.setInt(1, ID);
@@ -614,45 +614,39 @@ public class DataBase {
         String checkingQuery = "";
     }
     public static String[] checkBloodCompatibility(String bloodType) {
-        String[] acceptedBloodTypes;
+        String[] compatibleDonorTypes;
 
-        // Check A+
-        if (bloodType.equals("A+")) {
-            acceptedBloodTypes = new String[]{"A+", "AB+"};
+        switch (bloodType) {
+            case "A+":
+                compatibleDonorTypes = new String[]{"A-", "A+", "O-", "O+"};
+                break;
+            case "A-":
+                compatibleDonorTypes = new String[]{"A-", "O-"};
+                break;
+            case "B+":
+                compatibleDonorTypes = new String[]{"B-", "B+", "O-", "O+"};
+                break;
+            case "B-":
+                compatibleDonorTypes = new String[]{"B-", "O-"};
+                break;
+            case "AB+":
+                compatibleDonorTypes = new String[]{"A-", "A+", "B-", "B+", "AB-", "AB+", "O-", "O+"};
+                break;
+            case "AB-":
+                compatibleDonorTypes = new String[]{"A-", "B-", "AB-", "O-"};
+                break;
+            case "O+":
+                compatibleDonorTypes = new String[]{"O-", "O+"};
+                break;
+            case "O-":
+                compatibleDonorTypes = new String[]{"O-"};
+                break;
+            default:
+                compatibleDonorTypes = new String[0]; // Empty array for unknown blood types
+                break;
         }
-        // Check A-
-        else if (bloodType.equals("A-")) {
-            acceptedBloodTypes = new String[]{"A+", "A-", "AB+", "AB-"};
-        }
-        // Check B+
-        else if (bloodType.equals("B+")) {
-            acceptedBloodTypes = new String[]{"B+", "AB+"};
-        }
-        // Check B-
-        else if (bloodType.equals("B-")) {
-            acceptedBloodTypes = new String[]{"B+", "B-", "AB+", "AB-"};
-        }
-        // Check AB+
-        else if (bloodType.equals("AB+")) {
-            acceptedBloodTypes = new String[]{"AB+"};
-        }
-        // Check AB-
-        else if (bloodType.equals("AB-")) {
-            acceptedBloodTypes = new String[]{"AB+", "AB-"};
-        }
-        // Check O+
-        else if (bloodType.equals("O+")) {
-            acceptedBloodTypes = new String[]{"A+", "B+", "AB+", "O+"};
-        }
-        // Check O-
-        else if (bloodType.equals("O-")) {
-            acceptedBloodTypes = new String[]{"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
-        }
-        // Default case
-        else {
-            acceptedBloodTypes = new String[0]; // Empty array for unknown blood types
-        }
-        return acceptedBloodTypes;
+
+        return compatibleDonorTypes;
     }
 
 
@@ -1021,6 +1015,31 @@ public Boolean fulfillBloodRequests(int ID, int requestID, String bloodType) thr
 
 
     }
+
+    public void updateDonation(int donationId, String newStatus, Date newDonationDate, int newBloodDrive) throws SQLException {
+
+        String updateQuery = "UPDATE donation SET donation_status = ?, donation_date = ?, blood_drive_number = ? WHERE donation_ID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+        preparedStatement.setString(1, newStatus);
+        preparedStatement.setDate(2, newDonationDate);
+        preparedStatement.setInt(3, newBloodDrive);
+        preparedStatement.setInt(4, donationId);
+        preparedStatement.executeUpdate();
+
+    }
+    public void updateBloodRequest(int requestId, String newStatus, Date newRequestDate, int newCost, String newPaymentStatus) throws SQLException {
+
+        String updateQuery = "UPDATE recipient_request SET request_status = ?, request_date = ?, cost = ?, payment_status = ? WHERE request_ID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+        preparedStatement.setString(1, newStatus);
+        preparedStatement.setDate(2, newRequestDate);
+        preparedStatement.setInt(3, newCost);
+        preparedStatement.setString(4, newPaymentStatus);
+        preparedStatement.setInt(5, requestId);
+        preparedStatement.executeUpdate();
+
+    }
+
 
 
 

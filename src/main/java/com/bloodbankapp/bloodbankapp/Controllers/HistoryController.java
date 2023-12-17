@@ -9,15 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
@@ -71,6 +71,39 @@ public class HistoryController implements Initializable {
 
     @FXML
     private TableColumn<userBloodRequest, String> requestStatus;
+    @FXML
+    private TextField bloodDriveText;
+    @FXML
+    private TextField bloodTypeText1;
+
+    @FXML
+    private TextField bloodTypeText2;
+    @FXML
+    private TextField costText;
+    @FXML
+    private DatePicker donationDateText;
+    @FXML
+    private TextField donationStatusText;
+    @FXML
+    private TextField dontionIDText;
+    @FXML
+    private TextField paymentIDText;
+
+    @FXML
+    private TextField paymentStatusText;
+    @FXML
+    private DatePicker requestDateText;
+    @FXML
+    private TextField requestIDText1;
+
+    @FXML
+    private TextField requestIDText2;
+
+    @FXML
+    private TextField requestStatusText;
+    int currentUserID;
+
+
 
     @FXML
     void goBack(ActionEvent event) {
@@ -85,12 +118,15 @@ public class HistoryController implements Initializable {
         }
 
     }
-    public void loadDonation(int ID){
+    public void authenticateUser(int userID){
+        currentUserID = userID;
+    }
+    public void loadDonation(){
         ArrayList<Donation> bloodDonation;
 
 
         try {
-            bloodDonation = DataBase.getDataBase().getCurrentUserDonations(ID);
+            bloodDonation = DataBase.getDataBase().getCurrentUserDonations(currentUserID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -110,12 +146,12 @@ public class HistoryController implements Initializable {
 
     }
 
-    public void loadRequests(int ID){
+    public void loadRequests(){
         ArrayList<userBloodRequest> userBloodRequests;
 
 
         try {
-            userBloodRequests = DataBase.getDataBase().getUserBloodRequest(ID);
+            userBloodRequests = DataBase.getDataBase().getUserBloodRequest(currentUserID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -135,6 +171,89 @@ public class HistoryController implements Initializable {
         bloodRequestTable.setItems(bloodRequestObservableList);
 
     }
+
+
+    @FXML
+    void fillDonationInfo(MouseEvent event) {
+        Donation donation = donationTable.getSelectionModel().getSelectedItem();
+        dontionIDText.setText(String.valueOf(donation.getDonationID()));
+        requestIDText1.setText(String.valueOf(donation.getRequestID()));
+        donationStatusText.setText(donation.getDonationStatus());
+        donationDateText.setValue(donation.getDonationDate().toLocalDate());
+        bloodTypeText1.setText(donation.getBloodType());
+        bloodDriveText.setText(String.valueOf(donation.getBloodDriveNumber()));
+    }
+
+    @FXML
+    void fillRequestInfo(MouseEvent event) {
+        userBloodRequest bloodRequest = bloodRequestTable.getSelectionModel().getSelectedItem();
+        requestIDText2.setText(String.valueOf(bloodRequest.getRequestID()));
+        requestStatusText.setText(bloodRequest.getRequestStatus());
+        bloodTypeText2.setText(bloodRequest.getBloodType());
+        requestDateText.setValue(bloodRequest.getRequestDate().toLocalDate());
+        costText.setText(String.valueOf(bloodRequest.getCost()));
+        paymentStatusText.setText(bloodRequest.getPaymentStatus());
+        paymentIDText.setText(String.valueOf(bloodRequest.getPaymentID()));
+
+
+
+    }
+
+    @FXML
+    void updateRequest(ActionEvent event) {
+        try {
+            DataBase.getDataBase().updateBloodRequest (
+                    Integer.parseInt(requestIDText2.getText()),
+                    requestStatusText.getText(),
+                    Date.valueOf(requestDateText.getValue()),
+                    Integer.parseInt(costText.getText()),
+                    paymentStatusText.getText()
+                    );
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("process is done");
+            alert.setHeaderText("The information is updated  ");
+            alert.setContentText("");
+            alert.showAndWait();
+        } catch (SQLException e) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("process is failed");
+            alert.setHeaderText("The information is not updated  ");
+            alert.setContentText("");
+            alert.showAndWait();
+        }finally {
+            loadRequests();
+            loadDonation();
+        }
+    }
+    @FXML
+    void updateDonation(ActionEvent event) {
+
+        try {
+            DataBase.getDataBase().updateDonation(Integer.parseInt(dontionIDText.getText()),
+                    donationStatusText.getText(),Date.valueOf(donationDateText.getValue()) ,
+                    Integer.parseInt(bloodDriveText.getText()));
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("process is done");
+            alert.setHeaderText("The information is updated  ");
+            alert.setContentText("");
+            alert.showAndWait();
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("process is failed");
+            alert.setHeaderText("The information is not updated  ");
+            alert.setContentText("");
+            alert.showAndWait();
+        }finally {
+            loadDonation();
+            loadRequests();
+
+        }
+
+    }
+
 
 
 }

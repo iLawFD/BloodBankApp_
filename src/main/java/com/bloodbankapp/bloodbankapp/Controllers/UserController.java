@@ -525,8 +525,8 @@ public class UserController implements Initializable {
     private  void disableAll(){
         ageText.clear();
         weightText.clear();
-        diseaseComboBox.setValue("free from desise");
-        donateComboBox.setValue("first time donating?");
+        diseaseComboBox.setPromptText("free from desise");
+        donateComboBox.setPromptText("first time donating?");
         submitDonateButton.setDisable(true);
         ageText.setDisable(true);
         weightText.setDisable(true);
