@@ -165,19 +165,7 @@ public class DataBase {
     }
 
     public static void main(String[] args) {
-//        try {
-////            DataBase.getDataBase().retrieveUserInfo(233);
-//////            int ID, int requestID, String bloodType
-////            DataBase.getDataBase().insertNewDonor(23,75);
-////            DataBase.getDataBase().fulfillBloodRequests(111,5,"A+");
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        try {
-//            System.out.println(DataBase.getDataBase().bloodRequests());
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+
     }
 
     public boolean hasDonated(int ID) throws SQLException {
@@ -279,25 +267,6 @@ public class DataBase {
 
     }
 
-//    public String showRequests() throws SQLException {
-//        String query = "SELECT * FROM Blood_product WHERE DONOR_ID IS NULL";
-//        Statement s1 = connection.createStatement();
-//        ResultSet r1 = s1.executeQuery(query);
-//        String str = "";
-//
-//        while (r1.next()){
-//
-//            str +="Date: "+  r1.getString("Date") + " ";
-//            str+= "Type: "+ r1.getString("Blood_type") + " ";
-//            str+= "Rec ID " + r1.getString("recipient_id");
-//            str += "\n\n";
-//        }
-//
-//
-//        return str;
-//
-//
-//    }
 
     private ResultSet eQ(String sqlQuery) throws SQLException {
         Statement statement = connection.createStatement();
@@ -536,43 +505,7 @@ public class DataBase {
 
     }
 
-//    public void donateBloodFillRequest (int requestNumber) throws SQLException {
-//
-//        String query = "INSERT INTO donation(donation_status, blood_type,blood_drive_number,request_date,request_id,ID) " +
-//                "VALUES (?, ?, ?, ?)";
-//        PreparedStatement preparedStatement = connection.prepareStatement(query);
-//        preparedStatement.setString(1,"donated");
-//        preparedStatement.setString(2, ((SystemUser) currentSystemUser).getBloodType());
-//        preparedStatement.setInt(3, getCurrentDriveNumber());
-//        preparedStatement.setDate(3, new Date(Calendar.getInstance().getTime().getTime()));
-//        preparedStatement.setInt(4, currentSystemUser.getID());
-//        preparedStatement.executeUpdate();
-//        // also update the request
-//
-//
-//
-//    }
 
-
-    //it creates request for the admin and them in the "admin request" table and "recipient request table"
-//    public void createRequest(String bloodType) throws SQLException{
-//        String query = "INSERT INTO admin_request(status, date,blood_type,ID) " +
-//                "VALUES (?, ?, ?, ?)";
-//        String queryUpdate = "UPDATE System_user SET blood_type = '" + bloodType + "' WHERE id = " + currentSystemUser.getID();
-//
-//        PreparedStatement preparedStatement = connection.prepareStatement(query);
-//        preparedStatement.setString(1,"Completed");
-//        preparedStatement.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
-//        preparedStatement.setString(3, bloodType);
-//        preparedStatement.setInt(4, currentSystemUser.getID());
-//        preparedStatement.executeUpdate();
-//
-//        preparedStatement = connection.prepareStatement(queryUpdate);
-//        preparedStatement.executeUpdate();
-//        requestBlood();
-//    }
-    //it fulfills the requests in the "recipient request table" by changing the status to completed
-    //and adding a new entry in the donation table
     public void insertNewDonor(int age, int weight) throws SQLException {
         String st= "INSERT INTO donor(weight,age,id) "+
                 "VALUES (?, ?, ?)";
@@ -642,7 +575,7 @@ public class DataBase {
                 compatibleDonorTypes = new String[]{"O-"};
                 break;
             default:
-                compatibleDonorTypes = new String[0]; // Empty array for unknown blood types
+                compatibleDonorTypes = new String[0];
                 break;
         }
 
@@ -751,36 +684,13 @@ public class DataBase {
         } else if ("O+".equals(bloodType)) {
             amount = 90;
         } else if ("O-".equals(bloodType)) {
-            amount = 220; // O- is often considered the universal donor and might be in higher demand
+            amount = 220;
         } else {
-            amount = 50; // Default amount if blood type doesn't match any of the above
+            amount = 50;
         }
         return amount;
     }
-//    public void fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
-//
-//        String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
-//        String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = " + requestID;
-//        String donQUpdateFrag1 = "UPDATE donation SET donation_status = 'donated', request_id = ";
-//        String donQUpdateFrag2 = " WHERE donation_id = ";
-//
-//        String[] acceptedBloodTypes = checkBloodCompatibility(bloodType);
-//        ResultSet r1 = eQ(donQ);
-//        while(r1.next()){
-//            if (Arrays.stream(acceptedBloodTypes).anyMatch(r1.getString("blood_type")::equals)){
-//                donQUpdateFrag1 += r1.getString("request_id")+ donQUpdateFrag2 +r1.getInt("donation_id");
-//                connection.prepareStatement(donQUpdateFrag1).executeUpdate();
-//                connection.prepareStatement(reqQUpdate).executeUpdate();
-//                fulfillPayment(requestID,bloodType);
-//                EmailSender.getEmailSender().SendMessage(
-//                        getEmail(ID),
-//                        "A blood was send to you",
-//                        "Payment has been created"
-//                );
-//                return;
-//            }
-//        }
-//    }
+
 public Boolean fulfillBloodRequests(int ID, int requestID, String bloodType) throws SQLException, IOException {
     String donQ = "SELECT * FROM donation WHERE donation_status = 'stored'";
     String reqQUpdate = "UPDATE recipient_request SET request_status = 'completed' WHERE request_id = ?";
